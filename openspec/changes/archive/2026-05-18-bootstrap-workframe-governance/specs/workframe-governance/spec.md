@@ -4,7 +4,7 @@
 
 Описывает self-governance Workframe как самостоятельного проекта и правила разделения root governance files от payload, который копируется в target projects.
 
-## Requirements
+## ADDED Requirements
 
 ### Requirement: Root Governance
 
