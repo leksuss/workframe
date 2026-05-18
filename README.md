@@ -2,6 +2,8 @@
 
 Reusable workflow scaffolding for AI-assisted projects.
 
+Russian version: [README.ru.md](README.ru.md).
+
 Workframe is not an application framework. It is a project operating frame: concepts, agent rules, OpenSpec workflow, design discipline, and upgrade policy that can be copied into a new software project and adapted to its domain.
 
 ## What It Is For
@@ -91,6 +93,8 @@ Do not copy these into new projects by default:
 Workframe does not auto-update projects that were created from older versions. Keep old projects stable.
 
 To upgrade an existing project, create a normal OpenSpec change inside that project, compare its `.project-workframe-version` with this repository, apply the desired workflow changes, and commit the result in that project's history.
+
+Detailed upgrade guide: [docs/UPGRADING.md](docs/UPGRADING.md).
 
 ## Version Marker
 

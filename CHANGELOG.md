@@ -6,3 +6,4 @@
 - Added base project payload with `AGENTS.md`, concept template, workflow docs, checklists, and OpenSpec config.
 - Added optional module placeholders for Codex skills, Pencil design workflow, and frontend quality.
 - Added neutral canonical rules and project profiles.
+- Added Russian README and project upgrade guide.
