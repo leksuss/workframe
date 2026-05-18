@@ -7,3 +7,4 @@
 - Added optional module placeholders for Codex skills, Pencil design workflow, and frontend quality.
 - Added neutral canonical rules and project profiles.
 - Added Russian README and project upgrade guide.
+- Added Workframe root governance with `AGENTS.md`, `docs/CONCEPTS.md`, root `openspec/`, and local OpenSpec Codex skills.

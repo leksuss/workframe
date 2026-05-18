@@ -16,8 +16,14 @@ It is meant to work for different project shapes: Telegram bots, Django applicat
 
 ```text
 workframe/
+├─ AGENTS.md
 ├─ README.md
 ├─ CHANGELOG.md
+├─ openspec/                 # OpenSpec for Workframe itself
+├─ .codex/                   # local skills for working on Workframe
+├─ docs/
+│  ├─ CONCEPTS.md            # Workframe product constitution
+│  └─ UPGRADING.md
 ├─ template/
 │  ├─ base/                  # files copied into every new project
 │  └─ modules/               # optional payloads copied when needed
@@ -29,6 +35,8 @@ workframe/
 ```
 
 The `template/` directory is the payload. The other directories explain, adapt, or demonstrate it.
+
+Root `AGENTS.md`, `docs/CONCEPTS.md`, `openspec/`, and `.codex/` govern Workframe itself. Files under `template/` are the generated project payload.
 
 ## Quick Start
 

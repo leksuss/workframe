@@ -16,10 +16,14 @@ Workframe не является фреймворком приложения. Э�
 
 ```text
 workframe/
+├─ AGENTS.md
 ├─ README.md
 ├─ README.ru.md
 ├─ CHANGELOG.md
+├─ openspec/                 # OpenSpec самого Workframe
+├─ .codex/                   # локальные skills для работы над Workframe
 ├─ docs/
+│  ├─ CONCEPTS.md            # продуктовая конституция Workframe
 │  └─ UPGRADING.md
 ├─ template/
 │  ├─ base/                  # файлы, которые копируются почти в каждый проект
@@ -32,6 +36,8 @@ workframe/
 ```
 
 `template/` — это payload, который попадает в новый проект. Остальные директории объясняют, адаптируют или демонстрируют этот payload.
+
+Root `AGENTS.md`, `docs/CONCEPTS.md`, `openspec/` и `.codex/` управляют самим Workframe. Файлы внутри `template/` — это payload для создаваемых проектов.
 
 ## Быстрый Старт
 

@@ -1,0 +1,23 @@
+schema: spec-driven
+
+context: |
+  OpenSpec artifacts are working documents for the Workframe owner and should be written in Russian by default.
+  Keep technical identifiers, filenames, paths, branch names, capability names, model names, commands, and code symbols in English where appropriate.
+  Use concise, concrete Russian prose. Avoid broad abstract wording.
+  Keep root Workframe governance files separate from template payload files under template/.
+
+rules:
+  proposal:
+    - Write proposal text in Russian by default.
+    - Keep capability identifiers in English kebab-case.
+    - Explain whether the change affects Workframe itself, generated project payload, optional modules, or documentation/examples.
+  design:
+    - Write design text in Russian by default.
+    - Keep code-facing names, commands, paths, and framework terms in English where clearer.
+    - Call out root-vs-template file boundaries when relevant.
+  specs:
+    - Write requirements and scenarios in Russian by default.
+    - Keep normative OpenSpec keywords such as SHALL/MUST only if the surrounding style requires them; otherwise use clear Russian equivalents.
+  tasks:
+    - Write task descriptions in Russian by default.
+    - Keep checkbox numbering and command/path identifiers unchanged.
