@@ -56,6 +56,30 @@ Keep these in English when clearer:
 7. Propose archive when complete.
 8. Archive and merge only when explicitly requested.
 
+## Work Sequencing
+
+Build a system or a large feature in two phases.
+
+**Skeleton phase.** Build large blocks in sequence, each with minimal functionality — enough that the block exists and connects to the next one. Reach an end-to-end skeleton of the whole system before any block is deepened.
+
+**Depth phase.** Fill blocks with features, polish them, and address deferred improvements.
+
+When choosing the next work, follow the plan: take the next unfinished `tasks.md` item in order, and size each step to a whole block rather than a small edit. When you notice a flaw in a finished block, append it to the backlog instead of fixing it inline; fix it immediately only when it blocks building the next block.
+
+For a system or a large task, `tasks.md` uses two explicit sections:
+
+```
+## Фаза 1. Каркас
+- [ ] 1. Block A — minimal functionality
+- [ ] 2. Block B — minimal functionality
+
+## Фаза 2. Углубление
+- [ ] 1.x  Deepen and polish block A
+- [ ] (accumulates during work)
+```
+
+The depth section doubles as the backlog for deferred improvements and may start empty. A small change that does not build a system may keep `tasks.md` as a flat list.
+
 ## Existing Work
 
 Agents must assume uncommitted changes may belong to the user.

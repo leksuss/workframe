@@ -14,6 +14,18 @@ Use OpenSpec for intentional changes that affect behavior, product experience, i
 
 Do not use OpenSpec for tiny cosmetic changes, typo fixes, dependency bumps, or purely internal cleanup unless they affect documented behavior.
 
+## Sequencing
+
+Build a system or a large feature in two phases.
+
+In the skeleton phase, large blocks are built in sequence, each with minimal functionality — enough that the block exists and connects to the next one. The goal is an end-to-end skeleton of the whole system before any block is deepened.
+
+In the depth phase, blocks are filled with features, polished, and deferred improvements are addressed.
+
+Agents follow the plan first: when choosing the next work, they take the next unfinished plan item in order and size each step to a whole block rather than a small edit.
+
+When an agent notices a flaw in a finished block, it appends the improvement to a backlog instead of fixing it inline. The exception is a true blocker — a defect that prevents building the next block — which is fixed immediately as part of the current item.
+
 ## Language
 
 OpenSpec artifacts are Russian by default. Technical identifiers stay in English where useful.
