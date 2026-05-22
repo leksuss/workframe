@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Added work sequencing discipline: two-phase build model (skeleton, then depth), plan-first work selection, and a backlog for deferred improvements in `tasks.md`.
+
 ## 0.1.0 - 2026-05-18
 
 - Created initial Workframe repository structure.

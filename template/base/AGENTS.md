@@ -37,6 +37,21 @@ After implementation:
 - Propose archiving the OpenSpec change when the work is complete and verified.
 - Do not archive automatically unless the user explicitly asks for it.
 
+## Work Sequencing
+
+Build systems and large features in two phases.
+
+Skeleton phase: build large blocks in sequence, each with minimal functionality — enough that the block exists and connects to the next one — until the whole system has an end-to-end skeleton.
+
+Depth phase: fill blocks with features, polish them, and address deferred improvements.
+
+When choosing the next work:
+
+- Check the plan first. Take the next unfinished item in `tasks.md`, in order. Do not move to the depth phase before the skeleton phase is complete.
+- Size each step to a whole block, not a small edit. The step should visibly advance toward the goal.
+- When you notice a flaw in a finished block, append it to the `## Фаза 2. Углубление` section of `tasks.md` instead of fixing it inline.
+- Fix a flaw immediately only when it is a true blocker — a defect that prevents building the next block. Then it is part of the current item, not a deferred improvement.
+
 ## OpenSpec And Git Branches
 
 Use one OpenSpec change per git branch.
