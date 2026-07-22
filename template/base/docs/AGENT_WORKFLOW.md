@@ -52,9 +52,40 @@ Keep these in English when clearer:
 3. Write proposal, design notes when useful, spec deltas, and tasks.
 4. Implement only after the user asks to proceed.
 5. Keep OpenSpec artifacts aligned with real decisions.
-6. Run relevant checks.
+6. Run blocking checks and review advisory checks declared in `docs/QUALITY.md`.
 7. Propose archive when complete.
 8. Archive and merge only when explicitly requested.
+
+## Quality Pipeline
+
+`docs/QUALITY.md` is the current source of truth for project checks and canonical commands. OpenSpec changes record why the policy changes; the quality document records how verification works now.
+
+Derive the pipeline instead of copying a standard tool list:
+
+```
+technology surface → failure modes and risks → check classes → tools and commands
+```
+
+When a change first introduces or materially changes an executable language, runtime, component, storage system, public contract, deployment surface, or similar technology surface:
+
+1. Describe the affected surfaces and risks in the change design.
+2. Decide which checks are `blocking`, `advisory`, or `not applicable`.
+3. Add implementation and documentation of the smallest useful pipeline to the same change tasks.
+4. Build those checks early enough that the rest of the change can use them.
+5. Update `docs/QUALITY.md` with canonical commands, triggers, prerequisites, and exclusions.
+
+A normal change that does not alter the technology surface follows the existing policy without selecting tools again.
+
+Keep policy modes separate from run results. A run is `passed`, `failed`, `skipped`, or `unavailable`; skipped or unavailable blocking checks require a reason and are not passing by default. Review advisory findings as `confirmed`, `false positive`, or `deferred` before proposing archive.
+
+Use verification levels in proportion to the project:
+
+- fast local checks during implementation;
+- change checks for affected surfaces;
+- full or release checks for the integrated project;
+- periodic audits for broad, slow, or heuristic advisory analysis.
+
+Small projects may combine levels. Legacy projects may adopt baselines or changed-scope enforcement. Polyglot repositories may need per-surface commands and an aggregate entry point. Generated, vendored, temporary, environment-dependent, slow, or flaky checks require explicit handling in `docs/QUALITY.md`.
 
 ## Work Sequencing
 

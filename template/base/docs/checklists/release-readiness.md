@@ -4,9 +4,11 @@ Use this before publishing, deploying, merging, or archiving meaningful work.
 
 - The implemented behavior matches the active OpenSpec change.
 - Specs and tasks reflect the final behavior.
-- Relevant tests or checks passed.
+- `docs/QUALITY.md` matches the implemented pipeline and current canonical commands.
+- Declared blocking checks passed; any `skipped` or `unavailable` result has an explicit reason and owner decision about its impact.
+- Applicable advisory findings were triaged as `confirmed`, `false positive`, or `deferred`.
 - Important manual verification was performed where automated checks are insufficient.
 - Documentation close to the changed behavior was updated.
 - No unrelated user changes were reverted or mixed in.
-- Known risks or skipped checks are documented.
+- Known risks, accepted exceptions, deferred findings, and follow-up work are documented.
 - The user has explicitly requested any merge, archive, push, deployment, or destructive operation.

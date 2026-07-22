@@ -44,7 +44,7 @@ Root `AGENTS.md`, `docs/CONCEPTS.md`, `openspec/`, and `.codex/` govern Workfram
 2. Apply the base scaffold and selected modules.
 3. Fill `docs/CONCEPTS.md` for the actual product.
 4. Commit the initial workflow scaffold.
-5. Start the first real product change through OpenSpec.
+5. Start the first real product change through OpenSpec; when it establishes the stack, derive and implement the initial quality pipeline in that change.
 
 Example:
 
@@ -64,6 +64,7 @@ Copy these into most new projects:
 - `template/base/AGENTS.md`
 - `template/base/docs/CONCEPTS.md`
 - `template/base/docs/AGENT_WORKFLOW.md`
+- `template/base/docs/QUALITY.md`
 - `template/base/docs/checklists/`
 - `template/base/openspec/config.yaml`
 - `template/base/.project-workframe-version`
@@ -93,8 +94,15 @@ Do not copy these into new projects by default:
 - OpenSpec artifacts are written in Russian by default.
 - Technical identifiers, commands, filenames, branch names, API names, and code symbols stay in English where appropriate.
 - One OpenSpec change maps to one git branch.
+- A change that introduces or materially changes an executable technology surface also updates the project-specific quality pipeline and `docs/QUALITY.md`.
 - Existing user changes are never reverted unless explicitly requested.
 - Design workflow is available by default; Pencil MCP is optional and disabled unless the runtime provides it.
+
+## Quality Layer
+
+Workframe provides a text-only verification contract, not a ready-made toolchain. After the stack is understood, the same OpenSpec change derives checks from project surfaces and risks, selects appropriate tools, implements their configuration and automation in the target project, and records the current commands in `docs/QUALITY.md`.
+
+Checks are declared as `blocking`, `advisory`, or `not applicable`. This supports minimal new-project pipelines, staged legacy adoption, per-surface monorepo checks, and heuristic analyzers without making Ruff, mypy, ESLint, Semgrep, Archscope, or any CI provider part of Workframe itself.
 
 ## Updating Existing Projects
 

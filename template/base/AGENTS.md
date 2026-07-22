@@ -29,13 +29,31 @@ During implementation:
 
 - Follow the active OpenSpec change.
 - Keep the active OpenSpec change artifacts up to date when scope, requirements, or implementation decisions change.
+- Follow the current quality policy in `docs/QUALITY.md`.
 
 After implementation:
 
-- Run the relevant checks for the changed area.
+- Run the blocking checks declared for the changed surfaces in `docs/QUALITY.md`.
+- Review and triage applicable advisory findings.
+- Treat skipped or unavailable blocking checks as non-passing unless the owner explicitly accepts the documented exception.
 - Verify that the active OpenSpec change reflects the implemented behavior.
 - Propose archiving the OpenSpec change when the work is complete and verified.
 - Do not archive automatically unless the user explicitly asks for it.
+
+## Quality Pipeline
+
+Work from project risks, not a generic list of fashionable tools. Derive checks in this order: executable surface, failure modes, check class, then stack-appropriate tool and command.
+
+When an OpenSpec change first introduces or materially changes a language, runtime, component, storage system, public contract, deployment surface, or other executable technology surface:
+
+- Describe the surfaces, risks, check classes, and important trade-offs in the change design.
+- Add tasks that implement or update the smallest useful quality pipeline early enough for the remaining work to use it.
+- Update `docs/QUALITY.md` in the same change with the current commands, modes, triggers, prerequisites, and exclusions.
+- Do not select tools before the stack and its risks are understood.
+
+Each check is `blocking`, `advisory`, or `not applicable`. Record a particular run separately as `passed`, `failed`, `skipped`, or `unavailable`. Advisory findings are triaged as `confirmed`, `false positive`, or `deferred`; confirmed findings block the current change only when they prevent its stated goal or safe completion.
+
+Use staged rollout when a strict gate would be misleading or disproportionate. Legacy code may need a baseline or changed-scope enforcement; generated and vendored code need explicit exclusions; spikes need an exit condition; polyglot projects may need per-surface commands. When CI exists, enforce blocking checks there where practical.
 
 ## Work Sequencing
 

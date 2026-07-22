@@ -16,6 +16,7 @@ Upgrade when a newer Workframe version contains something the project actually b
 
 - better agent safety rules;
 - clearer OpenSpec workflow;
+- a stack-neutral verification lifecycle that can make the project's existing quality pipeline explicit;
 - improved design or frontend checklists;
 - new AI-client adapter files;
 - useful project profiles;
@@ -60,6 +61,7 @@ Common base files:
 
 - `AGENTS.md`
 - `docs/AGENT_WORKFLOW.md`
+- `docs/QUALITY.md`
 - `docs/checklists/feature-change.md`
 - `docs/checklists/design-change.md`
 - `docs/checklists/release-readiness.md`
@@ -74,6 +76,21 @@ Optional module files:
 
 Do not overwrite project-specific `docs/CONCEPTS.md` with the Workframe template. Use the template only as a reference if the project constitution needs deliberate improvement.
 
+## Adopting The Verification Lifecycle
+
+An existing project already has a stack, and may already have scripts, CI jobs, conventions, and exceptions. Do not copy the pending `docs/QUALITY.md` row as if the project had no pipeline.
+
+In the project-local upgrade change:
+
+1. Inventory the executable surfaces and the checks that actually run today.
+2. Connect each check to a risk and classify it as `blocking`, `advisory`, or `not applicable`.
+3. Record canonical commands, triggers, prerequisites, exclusions, and any environment constraints in `docs/QUALITY.md`.
+4. Preserve project-specific commands and CI behavior unless the change explicitly replaces them.
+5. Use baselines, changed-scope enforcement, or staged advisory rollout when a new analyzer would expose unrelated legacy backlog.
+6. Record skipped or unavailable blocking checks as non-passing results unless the owner explicitly accepts the documented exception.
+
+The upgrade may document an existing pipeline without changing its tools. Adding a new analyzer or tightening a gate should be justified by project risks, not by the Workframe template.
+
 ## Suggested Process
 
 1. Create or switch to a feature branch for the upgrade.
@@ -81,14 +98,15 @@ Do not overwrite project-specific `docs/CONCEPTS.md` with the Workframe template
 3. Compare files manually or with `diff`.
 4. Apply only relevant changes.
 5. Preserve project-specific additions in `AGENTS.md`, checklists, and local skills.
-6. Update `.project-workframe-version`.
-7. Run lightweight verification:
+6. If adopting the verification lifecycle, create or update `docs/QUALITY.md` for the real stack rather than leaving it in the template's pending state.
+7. Update `.project-workframe-version`.
+8. Run lightweight verification:
    - review links in docs;
    - run shellcheck or syntax checks for changed scripts when applicable;
    - run a smoke copy to a temporary directory if init behavior changed.
-8. Mark OpenSpec tasks complete.
-9. Commit the upgrade.
-10. Propose archive when verified.
+9. Mark OpenSpec tasks complete.
+10. Commit the upgrade.
+11. Propose archive when verified.
 
 ## Manual Diff Example
 
@@ -97,6 +115,7 @@ From the target project root:
 ```bash
 diff -u AGENTS.md /path/to/workframe/template/base/AGENTS.md
 diff -u docs/AGENT_WORKFLOW.md /path/to/workframe/template/base/docs/AGENT_WORKFLOW.md
+diff -u docs/QUALITY.md /path/to/workframe/template/base/docs/QUALITY.md
 diff -u openspec/config.yaml /path/to/workframe/template/base/openspec/config.yaml
 ```
 

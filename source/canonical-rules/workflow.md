@@ -34,6 +34,12 @@ OpenSpec artifacts are Russian by default. Technical identifiers stay in English
 
 One OpenSpec change maps to one `feature/<change-id>` branch.
 
+## Verification
+
+Technology decisions and meaningful technology-surface changes follow the stack-neutral lifecycle in `verification.md`. The same OpenSpec change derives a project-specific quality pipeline from surfaces and risks, implements or updates the applicable checks, and keeps the current commands and modes in `docs/QUALITY.md`.
+
+Blocking checks gate completion. Advisory checks require review and triage but do not fail a change automatically. Skipped or unavailable blocking checks are documented explicitly and never treated as passing by default.
+
 ## Safety
 
 Agents never discard user changes, rewrite history, merge, rebase, delete branches, or perform destructive operations unless explicitly requested.

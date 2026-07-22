@@ -21,6 +21,7 @@ USAGE
 
 TARGET=""
 MODULES=()
+MODULE_COUNT=0
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -30,6 +31,7 @@ while [[ $# -gt 0 ]]; do
       ;;
     --with)
       MODULES+=("${2:-}")
+      MODULE_COUNT=$((MODULE_COUNT + 1))
       shift 2
       ;;
     -h|--help)
@@ -57,20 +59,22 @@ fi
 
 cp -R "$ROOT_DIR/template/base/." "$TARGET/"
 
-for module in "${MODULES[@]}"; do
-  case "$module" in
-    codex-skills|design-pencil)
-      cp -R "$ROOT_DIR/template/modules/$module/.codex" "$TARGET/"
-      ;;
-    frontend-quality)
-      cp -R "$ROOT_DIR/template/modules/$module/docs/." "$TARGET/docs/"
-      ;;
-    *)
-      echo "Unknown module: $module" >&2
-      exit 1
-      ;;
-  esac
-done
+if [[ "$MODULE_COUNT" -gt 0 ]]; then
+  for module in "${MODULES[@]}"; do
+    case "$module" in
+      codex-skills|design-pencil)
+        cp -R "$ROOT_DIR/template/modules/$module/.codex" "$TARGET/"
+        ;;
+      frontend-quality)
+        cp -R "$ROOT_DIR/template/modules/$module/docs/." "$TARGET/docs/"
+        ;;
+      *)
+        echo "Unknown module: $module" >&2
+        exit 1
+        ;;
+    esac
+  done
+fi
 
 if command -v date >/dev/null 2>&1; then
   applied_at="$(date +%Y-%m-%d)"

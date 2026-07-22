@@ -45,7 +45,7 @@ Root `AGENTS.md`, `docs/CONCEPTS.md`, `openspec/` и `.codex/` управляю�
 2. Примени базовый каркас и нужные модули.
 3. Заполни `docs/CONCEPTS.md` под реальный продукт.
 4. Закоммить начальную workflow-обвязку.
-5. Первое настоящее продуктовое изменение начинай через OpenSpec.
+5. Первое настоящее продуктовое изменение начинай через OpenSpec; если оно определяет стек, выведи и реализуй начальный quality pipeline в том же change.
 
 Пример:
 
@@ -65,6 +65,7 @@ Root `AGENTS.md`, `docs/CONCEPTS.md`, `openspec/` и `.codex/` управляю�
 - `template/base/AGENTS.md`
 - `template/base/docs/CONCEPTS.md`
 - `template/base/docs/AGENT_WORKFLOW.md`
+- `template/base/docs/QUALITY.md`
 - `template/base/docs/checklists/`
 - `template/base/openspec/config.yaml`
 - `template/base/.project-workframe-version`
@@ -94,8 +95,15 @@ Root `AGENTS.md`, `docs/CONCEPTS.md`, `openspec/` и `.codex/` управляю�
 - OpenSpec artifacts пишутся по-русски по умолчанию.
 - Technical identifiers, commands, filenames, branch names, API names и code symbols остаются на английском там, где это уместно.
 - Один OpenSpec change соответствует одной git branch.
+- Change, который вводит или существенно меняет исполняемую технологическую поверхность, также обновляет project-specific quality pipeline и `docs/QUALITY.md`.
 - Существующие пользовательские изменения не откатываются без явной просьбы.
 - Design workflow включен по умолчанию; Pencil MCP опционален и считается выключенным, пока runtime явно его не предоставляет.
+
+## Quality-Слой
+
+Workframe поставляет текстовый verification contract, а не готовый набор инструментов. Когда стек становится понятен, тот же OpenSpec change выводит проверки из surfaces и рисков проекта, выбирает подходящие tools, реализует их конфигурацию и automation в целевом репозитории и фиксирует текущие команды в `docs/QUALITY.md`.
+
+Проверки объявляются как `blocking`, `advisory` или `not applicable`. Это позволяет начать с минимального pipeline, постепенно подключать legacy, разделять monorepo по surfaces и использовать эвристические анализаторы, не делая Ruff, mypy, ESLint, Semgrep, Archscope или конкретный CI provider частью Workframe.
 
 ## Обновление Существующих Проектов
 
