@@ -40,6 +40,16 @@ After implementation:
 - Propose archiving the OpenSpec change when the work is complete and verified.
 - Do not archive automatically unless the user explicitly asks for it.
 
+## OpenSpec Task Design
+
+Treat `tasks.md` as a handoff contract between the agent that plans a change, the agent that implements it, and the agent that reviews it.
+
+- Decompose non-atomic work until an implementer can complete a task without inventing a product or architectural decision.
+- Each such task must state the expected result, affected area, material constraints, and verification method. It may refer precisely to the relevant proposal, design, or spec instead of repeating settled decisions.
+- Keep large blocks visible at the top level, and use ordered substeps (`1.1`, `1.2`, ...) where they reduce uncertainty. Put contracts and skeleton work before implementation, then checks and documentation.
+- Do not manufacture microtasks for an already atomic change. If a required decision is missing, update the OpenSpec artifacts or ask for clarification before implementation.
+- Before completion, verify the implementation against each task's expected result and verification method, not just its checkbox.
+
 ## Quality Pipeline
 
 Work from project risks, not a generic list of fashionable tools. Derive checks in this order: executable surface, failure modes, check class, then stack-appropriate tool and command.

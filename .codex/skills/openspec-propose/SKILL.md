@@ -102,6 +102,14 @@ After completing all artifacts, summarize:
   - Do NOT copy `<context>`, `<rules>`, `<project_context>` blocks into the artifact
   - These guide what you write, but should never appear in the output
 
+**Task Design Guidelines**
+
+- Treat `tasks.md` as a handoff from the planning agent to an implementer and reviewer.
+- Keep large blocks at the top level. Split dependent work into ordered numbered substeps when this lets an implementer proceed without inventing a product or architectural decision.
+- For every non-atomic task, state the expected result, affected area, material constraints, and verification method. A precise reference to a settled proposal, design, or spec decision is acceptable.
+- Order substeps so contracts and skeleton work come before implementation, followed by checks and documentation where applicable.
+- Do not manufacture microtasks for an atomic change. If a necessary decision is not settled, record it in an artifact before writing the implementation task.
+
 **Guardrails**
 - Create ALL artifacts needed for implementation (as defined by schema's `apply.requires`)
 - Always read dependency artifacts before creating a new one

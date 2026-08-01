@@ -75,6 +75,7 @@ Implement tasks from an OpenSpec change.
 
    **Pause if:**
    - Task is unclear → ask for clarification
+   - Task requires an unstated product or architectural decision → update the relevant OpenSpec artifact or ask for clarification before implementing
    - Implementation reveals a design issue → suggest updating artifacts
    - Error or blocker encountered → report and wait for guidance
    - User interrupts
@@ -86,6 +87,7 @@ Implement tasks from an OpenSpec change.
    - Overall progress: "N/M tasks complete"
    - If all done: suggest archive
    - If paused: explain why and wait for guidance
+   - Before declaring all tasks complete: verify the implementation against every task's expected result and verification method, not only its checkbox
 
 **Output During Implementation**
 
@@ -146,6 +148,8 @@ What would you like to do?
 - Keep code changes minimal and scoped to each task
 - Update task checkbox immediately after completing each task
 - Pause on errors, blockers, or unclear requirements - don't guess
+- Do not invent an unstated product or architectural decision to complete a task; update the OpenSpec artifacts or request clarification first
+- Before final completion, trace every completed task to its stated result and verification method
 - Use contextFiles from CLI output, don't assume specific file names
 
 **Fluid Workflow Integration**

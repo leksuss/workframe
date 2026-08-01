@@ -87,6 +87,27 @@ Use verification levels in proportion to the project:
 
 Small projects may combine levels. Legacy projects may adopt baselines or changed-scope enforcement. Polyglot repositories may need per-surface commands and an aggregate entry point. Generated, vendored, temporary, environment-dependent, slow, or flaky checks require explicit handling in `docs/QUALITY.md`.
 
+## Task Design And Handoffs
+
+Treat `tasks.md` as a handoff contract: one agent plans the change, another can implement it, and a reviewer can verify the result without reconstructing unstated decisions.
+
+For every non-atomic task, state the expected result, affected area, material constraints, and verification method. A short precise reference to a settled decision in `proposal.md`, `design.md`, or a spec is sufficient; do not duplicate the whole design. If completing a task would require a new product or architectural choice, record that choice in the relevant OpenSpec artifact before implementation.
+
+Keep a large block as the top-level unit, then split its dependent work into ordered substeps when this reduces ambiguity. Normally put contracts and skeleton work first, implementation next, then checks and documentation. Do not manufacture microtasks for an atomic change.
+
+For example:
+
+```
+## 1. Session authentication
+
+- [ ] 1.1 Define the session model and login contract in `design.md` and `specs/session-auth/spec.md`; verify both artifacts describe expiry and invalid credentials.
+- [ ] 1.2 Implement the login endpoint in `src/auth/`; use the approved session contract; verify successful and invalid-credential tests.
+- [ ] 1.3 Protect the account route in `src/routes/`; verify unauthenticated access is rejected.
+- [ ] 1.4 Update public API documentation; verify documented responses match the endpoint tests.
+```
+
+When reviewing a completed change, check each task against its stated result and verification method, not only whether its checkbox is marked.
+
 ## Work Sequencing
 
 Build a system or a large feature in two phases.
