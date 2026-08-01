@@ -17,7 +17,8 @@ Use this checklist before and during non-trivial product or behavior changes.
 - Explain how it fits or conflicts with `docs/CONCEPTS.md`.
 - Define the behavior change concretely.
 - Note important non-goals.
-- Add tasks that can be verified.
+- Add tasks that can be verified and, when non-atomic, state the expected result, affected area, material constraints, and verification method or a precise OpenSpec reference.
+- Split a large block into ordered substeps when this prevents the implementer from inventing a product or architectural decision; do not manufacture microtasks for atomic work.
 - If the change introduces or materially changes a technology surface, derive checks from its risks and include pipeline work in design and tasks.
 
 ## Implementation
@@ -36,5 +37,6 @@ Use this checklist before and during non-trivial product or behavior changes.
 - Record each result as `passed`, `failed`, `skipped`, or `unavailable`; explain skipped or unavailable blocking checks.
 - Review applicable advisory checks and triage findings as `confirmed`, `false positive`, or `deferred`.
 - Verify the implemented behavior matches the OpenSpec change.
+- For every completed task, verify its stated result and verification method rather than relying only on its checkbox.
 - Perform manual verification where automation does not cover the risk.
 - Propose archive when complete.
