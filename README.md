@@ -1,5 +1,7 @@
 # Workframe
 
+Русская версия: [README.ru.md](README.ru.md).
+
 Workframe is reusable operating scaffolding for software projects built with AI agents. It is not an application framework or a commitment to one model provider. It keeps product decisions, change process, and verification rules in the repository so work can continue across AI clients.
 
 ## Who It Is For And What It Solves
