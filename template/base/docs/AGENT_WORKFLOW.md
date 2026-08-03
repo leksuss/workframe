@@ -12,6 +12,16 @@ The project is guided by three layers:
 
 The order matters. Do not let implementation convenience quietly rewrite product direction.
 
+## Starting From An Idea
+
+The owner starts by describing the product idea in ordinary language. The agent helps clarify purpose, audience, value, boundaries and anti-goals. Once the owner confirms those decisions, the agent records them in `docs/CONCEPTS.md`; the owner does not need to request a filename or edit the document manually. The agent then proactively offers to prepare the first OpenSpec change; implementation still requires the owner's explicit approval.
+
+## Switching AI Clients
+
+The owner may continue the same project sequentially in different AI clients or ask one client to review another's work. Do not assume access to a previous chat. At the start of each session, read `AGENTS.md`, this document, `docs/CONCEPTS.md` when present, and inspect `git status`, the current branch, and active OpenSpec changes.
+
+Use the repository state as the handoff. Do not work concurrently on the same worktree from multiple agents.
+
 ## Change Size
 
 Tiny changes can be made directly:

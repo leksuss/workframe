@@ -1,133 +1,109 @@
 # Workframe
 
-Reusable workflow scaffolding for AI-assisted projects.
+Workframe is reusable operating scaffolding for software projects built with AI agents. It is not an application framework or a commitment to one model provider. It keeps product decisions, change process, and verification rules in the repository so work can continue across AI clients.
 
-Russian version: [README.ru.md](README.ru.md).
+## Who It Is For And What It Solves
 
-Workframe is not an application framework. It is a project operating frame: concepts, agent rules, OpenSpec workflow, design discipline, and upgrade policy that can be copied into a new software project and adapted to its domain.
+Workframe is for a technical owner starting or maintaining a project with AI agents.
 
-## What It Is For
+It helps them:
 
-Use Workframe when starting or regularizing a project where AI agents will help with planning, implementation, design, review, or maintenance.
+- start from deliberate product decisions instead of a first random prompt;
+- hand one task between agents and use another agent for review;
+- preserve values, boundaries, and agreed decisions when changing chats or providers;
+- discuss non-trivial changes before implementation and verify their result afterward.
 
-It is meant to work for different project shapes: Telegram bots, Django applications, scraping services, frontend apps, libraries, infrastructure tools, and similar software projects.
+You speak to the agent in ordinary language. The agent explores, records confirmed decisions, proposes the next step, and follows repository rules. You make product decisions and approve implementation.
 
-## Repository Layout
+## Supported AI Clients
 
-```text
-workframe/
-├─ AGENTS.md
-├─ README.md
-├─ CHANGELOG.md
-├─ openspec/                 # OpenSpec for Workframe itself
-├─ .codex/                   # local skills for working on Workframe
-├─ docs/
-│  ├─ CONCEPTS.md            # Workframe product constitution
-│  └─ UPGRADING.md
-├─ template/
-│  ├─ base/                  # files copied into every new project
-│  └─ modules/               # optional payloads copied when needed
-├─ source/
-│  ├─ canonical-rules/       # neutral source-of-truth guidance
-│  ├─ adapters/              # AI-client-specific projections
-│  └─ profiles/              # project-type notes
-└─ examples/                 # examples only; do not copy by default
+Base Workframe rules are available to any agent that can read project files. Tested automatic adapters are available for Codex, Cursor, Claude Code, Qwen Code, and Kimi Code.
+
+Codex, Claude Code, Qwen Code, and Kimi Code also receive shared OpenSpec workflows. Cursor automatically reads `AGENTS.md` and follows common rules; it can read the same workflows from `.agents/skills/` when needed.
+
+A model and an AI client are different things. DeepSeek, GLM, or another model follows the same workflow when it runs through a supported client. For an unlisted client, configure its project instructions to read `AGENTS.md` and `docs/AGENT_WORKFLOW.md`; if it supports skills, point it to `.agents/skills/`.
+
+Several agents can be used on the same project, but handoffs must be sequential: wait for one agent to finish its work before letting another change the same worktree. This makes it safe to alternate providers when limits run out or obtain a cross-client review without conflicting edits.
+
+## Start A New Project
+
+Create an empty project directory and Git repository, then apply Workframe:
+
+```bash
+mkdir /path/to/my-project
+git init /path/to/my-project
+
+/path/to/workframe/scripts/init-project.sh \
+  --target /path/to/my-project
 ```
 
-The `template/` directory is the payload. The other directories explain, adapt, or demonstrate it.
-
-Root `AGENTS.md`, `docs/CONCEPTS.md`, `openspec/`, and `.codex/` govern Workframe itself. Files under `template/` are the generated project payload.
-
-## Quick Start
-
-1. Create the new project repository.
-2. Apply the base scaffold and selected modules.
-3. Fill `docs/CONCEPTS.md` for the actual product.
-4. Commit the initial workflow scaffold.
-5. Start the first real product change through OpenSpec; when it establishes the stack, derive and implement the initial quality pipeline in that change.
-
-Example:
+Add optional modules only when useful:
 
 ```bash
 /path/to/workframe/scripts/init-project.sh \
-  --target /path/to/new-project \
-  --with codex-skills \
-  --with design-pencil
+  --target /path/to/my-project \
+  --with design-pencil \
+  --with frontend-quality
 ```
 
-You can also copy files manually if you prefer a slower, fully visible setup.
+The script copies the scaffold into an existing directory and can overwrite same-named files. Review the result and make the initial commit.
 
-## What To Copy
+## Typical Development Flow
 
-Copy these into most new projects:
+1. Open the project folder in your preferred AI client.
+2. Describe the idea: “I want to build …”. Ask the agent not to implement yet and to explore users, their problems, value, boundaries, and anti-goals.
+3. The agent leads the conversation and, after your confirmation, records product decisions in the project constitution.
+4. The agent proactively offers to prepare the first OpenSpec change: what changes, why, how it works, and its work plan.
+5. Review the plan. The agent implements only after your explicit approval.
+6. When switching clients, the incoming agent reads the rules, Git status, and OpenSpec state before continuing. Another agent can use the same state for review.
 
-- `template/base/AGENTS.md`
-- `template/base/docs/CONCEPTS.md`
-- `template/base/docs/AGENT_WORKFLOW.md`
-- `template/base/docs/QUALITY.md`
-- `template/base/docs/checklists/`
-- `template/base/openspec/config.yaml`
-- `template/base/.project-workframe-version`
+An example first message:
 
-Copy optional modules only when they fit:
+> I want to build a service for … Do not implement yet. Help me understand who it is for, the problem it solves, its value, and what it should not do.
 
-- `template/modules/codex-skills/` for Codex-specific local skills.
-- `template/modules/design-pencil/` when the project uses design artifacts, Pencil, or taste references.
-- `template/modules/frontend-quality/` for frontend-heavy projects.
+## What Stays In The Project
 
-When copying manually, copy the payload inside each module, not the module's own README:
+`init-project.sh` already copies every required item. You do not need to copy anything below manually after running it.
 
-- `template/modules/codex-skills/.codex/`
-- `template/modules/design-pencil/.codex/`
-- `template/modules/frontend-quality/docs/`
+| Area | Purpose |
+| --- | --- |
+| `AGENTS.md` | Common mandatory AI-agent rules and safe session handoff. |
+| `CLAUDE.md` | Claude Code entry point to the same common rules. |
+| `docs/CONCEPTS.md` | Product constitution: value, audience, principles, and boundaries. |
+| `docs/AGENT_WORKFLOW.md` | Neutral process from idea to verification. |
+| `docs/QUALITY.md` and `docs/checklists/` | Contract for project verification. |
+| `openspec/` | OpenSpec configuration for intentional non-trivial changes. |
+| `.agents/skills/` | Canonical OpenSpec workflows. |
+| `.codex/skills/`, `.claude/skills/`, `.qwen/skills/` | Client entry points to those same workflows. |
 
-Do not copy these into new projects by default:
+`template/` contains this payload. `source/` explains neutral rules and client adapters; `examples/` shows adaptation patterns. Neither is normally copied into a new project.
 
-- `source/`
-- `examples/`
-- this repository's own `CHANGELOG.md`
+## Optional Modules
 
-## Core Rules
+- `design-pencil` — for projects using Pencil, design artifacts, or taste references.
+- `frontend-quality` — for a frontend-heavy project.
 
-- `docs/CONCEPTS.md` is the project constitution when it exists.
-- Non-trivial behavior changes, integrations, and refactors go through OpenSpec.
-- OpenSpec artifacts are written in Russian by default.
-- Technical identifiers, commands, filenames, branch names, API names, and code symbols stay in English where appropriate.
-- One OpenSpec change maps to one git branch.
-- A change that introduces or materially changes an executable technology surface also updates the project-specific quality pipeline and `docs/QUALITY.md`.
-- Existing user changes are never reverted unless explicitly requested.
-- Design workflow is available by default; Pencil MCP is optional and disabled unless the runtime provides it.
+Design discipline is always available. If Pencil MCP is unavailable, the agent does not edit `.pen` files and instead works from exports, documented decisions, or asks for the required environment.
 
-## Quality Layer
+## Change Rules
 
-Workframe provides a text-only verification contract, not a ready-made toolchain. After the stack is understood, the same OpenSpec change derives checks from project surfaces and risks, selects appropriate tools, implements their configuration and automation in the target project, and records the current commands in `docs/QUALITY.md`.
+Tiny edits can be made directly. Features, behavior changes, integrations, material refactors, contract changes, and redesigns use OpenSpec.
 
-Checks are declared as `blocking`, `advisory`, or `not applicable`. This supports minimal new-project pipelines, staged legacy adoption, per-surface monorepo checks, and heuristic analyzers without making Ruff, mypy, ESLint, Semgrep, Archscope, or any CI provider part of Workframe itself.
+One OpenSpec change maps to one Git branch. OpenSpec artifacts are Russian by default, while technical identifiers stay English where clearer. When a technology surface appears or changes materially, that same change derives the smallest useful quality pipeline and updates `docs/QUALITY.md`.
 
-## Updating Existing Projects
+Workframe never auto-updates older projects. An upgrade is a separate, reviewable change inside the project. See [docs/UPGRADING.md](docs/UPGRADING.md).
 
-Workframe does not auto-update projects that were created from older versions. Keep old projects stable.
-
-To upgrade an existing project, create a normal OpenSpec change inside that project, compare its `.project-workframe-version` with this repository, apply the desired workflow changes, and commit the result in that project's history.
-
-Detailed upgrade guide: [docs/UPGRADING.md](docs/UPGRADING.md).
-
-## Version Marker
-
-Each generated project should keep:
+## Workframe Repository Layout
 
 ```text
-.project-workframe-version
+workframe/
+├─ template/base/            # required new-project payload
+├─ template/modules/         # optional payload modules
+├─ source/canonical-rules/   # neutral source rules
+├─ source/adapters/          # client-specific notes
+├─ examples/                 # examples, not payload
+├─ docs/                     # Workframe documentation
+└─ openspec/                 # Workframe's own changes
 ```
 
-This file records which Workframe version was applied. It is intentionally simple so future upgrades can be reviewed manually.
-
-## Design Layer
-
-Workframe includes a design discipline by default, but does not require Pencil MCP to be available in every session.
-
-If Pencil MCP is unavailable, agents must not edit `.pen` files. They may work from exported screenshots, documented design decisions, or ask the user to enable Pencil MCP in a refreshed session.
-
-## Status
-
-Initial extraction from a real project workflow. The first priority is clarity over automation. The included init script is intentionally small: it copies the base payload and selected modules, then leaves project-specific decisions to the owner.
+Workframe itself evolves through its root `AGENTS.md`, `docs/CONCEPTS.md`, and `openspec/`; do not confuse those with generated-project files under `template/`.

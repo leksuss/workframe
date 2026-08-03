@@ -8,7 +8,8 @@ Codex uses:
 The canonical payload for Codex is:
 
 - `template/base/AGENTS.md`
-- `template/modules/codex-skills/.codex/skills/`
+- `template/modules/agent-skills/.agents/skills/` for complete workflows
+- `template/modules/agent-skills/.codex/skills/` for Codex discovery adapters
 - optionally `template/modules/design-pencil/.codex/skills/design-orchestration/`
 
-Keep Codex-specific workflow details here. Do not put Codex-only syntax in `docs/CONCEPTS.md`.
+The base init script installs this payload by default. Keep Codex-specific discovery details here. Do not put Codex-only syntax in `docs/CONCEPTS.md`.

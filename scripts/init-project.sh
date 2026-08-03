@@ -6,11 +6,11 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 usage() {
   cat <<'USAGE'
 Usage:
-  scripts/init-project.sh --target /path/to/project [--with codex-skills] [--with design-pencil] [--with frontend-quality]
+  scripts/init-project.sh --target /path/to/project [--with design-pencil] [--with frontend-quality]
 
 Examples:
-  scripts/init-project.sh --target ../new-bot --with codex-skills
-  scripts/init-project.sh --target ../web-app --with codex-skills --with design-pencil --with frontend-quality
+  scripts/init-project.sh --target ../new-bot
+  scripts/init-project.sh --target ../web-app --with design-pencil --with frontend-quality
 
 Notes:
   - The target directory must already exist.
@@ -58,11 +58,12 @@ if [[ ! -d "$TARGET" ]]; then
 fi
 
 cp -R "$ROOT_DIR/template/base/." "$TARGET/"
+cp -R "$ROOT_DIR/template/modules/agent-skills/." "$TARGET/"
 
 if [[ "$MODULE_COUNT" -gt 0 ]]; then
   for module in "${MODULES[@]}"; do
     case "$module" in
-      codex-skills|design-pencil)
+      design-pencil)
         cp -R "$ROOT_DIR/template/modules/$module/.codex" "$TARGET/"
         ;;
       frontend-quality)
@@ -85,4 +86,4 @@ if command -v date >/dev/null 2>&1; then
 fi
 
 echo "Workframe scaffold applied to: $TARGET"
-echo "Next: fill docs/CONCEPTS.md, review AGENTS.md, and commit the scaffold."
+echo "Next: open the project in an AI agent, discuss the product idea, and ask it to record confirmed decisions in docs/CONCEPTS.md."

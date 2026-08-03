@@ -68,9 +68,11 @@ Common base files:
 - `openspec/config.yaml`
 - `.project-workframe-version`
 
-Optional module files:
+Agent workflow files installed in every new project:
 
-- `.codex/skills/openspec-*`
+- `.agents/skills/openspec-*`
+- `.claude/skills/openspec-*`
+- `.qwen/skills/openspec-*`
 - `.codex/skills/design-orchestration/`
 - `docs/checklists/frontend-quality.md`
 
@@ -119,10 +121,13 @@ diff -u docs/QUALITY.md /path/to/workframe/template/base/docs/QUALITY.md
 diff -u openspec/config.yaml /path/to/workframe/template/base/openspec/config.yaml
 ```
 
-For module payloads:
+For optional module payloads:
 
 ```bash
-diff -ru .codex/skills /path/to/workframe/template/modules/codex-skills/.codex/skills
+diff -ru .agents/skills /path/to/workframe/template/modules/agent-skills/.agents/skills
+diff -ru .codex/skills /path/to/workframe/template/modules/agent-skills/.codex/skills
+diff -ru .claude/skills /path/to/workframe/template/modules/agent-skills/.claude/skills
+diff -ru .qwen/skills /path/to/workframe/template/modules/agent-skills/.qwen/skills
 diff -ru docs/checklists /path/to/workframe/template/modules/frontend-quality/docs/checklists
 ```
 

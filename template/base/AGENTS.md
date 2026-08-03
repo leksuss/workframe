@@ -2,6 +2,10 @@
 
 Use this file as the operating rules for AI agents working in this repository.
 
+## Session Handoff
+
+This project may be continued sequentially in different AI clients. At the start of a new session, read this file and `docs/AGENT_WORKFLOW.md`, then inspect `git status`, the current branch, and any active OpenSpec change before making changes. Treat repository state and approved project documents as the source of truth, not another agent's chat history.
+
 ## Project Context
 
 When `docs/CONCEPTS.md` exists, treat it as the project constitution:
@@ -11,6 +15,8 @@ When `docs/CONCEPTS.md` exists, treat it as the project constitution:
 - Do not rewrite it unless the user explicitly asks.
 
 For tool-specific instructions, prefer this file first, then `docs/AGENT_WORKFLOW.md`, then local tool or skill documentation.
+
+When a new project is being discussed, lead the owner through purpose, audience, core value, principles, anti-goals, and key journeys. After the owner confirms those decisions, record them in `docs/CONCEPTS.md`, then proactively offer to prepare the first OpenSpec change. Do not ask the owner to name or edit this file, or to request the OpenSpec step separately.
 
 ## Feature Workflow
 

@@ -47,13 +47,13 @@ Workframe MUST keep repository governance files separate from files copied into 
 
 - **WHEN** change affects rules copied into new projects
 - **THEN** agent updates files under `template/base/` or `template/modules/`
-- **AND** agent considers whether root docs, `source/`, README files, or `docs/UPGRADING.md` need updates
+- **AND** agent considers whether root docs, `source/`, README files, `docs/UPGRADING.md` or AI-client adapters need updates
 
-#### Scenario: Local Codex skills
+#### Scenario: Local workflow skills
 
 - **WHEN** Workframe repo needs project-local Codex skills
 - **THEN** root `.codex/skills/` contains skills for Workframe development
-- **AND** `template/modules/codex-skills/.codex/skills/` remains the payload copied into target projects
+- **AND** generated-project workflow skills remain in the canonical `template/modules/agent-skills/` payload and client-specific module directories only adapt their discovery
 
 ### Requirement: Bootstrap Exception
 
@@ -79,4 +79,3 @@ Workframe MUST NOT automatically update projects created from older versions.
 - **WHEN** Workframe changes its root governance or generated payload
 - **THEN** existing target projects remain unchanged
 - **AND** upgrading a target project remains an explicit project-local change guided by `docs/UPGRADING.md`
-
