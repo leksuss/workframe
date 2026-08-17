@@ -29,6 +29,7 @@ Before implementation:
 - Start an OpenSpec change using the project's OpenSpec workflow.
 - Choose a concise change id automatically unless the user provides one.
 - Include how the change fits or conflicts with `docs/CONCEPTS.md` when it exists.
+- Check `docs/DEBT.md` for open entries in the area this change will touch, and offer the applicable ones to the user.
 - Do not write implementation code from an OpenSpec proposal step unless the user explicitly asks to proceed.
 
 During implementation:
@@ -43,6 +44,7 @@ After implementation:
 - Review and triage applicable advisory findings.
 - Treat skipped or unavailable blocking checks as non-passing unless the owner explicitly accepts the documented exception.
 - Verify that the active OpenSpec change reflects the implemented behavior.
+- Run the reconcile step described under `Coherence` before proposing archive.
 - Propose archiving the OpenSpec change when the work is complete and verified.
 - Do not archive automatically unless the user explicitly asks for it.
 
@@ -85,6 +87,7 @@ When choosing the next work:
 - Size each step to a whole block, not a small edit. The step should visibly advance toward the goal.
 - When you notice a flaw in a finished block, append it to the `## Фаза 2. Углубление` section of `tasks.md` instead of fixing it inline.
 - Fix a flaw immediately only when it is a true blocker — a defect that prevents building the next block. Then it is part of the current item, not a deferred improvement.
+- Move any `## Фаза 2. Углубление` item still unfinished to `docs/DEBT.md` before the change is archived. That section is archived with the change; the register is not.
 
 ## OpenSpec And Git Branches
 
@@ -145,6 +148,59 @@ When a change modifies product behavior:
 - Make sure the relevant OpenSpec specs describe the final behavior before proposing archive.
 
 Prefer concise, concrete documentation over broad abstract statements.
+
+## Coherence
+
+A long series of changes accumulates dead artifacts, contradictory statements, duplicated documentation, and code that has drifted from its specification. These rules keep that state observable.
+
+### Truth Hierarchy
+
+Artifacts do not carry equal authority: code and passing checks describe what the system does; `openspec/specs/` describes what it should do; `docs/CONCEPTS.md` describes why it exists; `docs/QUALITY.md`, README files, and other documentation describe how it is verified and explained.
+
+- Descriptive documentation that contradicts code or an active spec follows the behavior. Repair the documentation.
+- A spec that contradicts the code is not resolved on your own. Either the spec is stale or the code drifted; choosing is a product decision.
+- Anything that contradicts `docs/CONCEPTS.md` goes to the user.
+
+### The Archive Is History
+
+`openspec/changes/archive/` records what was true when it was written. It is not a set of standing statements.
+
+Never edit archived artifacts. A disagreement between an archived note and a current spec is not a finding.
+
+### Finding Classes
+
+Classify before repairing anything:
+
+- `mechanical`: broken paths and links, placeholders, references to removed entities, stale commands, verbatim duplication. Repair immediately.
+- `semantic`: a contradiction between statements, or between a spec and the code. Record in `docs/DEBT.md`; do not repair.
+- `structural`: refactoring is required — an overgrown file, blurred boundaries, duplicated logic. Record in `docs/DEBT.md`; do not repair.
+
+The test: can this be resolved without deciding what the product should be? If not, record it and stop.
+
+An artifact with no inbound references is `semantic`. Missing references do not prove it is unused, and deletion is irreversible.
+
+Do not record a suspected contradiction you cannot support by quoting both sides verbatim with their locations. Differing levels of abstraction are not disagreement.
+
+### Reconcile Before Archive
+
+Before proposing archive, check the artifacts this change touched:
+
+- specs describe the final behavior;
+- no placeholders remain in artifacts this change created or modified, including specs it synced;
+- entities this change removed are gone from all references;
+- unfinished `## Фаза 2. Углубление` items have moved to `docs/DEBT.md`.
+
+Repair `mechanical` findings before proposing archive. Record the rest.
+
+### Audit
+
+A full-repository audit covers referential integrity, placeholders, declared-against-actual, specs against code, duplication, dead artifacts, and structure — in that order, because the reliable slices must not be the ones abandoned when attention runs out. The first three are always required; the rest apply in proportion to the project.
+
+Follow `docs/checklists/coherence-audit.md`. Run an audit as an ordinary change on its own branch so its repairs stay reviewable. Propose an audit when you see accumulated drift; do not start one on your own.
+
+### The Register
+
+`docs/DEBT.md` holds `semantic` and `structural` findings plus deferred work that outlived its change. Fill it during reconcile and audits, check it when planning a change, mark overtaken entries `stale`, and close entries only with a change id or an explicit user decision.
 
 ## Design Discipline
 

@@ -24,7 +24,9 @@ In the depth phase, blocks are filled with features, polished, and deferred impr
 
 Agents follow the plan first: when choosing the next work, they take the next unfinished plan item in order and size each step to a whole block rather than a small edit.
 
-When an agent notices a flaw in a finished block, it appends the improvement to a backlog instead of fixing it inline. The exception is a true blocker — a defect that prevents building the next block — which is fixed immediately as part of the current item.
+When an agent notices a flaw in a finished block, it appends the improvement to the change's depth-phase backlog instead of fixing it inline. The exception is a true blocker — a defect that prevents building the next block — which is fixed immediately as part of the current item.
+
+That backlog belongs to one change and is archived with it. Improvements still unfinished when the change is archived move to the durable register described in `coherence.md`, so deferred work keeps an address after the change is gone.
 
 ## Language
 
@@ -39,6 +41,12 @@ One OpenSpec change maps to one `feature/<change-id>` branch.
 Technology decisions and meaningful technology-surface changes follow the stack-neutral lifecycle in `verification.md`. The same OpenSpec change derives a project-specific quality pipeline from surfaces and risks, implements or updates the applicable checks, and keeps the current commands and modes in `docs/QUALITY.md`.
 
 Blocking checks gate completion. Advisory checks require review and triage but do not fail a change automatically. Skipped or unavailable blocking checks are documented explicitly and never treated as passing by default.
+
+## Coherence
+
+Checks in `verification.md` observe one change. They do not observe what a long series of changes accumulates: dead artifacts, contradictory statements, duplicated documentation, and code that has drifted from its specification.
+
+`coherence.md` covers that state. It defines the truth hierarchy between code, specs, constitution, and descriptive documentation; the read-only status of the archive; which findings an agent repairs on its own and which it only records; the reconcile step before archiving a change; and the durable register where unresolved findings live.
 
 ## Safety
 

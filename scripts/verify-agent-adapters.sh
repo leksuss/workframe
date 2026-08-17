@@ -11,8 +11,8 @@ for skill in "${SKILLS[@]}"; do
   for client in .codex .claude .qwen; do
     adapter="$ROOT_DIR/template/modules/agent-skills/$client/skills/$skill/SKILL.md"
     test -f "$adapter"
-    rg -F ".agents/skills/$skill/SKILL.md" "$adapter" >/dev/null
-    ! rg -F "Implement tasks from an OpenSpec change." "$adapter" >/dev/null
+    grep -qF ".agents/skills/$skill/SKILL.md" "$adapter"
+    ! grep -qF "Implement tasks from an OpenSpec change." "$adapter"
   done
 done
 

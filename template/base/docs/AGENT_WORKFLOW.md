@@ -57,14 +57,15 @@ Keep these in English when clearer:
 
 ## Change Lifecycle
 
-1. Explore the idea and consult `docs/CONCEPTS.md`.
+1. Explore the idea, consult `docs/CONCEPTS.md`, and check `docs/DEBT.md` for open entries in the affected area.
 2. Create an OpenSpec change and matching `feature/<change-id>` branch.
 3. Write proposal, design notes when useful, spec deltas, and tasks.
 4. Implement only after the user asks to proceed.
 5. Keep OpenSpec artifacts aligned with real decisions.
 6. Run blocking checks and review advisory checks declared in `docs/QUALITY.md`.
-7. Propose archive when complete.
-8. Archive and merge only when explicitly requested.
+7. Reconcile the artifacts this change touched.
+8. Propose archive when complete.
+9. Archive and merge only when explicitly requested.
 
 ## Quality Pipeline
 
@@ -141,6 +142,48 @@ For a system or a large task, `tasks.md` uses two explicit sections:
 ```
 
 The depth section doubles as the backlog for deferred improvements and may start empty. A small change that does not build a system may keep `tasks.md` as a flat list.
+
+That backlog belongs to one change and is archived with it. Items still unfinished when the change is archived move to `docs/DEBT.md` first, so deferred work keeps an address after the change is gone.
+
+## Coherence
+
+Everything above governs one change. Nothing above observes what a long series of changes leaves behind: dead artifacts, contradictory statements, duplicated documentation, and code that has drifted from its specification. Each change can satisfy every rule while the sum of them grows incoherent.
+
+Two levels address that, at very different cost.
+
+### Level One: Reconcile
+
+Runs before every proposed archive. Scope is limited to what the change touched, so it costs minutes.
+
+Confirm that specs describe the final behavior; that no placeholder survives in artifacts the change created or modified, including specs it synced during archive; that entities the change removed are gone from every reference; and that unfinished `## Фаза 2. Углубление` items have moved to `docs/DEBT.md`.
+
+The last one matters most. Without it, deferred work is archived along with the change and stops existing for every future session.
+
+Reconcile is a project rule rather than a modification of the installed OpenSpec workflow skills. Those skills come from upstream; editing them would fork them and create exactly the drift this section exists to prevent.
+
+### Level Two: Audit
+
+Covers the whole repository. Runs on the owner's decision — an agent may propose one after noticing accumulated drift, but does not start one on its own.
+
+An audit is carried out as an ordinary OpenSpec change on its own branch, because its repairs modify the repository and must stay reviewable and revertible.
+
+`docs/checklists/coherence-audit.md` holds the procedure: seven slices ordered from objectively verifiable to requiring judgement. That order is deliberate — when attention or context runs out, the slices abandoned should be the subjective ones. Slices one through three are always required; the rest apply in proportion to the project.
+
+### Resolving Conflicts
+
+Artifacts do not carry equal authority. Code and passing checks describe what the system does. `openspec/specs/` describes what it should do. `docs/CONCEPTS.md` describes why it exists. Everything else describes how it is verified and explained.
+
+Descriptive documentation that contradicts behavior is repaired to match. A spec that contradicts the code is not repaired by the agent at all: either the spec is stale or the code drifted, and choosing between them is a product decision. A conflict with `docs/CONCEPTS.md` always goes to the owner.
+
+`openspec/changes/archive/` is history, not a set of standing statements. It is never edited, and its disagreement with current specs is not a finding.
+
+### The Register
+
+`docs/DEBT.md` is the durable record for findings the agent must not resolve and for deferred work that outlived its change.
+
+It is filled by reconcile and audits, and spent during planning: before starting a change, check for open entries in the area that change will touch anyway. Repairing debt while already inside the relevant code is the only way it gets repaid.
+
+Every audit revalidates open entries and marks the overtaken ones `stale`, so the register does not grow monotonically. An entry that survives several audits without movement is put to the owner for an explicit decision — a register nobody reads has become the problem it was meant to solve.
 
 ## Existing Work
 

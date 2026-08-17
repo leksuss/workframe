@@ -74,6 +74,7 @@ An example first message:
 | `docs/CONCEPTS.md` | Product constitution: value, audience, principles, and boundaries. |
 | `docs/AGENT_WORKFLOW.md` | Neutral process from idea to verification. |
 | `docs/QUALITY.md` and `docs/checklists/` | Contract for project verification. |
+| `docs/DEBT.md` | Durable register of divergences and deferred work that outlives an archived change. |
 | `openspec/` | OpenSpec configuration for intentional non-trivial changes. |
 | `.agents/skills/` | Canonical OpenSpec workflows. |
 | `.codex/skills/`, `.claude/skills/`, `.qwen/skills/` | Client entry points to those same workflows. |
@@ -92,6 +93,8 @@ Design discipline is always available. If Pencil MCP is unavailable, the agent d
 Tiny edits can be made directly. Features, behavior changes, integrations, material refactors, contract changes, and redesigns use OpenSpec.
 
 One OpenSpec change maps to one Git branch. OpenSpec artifacts are Russian by default, while technical identifiers stay English where clearer. When a technology surface appears or changes materially, that same change derives the smallest useful quality pipeline and updates `docs/QUALITY.md`.
+
+A long series of changes drifts even when every single change was correct. Before proposing archive, the agent reconciles the artifacts that change touched: no leftover placeholders, no references to removed entities, and unfinished deferred work moved into `docs/DEBT.md` rather than archived away with the change. A full-repository coherence audit runs only when you ask for it, as an ordinary reviewable change. The agent repairs objectively broken things itself and records contradictions for your decision instead of resolving them.
 
 Workframe never auto-updates older projects. An upgrade is a separate, reviewable change inside the project. See [docs/UPGRADING.md](docs/UPGRADING.md).
 

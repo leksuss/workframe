@@ -17,6 +17,7 @@ Upgrade when a newer Workframe version contains something the project actually b
 - better agent safety rules;
 - clearer OpenSpec workflow;
 - a stack-neutral verification lifecycle that can make the project's existing quality pipeline explicit;
+- a coherence lifecycle for a project that has accumulated drift across many changes;
 - improved design or frontend checklists;
 - new AI-client adapter files;
 - useful project profiles;
@@ -62,9 +63,11 @@ Common base files:
 - `AGENTS.md`
 - `docs/AGENT_WORKFLOW.md`
 - `docs/QUALITY.md`
+- `docs/DEBT.md`
 - `docs/checklists/feature-change.md`
 - `docs/checklists/design-change.md`
 - `docs/checklists/release-readiness.md`
+- `docs/checklists/coherence-audit.md`
 - `openspec/config.yaml`
 - `.project-workframe-version`
 
@@ -93,6 +96,20 @@ In the project-local upgrade change:
 
 The upgrade may document an existing pipeline without changing its tools. Adding a new analyzer or tightening a gate should be justified by project risks, not by the Workframe template.
 
+## Adopting The Coherence Lifecycle
+
+An existing project has already accumulated whatever drift it has. The first audit after adoption will therefore find far more than a routine one, and that backlog is not the upgrade's job to clear.
+
+In the project-local upgrade change:
+
+1. Copy the rules and the checklist, and create an empty `docs/DEBT.md`.
+2. Do not run a full audit inside the upgrade change. Adopting the rules and exercising them are separate changes.
+3. Move any deferred work already sitting in active changes' `## Фаза 2. Углубление` sections into the register, so it stops depending on those changes staying unarchived.
+4. Run the first audit as its own change afterward, and treat its result as a baseline rather than a defect list to clear at once.
+5. Expect the first audit to produce mostly recordings, not repairs. Recording a contradiction is progress; resolving it is a separate decision.
+
+A project with a long history may reasonably keep dozens of `open` entries after its first audit. The register earns its place by being spent during later planning, not by being emptied on the day it is created.
+
 ## Suggested Process
 
 1. Create or switch to a feature branch for the upgrade.
@@ -101,14 +118,15 @@ The upgrade may document an existing pipeline without changing its tools. Adding
 4. Apply only relevant changes.
 5. Preserve project-specific additions in `AGENTS.md`, checklists, and local skills.
 6. If adopting the verification lifecycle, create or update `docs/QUALITY.md` for the real stack rather than leaving it in the template's pending state.
-7. Update `.project-workframe-version`.
-8. Run lightweight verification:
+7. If adopting the coherence lifecycle, create an empty `docs/DEBT.md` and leave the first audit to a separate change.
+8. Update `.project-workframe-version`.
+9. Run lightweight verification:
    - review links in docs;
    - run shellcheck or syntax checks for changed scripts when applicable;
    - run a smoke copy to a temporary directory if init behavior changed.
-9. Mark OpenSpec tasks complete.
-10. Commit the upgrade.
-11. Propose archive when verified.
+10. Mark OpenSpec tasks complete.
+11. Commit the upgrade.
+12. Propose archive when verified.
 
 ## Manual Diff Example
 
@@ -136,6 +154,7 @@ Use these diffs as review material, not as automatic replacement commands.
 ## What Not To Do
 
 - Do not overwrite `docs/CONCEPTS.md` with the template.
+- Do not overwrite `docs/DEBT.md` with the template. The template register ships empty; copying it over a project's register destroys every recorded finding.
 - Do not copy `source/` or `examples/` into the target project.
 - Do not mix the upgrade with unrelated feature work.
 - Do not remove project-specific rules just because the base template does not contain them.
