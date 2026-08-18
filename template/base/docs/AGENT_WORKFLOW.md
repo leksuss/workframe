@@ -165,7 +165,7 @@ Reconcile is a project rule rather than a modification of the installed OpenSpec
 
 Covers the whole repository. Runs on the owner's decision — an agent may propose one after noticing accumulated drift, but does not start one on its own.
 
-An audit is carried out as an ordinary OpenSpec change on its own branch, because its repairs modify the repository and must stay reviewable and revertible.
+How an audit is filed depends on what it changed. One that alters documented behavior is an ordinary OpenSpec change. One that changed no requirements and repaired only `mechanical` findings is purely internal cleanup and is filed directly, without proposal artifacts that would have no decision to record. Either way it stays on its own branch as its own commit, so its repairs remain reviewable and revertible.
 
 `docs/checklists/coherence-audit.md` holds the procedure: seven slices ordered from objectively verifiable to requiring judgement. That order is deliberate — when attention or context runs out, the slices abandoned should be the subjective ones. Slices one through three are always required; the rest apply in proportion to the project.
 

@@ -29,6 +29,8 @@ Conflict resolution depends on which pair disagrees. It does not reduce to "the 
 
 `openspec/changes/archive/` records decisions that were true when they were made. It is not a set of standing statements.
 
+Dates in archive directory names are UTC, so the history stays comparable no matter which timezone the work was archived from. Near midnight the archive date and the local date differ; that is expected.
+
 Archived artifacts are never edited, including during an audit. A disagreement between an archived design note and a current specification is not a finding; it is the archive doing its job.
 
 Without this rule an agent reads old design notes as current commitments, and a mature repository generates contradictions faster than anyone can resolve them.
@@ -51,7 +53,9 @@ An artifact with no inbound references is `semantic`, not `mechanical`. Absence 
 
 Reconcile is expressed as a project rule. Where a project uses vendored upstream workflow skills, those skills are not modified to carry it; forking them would create the same class of drift these rules exist to remove.
 
-**Audit.** Covers the whole repository, runs on the owner's decision, and is carried out as an ordinary change on its own branch, so that its repairs stay reviewable. An agent may propose an audit; it does not start one on its own.
+**Audit.** Covers the whole repository and runs on the owner's decision. An agent may propose an audit; it does not start one on its own.
+
+How it is filed depends on what it changed. An audit that alters documented behavior is an ordinary change with its own artifacts. An audit that changed no requirements and repaired only `mechanical` findings is purely internal cleanup and is filed as a direct change without that ceremony — there is no decision for a proposal to record. Either way it stays on its own branch as its own commit, and findings it did not repair go to the register.
 
 ## Audit Slices
 

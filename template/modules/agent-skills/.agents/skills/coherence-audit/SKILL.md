@@ -37,9 +37,14 @@ This workflow is the procedure. It does not describe what to look for — `docs/
 
    Confirm the working tree is clean, or ask the owner how to proceed.
 
-   Create the change and a matching branch, for example `coherence-audit-<YYYY-MM>`. The audit's repairs modify the repository and must stay reviewable and revertible.
+   Create a branch, for example `coherence-audit-<YYYY-MM>`. The audit's repairs modify the repository and must stay reviewable and revertible.
 
-   Announce the change id and branch.
+   Do not create OpenSpec artifacts yet. Whether the audit needs them depends on what it turns out to have changed, and you do not know that until the slices have run:
+
+   - it altered documented behavior — file it as an ordinary OpenSpec change with the matching delta;
+   - it changed no requirements and repaired only `mechanical` findings — file it directly, as purely internal cleanup. A proposal would have no decision to record, and the schema rejects a change with no delta.
+
+   Announce the branch.
 
 4. **Run the slices in order**
 

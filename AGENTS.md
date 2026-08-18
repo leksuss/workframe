@@ -101,6 +101,7 @@ When the change is complete:
 
 - Propose archiving the OpenSpec change.
 - Do not archive automatically unless the user explicitly asks.
+- Dates in archive directory names are UTC. Near midnight they can differ from the local date; that is expected and is not corrected.
 - When the user explicitly asks to archive a completed change, archive it, sync specs, commit the archive result, switch to `main`, merge the completed feature branch into `main`, and leave `main` as the current branch for the next change.
 - New OpenSpec changes should start from the current `main`, not from a previous feature branch.
 - After archive and merge, the user may push or create a pull request.
@@ -188,7 +189,7 @@ Repair `mechanical` findings before proposing archive. Record the rest.
 
 A full-repository audit covers referential integrity, placeholders, declared-against-actual, specs against payload, duplication, dead artifacts, and structure — in that order, because the reliable slices must not be the ones abandoned when attention runs out. The first three are always required.
 
-The procedure is the one shipped to projects in `template/base/docs/checklists/coherence-audit.md`, read with the root-and-template boundary above in mind. Run an audit as an ordinary change on its own branch. Propose an audit when you see accumulated drift; do not start one on your own.
+The procedure is the one shipped to projects in `template/base/docs/checklists/coherence-audit.md`, read with the root-and-template boundary above in mind. File an audit that changed documented behavior as an ordinary change. File one that changed no requirements and repaired only `mechanical` findings as a direct change — it is purely internal cleanup. Either way keep it on its own branch as its own commit. Propose an audit when you see accumulated drift; do not start one on your own.
 
 ### The Register
 
