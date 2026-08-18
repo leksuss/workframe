@@ -78,6 +78,7 @@ An example first message:
 | `openspec/` | OpenSpec configuration for intentional non-trivial changes. |
 | `.agents/skills/` | Canonical project workflows: OpenSpec and the coherence audit. |
 | `.codex/skills/`, `.claude/skills/`, `.qwen/skills/` | Client entry points to those same workflows. |
+| `.project-workframe-version` | Which Workframe version the project was built from, and what an upgrade applied. |
 
 `template/` contains this payload. `source/` explains neutral rules and client adapters; `examples/` shows adaptation patterns. Neither is normally copied into a new project.
 
@@ -94,7 +95,7 @@ Tiny edits can be made directly. Features, behavior changes, integrations, mater
 
 One OpenSpec change maps to one Git branch. OpenSpec artifacts are Russian by default, while technical identifiers stay English where clearer. When a technology surface appears or changes materially, that same change derives the smallest useful quality pipeline and updates `docs/QUALITY.md`.
 
-A long series of changes drifts even when every single change was correct. Before proposing archive, the agent reconciles the artifacts that change touched: no leftover placeholders, no references to removed entities, and unfinished deferred work moved into `docs/DEBT.md` rather than archived away with the change. A full-repository coherence audit runs only when you ask for it, as an ordinary reviewable change. The agent repairs objectively broken things itself and records contradictions for your decision instead of resolving them.
+A long series of changes drifts even when every single change was correct. Before proposing archive, the agent reconciles the artifacts that change touched: no leftover placeholders, no references to removed entities, and unfinished deferred work moved into `docs/DEBT.md` rather than archived away with the change. A full-repository coherence audit runs only when you ask for it. If it changes the rules it is filed as an ordinary change; if it only repaired broken references and leftovers, it is filed directly as cleanup. Either way it stays on its own branch as its own commit. The agent repairs objectively broken things itself and records contradictions for your decision instead of resolving them.
 
 Workframe never auto-updates older projects. An upgrade is a separate, reviewable change inside the project. See [docs/UPGRADING.md](docs/UPGRADING.md).
 
