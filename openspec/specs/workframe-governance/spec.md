@@ -14,7 +14,7 @@ Workframe MUST provide root governance files for work on the Workframe repositor
 
 #### Scenario: Agent evaluates non-trivial Workframe change
 
-- **WHEN** change влияет на Workframe behavior, generated payload, optional modules, adapters, profiles, examples или upgrade policy
+- **WHEN** change влияет на Workframe behavior, generated payload, optional modules, adapters, examples или upgrade policy
 - **THEN** agent читает `docs/CONCEPTS.md` и оценивает соответствие Workframe purpose, principles, anti-goals и feature fit criteria
 
 ### Requirement: Root OpenSpec
@@ -55,6 +55,12 @@ Workframe MUST keep repository governance files separate from files copied into 
 - **THEN** root `.codex/skills/` contains skills for Workframe development
 - **AND** generated-project workflow skills remain in the canonical `template/modules/agent-skills/` payload and client-specific module directories only adapt their discovery
 
+#### Scenario: Adaptation material for a project type
+
+- **WHEN** an owner adapts Workframe to a particular kind of project
+- **THEN** `examples/` is the single place holding that adaptation material
+- **AND** it is documentation rather than payload copied into a new project
+
 ### Requirement: Bootstrap Exception
 
 Workframe MUST document that the initial scaffold existed before root OpenSpec governance.
@@ -79,3 +85,4 @@ Workframe MUST NOT automatically update projects created from older versions.
 - **WHEN** Workframe changes its root governance or generated payload
 - **THEN** existing target projects remain unchanged
 - **AND** upgrading a target project remains an explicit project-local change guided by `docs/UPGRADING.md`
+

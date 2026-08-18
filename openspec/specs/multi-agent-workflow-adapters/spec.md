@@ -5,7 +5,7 @@
 Define one canonical project workflow that supported AI clients can discover without duplicating its instructions.
 ## Requirements
 ### Requirement: Canonical project workflows
-Workframe MUST install complete project workflow skills in one canonical project location for every new project and MUST NOT maintain independent complete copies for individual AI clients. The canonical location holds the project's working procedures, including workflows that are not part of OpenSpec.
+Workframe MUST install complete project workflow skills in one canonical project location for every new project and MUST NOT maintain independent complete copies for individual AI clients. The canonical location holds the project's working procedures, including workflows that are not part of OpenSpec. Initialization MUST install a module's payload and MUST NOT install the module's own documentation into the generated project.
 
 #### Scenario: Agent loads a workflow through a client adapter
 - **WHEN** Codex, Claude Code or Qwen Code invokes an installed workflow skill
@@ -19,6 +19,11 @@ Workframe MUST install complete project workflow skills in one canonical project
 - **WHEN** a client adapter contains the canonical workflow text instead of a reference to it
 - **THEN** the payload verification detects the duplication for any skill, including skills added later
 - **AND** the check does not depend on the wording of an individual skill description
+
+#### Scenario: Module documentation stays out of the project
+- **WHEN** initialization installs a module
+- **THEN** the generated project receives the module's workflow files only
+- **AND** files describing the module itself, such as its README, are not written into the project root
 
 ### Requirement: Supported client adapters
 Workframe MUST document which AI clients have tested automatic project-level instructions or skills, and MUST distinguish a client adapter from the model selected inside that client.
