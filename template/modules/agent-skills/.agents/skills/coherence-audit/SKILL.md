@@ -68,6 +68,8 @@ This workflow is the procedure. It does not describe what to look for — `docs/
 
    Write entries in the format `docs/DEBT.md` specifies, with a fresh `D-<NNN>` identifier.
 
+   Then verify the entry against the repository: open every location it cites and confirm it exists and says what the entry claims. Line numbers shift as you repair `mechanical` findings in the same run, so an entry that was accurate when drafted may not be when written. A register full of references that no longer resolve is the defect it exists to catch.
+
 7. **Revalidate the existing register**
 
    Re-read every `open` entry recorded before this audit and check whether it still holds.

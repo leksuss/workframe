@@ -91,5 +91,6 @@ Slices 1 to 3 are always required: they are cheap and objectively verifiable. Ap
 - Revalidate open entries in `docs/DEBT.md`; mark entries overtaken by events as `stale`.
 - Put any entry that has survived several audits without movement to the owner for an explicit decision.
 - Record new `semantic` and `structural` findings with both sides quoted.
+- Re-open every location the new entries cite and confirm it exists and says what the entry claims; repairs made earlier in the same run shift line numbers.
 - Summarize for the owner: what was repaired, what was recorded, what needs a decision.
 - Propose archive; do not archive automatically.
