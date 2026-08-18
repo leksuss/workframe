@@ -37,6 +37,8 @@ Findings are `mechanical`.
 
 Findings are `mechanical`.
 
+A state that an active spec or policy deliberately requires is not a finding. `docs/QUALITY.md` ships its pipeline as `pending stack selection` with a placeholder table row until the project selects a stack, because the verification lifecycle requires exactly that; flagging it every audit is a false result, not a discovery.
+
 A document that names these tokens in order to search for them — this checklist, the rules that define it — is not a finding. Match the token as leftover work, not as a quoted search target.
 
 ## Slice 3 — Declared Against Actual (required)

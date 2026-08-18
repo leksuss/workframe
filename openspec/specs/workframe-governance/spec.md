@@ -1,7 +1,7 @@
 # workframe-governance Specification
 
 ## Purpose
-TBD - created by archiving change bootstrap-workframe-governance. Update Purpose after archive.
+Определить, как Workframe управляет собственной разработкой: какие файлы задают правила работы над самим репозиторием, где проходит граница между ними и payload для генерируемых проектов, через какой процесс Workframe меняет сам себя и почему изменения шаблона не затрагивают уже созданные проекты.
 ## Requirements
 ### Requirement: Root Governance
 

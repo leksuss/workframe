@@ -74,14 +74,18 @@ Common base files:
 Agent workflow files installed in every new project:
 
 - `.agents/skills/openspec-*`
+- `.codex/skills/openspec-*`
 - `.claude/skills/openspec-*`
 - `.qwen/skills/openspec-*`
 - `.agents/skills/coherence-audit/`
-- `.claude/skills/coherence-audit/`
 - `.codex/skills/coherence-audit/`
+- `.claude/skills/coherence-audit/`
 - `.qwen/skills/coherence-audit/`
-- `.codex/skills/design-orchestration/`
-- `docs/checklists/frontend-quality.md`
+
+Files that arrive only with an optional module, and only if the project selected it:
+
+- `.codex/skills/design-orchestration/` — `design-pencil`
+- `docs/checklists/frontend-quality.md` — `frontend-quality`
 
 Do not overwrite project-specific `docs/CONCEPTS.md` with the Workframe template. Use the template only as a reference if the project constitution needs deliberate improvement.
 
