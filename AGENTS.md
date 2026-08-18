@@ -17,7 +17,7 @@ Important source boundaries:
 - Root `AGENTS.md`, `docs/`, `openspec/`, and `.codex/` govern work on this repository.
 - `template/base/` is payload copied into new projects.
 - `template/modules/` contains optional payload modules.
-- `source/` contains canonical notes, adapters, and profiles used to evolve the payload.
+- `source/` contains canonical rules and client adapter notes used to evolve the payload.
 - `examples/` is documentation and must not be copied into new projects by default.
 
 ## Feature Workflow

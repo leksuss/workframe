@@ -20,7 +20,7 @@ Upgrade when a newer Workframe version contains something the project actually b
 - a coherence lifecycle for a project that has accumulated drift across many changes;
 - improved design or frontend checklists;
 - new AI-client adapter files;
-- useful project profiles;
+- useful adaptation examples for a project type;
 - bug fixes in `scripts/init-project.sh` payload behavior;
 - better documentation for future maintenance.
 

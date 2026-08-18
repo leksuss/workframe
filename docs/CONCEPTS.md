@@ -31,7 +31,7 @@ The scaffold should make projects more coherent without making every project sha
 - Existing projects should not auto-upgrade. Upgrades should be explicit, reviewable project changes.
 - OpenSpec artifacts should be Russian by default, while technical identifiers remain English where appropriate.
 - Design discipline should be available by default, but direct Pencil MCP editing should require runtime availability.
-- Examples and profiles should teach adaptation, not become cargo-cult files copied into every project.
+- Examples should teach adaptation, not become cargo-cult files copied into every project.
 
 ## Anti-Goals
 
@@ -51,7 +51,7 @@ The owner creates a repository, runs the Workframe init script or copies the bas
 
 ### Adapt Workflow To A Project Type
 
-The owner reads a profile such as `django-app`, `telegram-bot`, or `scraper-service`, then adapts the base checklist and concepts without copying irrelevant example content.
+The owner reads an example in `examples/` such as `django-app`, `telegram-bot`, or `scraper-service`, then adapts the base checklist and concepts without copying irrelevant example content.
 
 ### Upgrade An Existing Project
 

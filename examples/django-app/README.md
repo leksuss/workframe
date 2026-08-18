@@ -1,6 +1,6 @@
 # Example: Django App
 
-This is an example profile note, not a payload to copy blindly.
+This is an adaptation note, not a payload to copy blindly.
 
 Suggested modules:
 

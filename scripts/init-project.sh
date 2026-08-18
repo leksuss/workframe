@@ -58,7 +58,11 @@ if [[ ! -d "$TARGET" ]]; then
 fi
 
 cp -R "$ROOT_DIR/template/base/." "$TARGET/"
-cp -R "$ROOT_DIR/template/modules/agent-skills/." "$TARGET/"
+# Copy the module payload only. The module README documents the module for whoever
+# applies Workframe; it is not part of a generated project.
+for payload_dir in .agents .claude .codex .qwen; do
+  cp -R "$ROOT_DIR/template/modules/agent-skills/$payload_dir" "$TARGET/"
+done
 
 if [[ "$MODULE_COUNT" -gt 0 ]]; then
   for module in "${MODULES[@]}"; do

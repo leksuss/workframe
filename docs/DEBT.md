@@ -50,7 +50,8 @@ Entries are never deleted silently. A resolved or rejected entry keeps its recor
 - Где: `scripts/init-project.sh:61` ↔ `template/modules/agent-skills/README.md:1`
 - Расхождение: строка `cp -R "$ROOT_DIR/template/modules/agent-skills/." "$TARGET/"` копирует и README модуля. Воспроизведено: инициализация в пустой каталог даёт `README.md` с первой строкой `# Portable Agent Skills Module`, побайтово совпадающий с README модуля. Ни таблица payload в `README.md`, ни `template/base/` не объявляют README частью payload. Для существующего проекта это перезапись его собственного README. Тот же дефект содержит инструкция ручного копирования в `template/modules/agent-skills/README.md:8`
 - Возможные разрешения: (a) исключать README модуля при копировании; (b) перенести документацию модуля из копируемого каталога; (c) переименовать её так, чтобы она не претендовала на корневой README проекта
-- Статус: open
+- Разрешение: вариант (a) в форме перечисления каталогов payload при копировании — тем же приёмом, каким уже ставятся `design-pencil` и `frontend-quality`. Удаление файла после копирования отклонено как опасное: `rm` по фиксированному имени уничтожил бы одноимённый файл проекта. Исключение через `rsync`/`tar` отклонено как новая зависимость. Инструкция ручного копирования в README модуля исправлена вместе со скриптом
+- Статус: resolved, change `fix-generated-project-payload`
 
 ### D-003 — `source/profiles/` и `examples/` дублируют одну роль, каталог не объявлен в схеме
 
@@ -59,7 +60,8 @@ Entries are never deleted silently. A resolved or rejected entry keeps its recor
 - Где: `source/profiles/` ↔ `examples/` ↔ `docs/CONCEPTS.md:54` ↔ схема репозитория в `README.md:104` и `README.ru.md:104`
 - Расхождение: оба каталога содержат по три одноимённых подкаталога `django-app`, `telegram-bot`, `scraper-service`. `source/profiles/django-app/README.md:3` предлагает «use this profile when adapting Workframe to a Django project», `examples/django-app/README.md:3` называет себя «an example profile note». `docs/CONCEPTS.md:54` отсылает к «профилю» вроде `django-app`, не указывая, к какому из двух. Схема репозитория в обоих README перечисляет `examples/`, но не `source/profiles/`
 - Возможные разрешения: (a) объединить в один каталог и обновить `docs/CONCEPTS.md` и схему; (b) развести роли явно и объявить оба в схеме; (c) удалить один из каталогов
-- Статус: open
+- Разрешение: вариант (c) по решению владельца — оставлен `examples/`, удалён `source/profiles/`. `examples/` уже присутствовал в схеме обоих README, поэтому правок документации потребовалось меньше. Обновлены `AGENTS.md`, `docs/CONCEPTS.md`, `docs/UPGRADING.md` и три файла в `examples/`; `CHANGELOG.md` не изменён, его запись относится к выпущенной 0.1.0
+- Статус: resolved, change `fix-generated-project-payload`
 
 ### D-004 — `openspec archive` именует каталог архива по UTC, а репозиторий ведёт даты по локальному времени
 
@@ -77,7 +79,8 @@ Entries are never deleted silently. A resolved or rejected entry keeps its recor
 - Где: `AGENTS.md` ↔ `template/base/AGENTS.md`
 - Расхождение: разделы `OpenSpec Task Design`, `Work Sequencing` и `Git Safety` совпадают побайтово. Архитектура предполагает, что источником служит `source/canonical-rules/`, а оба `AGENTS.md` являются адаптациями; для этих трёх разделов адаптация не вносит ничего, кроме риска расхождения. Стоимость наблюдалась: change `add-coherence-lifecycle` правил `Work Sequencing` дважды одинаковым текстом. Файлы выросли до 199 и 216 строк при принципе `docs/CONCEPTS.md:29` о payload, который остаётся достаточно малым для ручного чтения и правки
 - Возможные разрешения: (a) оставить как есть, признав дублирование ценой независимости root и payload; (b) вынести совпадающие разделы в отдельный общий файл, на который ссылаются оба; (c) сократить сами разделы, оставив подробности в `docs/AGENT_WORKFLOW.md`
-- Статус: open
+- Разрешение: вариант (a) по решению владельца. Совпадает двадцать непустых строк; вариант (b) невозможен, потому что `template/base/AGENTS.md` обязан работать в проекте, где каталога `source/` не существует, а вариант (c) сокращал бы сами правила ради формы
+- Статус: rejected, дублирование принято как цена самодостаточности payload
 
 ### D-006 — Схема spec-driven отвергает аудит, не меняющий требований
 
