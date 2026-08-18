@@ -76,6 +76,10 @@ Agent workflow files installed in every new project:
 - `.agents/skills/openspec-*`
 - `.claude/skills/openspec-*`
 - `.qwen/skills/openspec-*`
+- `.agents/skills/coherence-audit/`
+- `.claude/skills/coherence-audit/`
+- `.codex/skills/coherence-audit/`
+- `.qwen/skills/coherence-audit/`
 - `.codex/skills/design-orchestration/`
 - `docs/checklists/frontend-quality.md`
 

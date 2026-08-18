@@ -40,4 +40,5 @@ Entries are never deleted silently. A resolved or rejected entry keeps its recor
 - Где: `scripts/verify-agent-adapters.sh:15` ↔ `openspec/specs/multi-agent-workflow-adapters/spec.md`
 - Расхождение: скрипт проверяет отсутствие в adapter фразы `Implement tasks from an OpenSpec change.` — это описание одного скилла, `openspec-apply-change`, но проверка выполняется в цикле для всех четырёх. Для `openspec-explore`, `openspec-propose` и `openspec-archive-change` условие не может сработать. Проверено: вклейка полного канонического текста (288 строк) в `.claude/skills/openspec-explore/SKILL.md` оставляет результат скрипта `Agent adapters verified.`, exit 0
 - Возможные разрешения: (a) сверять с описанием соответствующего скилла из его canonical frontmatter; (b) проверять отсутствие структурных маркеров полной инструкции, например `**Steps**`; (c) сравнивать объём adapter с порогом
-- Статус: open
+- Разрешение: вариант (c) — проверка объёма adapter в сочетании с обязательной ссылкой на канонический файл. Вариант (b) проверен и отклонён: маркер `**Steps**` отсутствует в `openspec-explore`, то есть пропустил бы случай, на котором дефект был воспроизведён. Вариант (a) отклонён: привязывает проверку к тексту upstream-описаний, меняющихся при обновлении OpenSpec CLI
+- Статус: resolved, change `add-coherence-audit-skill`

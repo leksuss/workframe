@@ -76,7 +76,7 @@ git init /path/to/my-project
 | `docs/QUALITY.md` и `docs/checklists/` | Contract для проектных проверок. |
 | `docs/DEBT.md` | Постоянный реестр расхождений и отложенной работы, переживающей архивацию change. |
 | `openspec/` | Конфигурация OpenSpec для намеренных нетривиальных изменений. |
-| `.agents/skills/` | Канонические OpenSpec workflows. |
+| `.agents/skills/` | Канонические рабочие процессы проекта: OpenSpec и аудит согласованности. |
 | `.codex/skills/`, `.claude/skills/`, `.qwen/skills/` | Точки входа соответствующих клиентов в те же workflows. |
 
 `template/` содержит именно этот payload. `source/` объясняет нейтральные правила и client adapters; `examples/` показывает варианты адаптации. Их в новый проект обычно не копируют.

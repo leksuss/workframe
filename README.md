@@ -76,7 +76,7 @@ An example first message:
 | `docs/QUALITY.md` and `docs/checklists/` | Contract for project verification. |
 | `docs/DEBT.md` | Durable register of divergences and deferred work that outlives an archived change. |
 | `openspec/` | OpenSpec configuration for intentional non-trivial changes. |
-| `.agents/skills/` | Canonical OpenSpec workflows. |
+| `.agents/skills/` | Canonical project workflows: OpenSpec and the coherence audit. |
 | `.codex/skills/`, `.claude/skills/`, `.qwen/skills/` | Client entry points to those same workflows. |
 
 `template/` contains this payload. `source/` explains neutral rules and client adapters; `examples/` shows adaptation patterns. Neither is normally copied into a new project.
