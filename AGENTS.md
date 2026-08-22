@@ -45,6 +45,7 @@ After implementation:
 - Run the relevant checks for the changed area.
 - Verify that the active OpenSpec change reflects the implemented behavior.
 - Run the reconcile step described under `Coherence` before proposing archive.
+- For every completed non-trivial Workframe change, choose the SemVer impact (`PATCH` for a compatible fix, `MINOR` for a compatible capability, `MAJOR` for a breaking required payload or workflow change), update root `VERSION`, and move its `CHANGELOG.md` entries into a dated release section before proposing archive.
 - Propose archiving the OpenSpec change when the work is complete and verified.
 - Do not archive automatically unless the user explicitly asks for it.
 
@@ -136,6 +137,16 @@ When a change modifies generated project payload behavior:
 - Consider whether `README.md`, `README.ru.md`, `docs/UPGRADING.md`, or `CHANGELOG.md` need changes.
 
 Prefer concise, concrete documentation over broad abstract statements.
+
+## Workframe Versioning
+
+Root `VERSION` is the single source of the current Workframe scaffold version and uses Semantic Versioning `MAJOR.MINOR.PATCH`.
+
+- `PATCH` is a backwards-compatible fix.
+- `MINOR` is a backwards-compatible capability or workflow addition.
+- `MAJOR` is an incompatible change to required payload or workflow.
+
+Every completed non-trivial Workframe change releases one chosen version before archive. Record the version and release date in `CHANGELOG.md`; leave a fresh `Unreleased` section for the next change. A Git tag is optional and does not replace `VERSION`.
 
 ## Coherence
 

@@ -99,6 +99,12 @@ A long series of changes drifts even when every single change was correct. Befor
 
 Workframe never auto-updates older projects. An upgrade is a separate, reviewable change inside the project. See [docs/UPGRADING.md](docs/UPGRADING.md).
 
+## Versions And Project Upgrades
+
+The current Workframe version is in root [`VERSION`](VERSION) and follows Semantic Versioning: `PATCH` fixes compatible behavior, `MINOR` adds compatible capabilities, and `MAJOR` marks incompatible required workflow or payload changes. Every completed non-trivial Workframe change releases one version and records it in `CHANGELOG.md`.
+
+`init-project.sh` writes that version into `.project-workframe-version`. In an existing project, ask the agent to read its marker, compare it with Workframe `VERSION` and `CHANGELOG.md`, then prepare a separate project-local OpenSpec change. It applies only relevant updates and preserves project-specific rules; it does not auto-overwrite the project.
+
 ## Workframe Repository Layout
 
 ```text

@@ -1,6 +1,6 @@
 # Upgrading Projects Created From Workframe
 
-Workframe does not auto-update existing projects. A project created from an older Workframe version keeps that version until the owner intentionally upgrades it.
+Workframe does not auto-update existing projects. A project created from an older Workframe version keeps that version until the owner intentionally upgrades it. Root `VERSION` is the canonical current Workframe version and uses Semantic Versioning (`MAJOR.MINOR.PATCH`): a `PATCH` is a compatible fix, a `MINOR` adds a compatible capability, and a `MAJOR` changes required payload or workflow incompatibly.
 
 This protects active projects from hidden workflow changes.
 
@@ -33,7 +33,7 @@ In the target project:
 1. Check git status.
 2. Read `.project-workframe-version`.
 3. Read the current project's `AGENTS.md` and `docs/CONCEPTS.md`.
-4. Review the Workframe `CHANGELOG.md` between the project's version and the current version.
+4. Read Workframe `VERSION` and review `CHANGELOG.md` between the project's version and that target version.
 5. Decide which changes are useful for this project.
 
 If the project has uncommitted work, do not mix the upgrade with unrelated changes.
@@ -184,4 +184,4 @@ applied-at: 2026-05-18
 notes: Upgraded AGENTS.md, OpenSpec config, and frontend checklist. Kept project-specific deployment rules.
 ```
 
-The marker records what was applied, not merely what exists upstream.
+The marker records what was applied, not merely what exists upstream. If the project intentionally skips parts of a newer release, name both the target Workframe version and the skipped parts in `notes` rather than claiming the project received an unreviewed automatic upgrade.

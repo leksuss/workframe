@@ -2,6 +2,12 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+WORKFRAME_VERSION="$(< "$ROOT_DIR/VERSION")"
+
+if [[ ! "$WORKFRAME_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+  echo "Invalid Workframe version in $ROOT_DIR/VERSION: $WORKFRAME_VERSION" >&2
+  exit 1
+fi
 
 usage() {
   cat <<'USAGE'
@@ -79,6 +85,11 @@ if [[ "$MODULE_COUNT" -gt 0 ]]; then
         ;;
     esac
   done
+fi
+
+if [[ -f "$TARGET/.project-workframe-version" ]]; then
+  sed -i.bak "s/workframe: VERSION/workframe: $WORKFRAME_VERSION/" "$TARGET/.project-workframe-version"
+  rm -f "$TARGET/.project-workframe-version.bak"
 fi
 
 if command -v date >/dev/null 2>&1; then

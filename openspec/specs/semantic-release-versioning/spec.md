@@ -1,0 +1,33 @@
+# semantic-release-versioning Specification
+
+## Purpose
+TBD - created by archiving change introduce-semantic-versioning. Update Purpose after archive.
+## Requirements
+### Requirement: Каноническая версия Workframe
+Workframe MUST хранить текущую версию scaffold в root-файле `VERSION` в формате Semantic Versioning `MAJOR.MINOR.PATCH`. Template и документация MUST ссылаться на этот источник, а не дублировать конкретный номер версии.
+
+#### Scenario: Владелец определяет актуальную версию
+- **WHEN** владелец или агент проверяет состояние Workframe
+- **THEN** он получает единственный актуальный номер из root `VERSION`
+
+### Requirement: Версионный выпуск завершённого change
+Каждый завершённый нетривиальный Workframe change MUST выбрать и применить повышение SemVer-версии до предложения archive: `PATCH` для обратно совместимого исправления, `MINOR` для обратно совместимой возможности и `MAJOR` для несовместимого изменения обязательного payload или workflow. `CHANGELOG.md` MUST содержать датированную секцию этой версии.
+
+#### Scenario: Завершение обратно совместимой возможности
+- **WHEN** Workframe change добавляет обратно совместимую возможность
+- **THEN** агент повышает `MINOR`, переносит относящиеся к релизу записи из `Unreleased` в секцию новой версии и фиксирует обоснование в артефактах change
+
+### Requirement: Маркер версии в новом проекте
+Штатная инициализация проекта MUST записывать в `.project-workframe-version` значение root `VERSION` Workframe и дату применения.
+
+#### Scenario: Создание проекта скриптом
+- **WHEN** владелец запускает `scripts/init-project.sh` из Workframe с валидным `VERSION`
+- **THEN** новый проект содержит `.project-workframe-version` с этой версией и текущей датой
+
+### Requirement: Явное обновление существующего проекта
+Обновление существующего проекта MUST оставаться отдельным проверяемым project-local change. Агент MUST сопоставить маркер проекта с выбранной версией Workframe, применить только релевантные изменения и записать фактически применённую версию.
+
+#### Scenario: Проект обновляют до актуального Workframe
+- **WHEN** владелец просит обновить Workframe в существующем проекте
+- **THEN** агент не перезаписывает project-specific rules автоматически и обновляет `.project-workframe-version` только после review и применения выбранных изменений
+
