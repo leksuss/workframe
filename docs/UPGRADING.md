@@ -38,6 +38,22 @@ In the target project:
 
 If the project has uncommitted work, do not mix the upgrade with unrelated changes.
 
+## Check Before Changing
+
+From the Workframe checkout, run:
+
+```bash
+scripts/check-workframe-update.sh --target /path/to/project
+```
+
+The command is read-only. It reports the version and modules recorded by the project, the version of this Workframe checkout, release notes to review, and the base files that differ from the current template. A difference is review material, not permission to overwrite project-specific rules.
+
+Then give the agent this request:
+
+```text
+Run the Workframe upgrade check for this project. Create the project-local OpenSpec change upgrade-workframe-guidance, review the reported differences and release notes, apply only relevant updates, preserve project-specific rules, and update .project-workframe-version only after verification.
+```
+
 ## Recommended OpenSpec Change
 
 Use a change id like:
@@ -185,3 +201,5 @@ notes: Upgraded AGENTS.md, OpenSpec config, and frontend checklist. Kept project
 ```
 
 The marker records what was applied, not merely what exists upstream. If the project intentionally skips parts of a newer release, name both the target Workframe version and the skipped parts in `notes` rather than claiming the project received an unreviewed automatic upgrade.
+
+`modules` records the modules installed by `init-project.sh`, for example `agent-skills,frontend-quality`. Older markers may not contain it; treat the value as `unknown` and identify modules during review.

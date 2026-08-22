@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 0.3.0 - 2026-08-22
+
+- Added a read-only project upgrade check that reports versions, installed modules, release notes, and review-file status before any project-local change.
+- Added `modules` to the Workframe version marker and annotated Git tags for releases.
+
 ## 0.2.0 - 2026-08-22
 
 - Added canonical `VERSION` and Semantic Versioning releases for completed non-trivial Workframe changes.

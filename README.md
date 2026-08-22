@@ -101,9 +101,15 @@ Workframe never auto-updates older projects. An upgrade is a separate, reviewabl
 
 ## Versions And Project Upgrades
 
-The current Workframe version is in root [`VERSION`](VERSION) and follows Semantic Versioning: `PATCH` fixes compatible behavior, `MINOR` adds compatible capabilities, and `MAJOR` marks incompatible required workflow or payload changes. Every completed non-trivial Workframe change releases one version and records it in `CHANGELOG.md`.
+The current Workframe version is in root [`VERSION`](VERSION) and follows Semantic Versioning: `PATCH` fixes compatible behavior, `MINOR` adds compatible capabilities, and `MAJOR` marks incompatible required workflow or payload changes. Every completed non-trivial Workframe change releases one version, records it in `CHANGELOG.md`, and receives an annotated Git tag such as `v0.3.0`.
 
-`init-project.sh` writes that version into `.project-workframe-version`. In an existing project, ask the agent to read its marker, compare it with Workframe `VERSION` and `CHANGELOG.md`, then prepare a separate project-local OpenSpec change. It applies only relevant updates and preserves project-specific rules; it does not auto-overwrite the project.
+`init-project.sh` writes that version and installed modules into `.project-workframe-version`. To prepare an upgrade of an existing project without changing it, run:
+
+```bash
+/path/to/workframe/scripts/check-workframe-update.sh --target /path/to/project
+```
+
+Then ask the agent to create `upgrade-workframe-guidance`, review the report, apply only relevant updates, and preserve project-specific rules. It does not auto-overwrite the project. Details: [docs/UPGRADING.md](docs/UPGRADING.md).
 
 ## Workframe Repository Layout
 

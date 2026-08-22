@@ -146,7 +146,7 @@ Root `VERSION` is the single source of the current Workframe scaffold version an
 - `MINOR` is a backwards-compatible capability or workflow addition.
 - `MAJOR` is an incompatible change to required payload or workflow.
 
-Every completed non-trivial Workframe change releases one chosen version before archive. Record the version and release date in `CHANGELOG.md`; leave a fresh `Unreleased` section for the next change. A Git tag is optional and does not replace `VERSION`.
+Every completed non-trivial Workframe change releases one chosen version before archive. Record the version and release date in `CHANGELOG.md`; leave a fresh `Unreleased` section for the next change. After committing the release, create an annotated Git tag `v<VERSION>` on that release commit. `VERSION` remains the source of the current version; a tag makes a released state retrievable later.
 
 ## Coherence
 

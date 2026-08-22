@@ -1,3 +1,4 @@
 workframe: VERSION
+modules: MODULES
 applied-at: YYYY-MM-DD
-notes: `init-project.sh` fills this marker. For manual copying, replace VERSION and YYYY-MM-DD with the Workframe version and application date.
+notes: `init-project.sh` fills this marker. For manual copying, replace VERSION, MODULES, and YYYY-MM-DD with the applied Workframe details.
