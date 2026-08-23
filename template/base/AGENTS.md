@@ -14,6 +14,8 @@ When `docs/CONCEPTS.md` exists, treat it as the project constitution:
 - Use it to evaluate whether a proposed change fits the product values, audience, anti-goals, and feature-fit criteria.
 - Do not rewrite it unless the user explicitly asks.
 
+Read `docs/PROJECT_RULES.md` alongside it. That file holds the rules this project decided for itself; the rules in this file and in `docs/AGENT_WORKFLOW.md` come from Workframe.
+
 For tool-specific instructions, prefer this file first, then `docs/AGENT_WORKFLOW.md`, then local tool or skill documentation.
 
 When a new project is being discussed, lead the owner through purpose, audience, core value, principles, anti-goals, and key journeys. After the owner confirms those decisions, record them in `docs/CONCEPTS.md`, then proactively offer to prepare the first OpenSpec change. Do not ask the owner to name or edit this file, or to request the OpenSpec step separately.
@@ -228,6 +230,7 @@ This project's agent rules, workflow document, checklists, and workflow skills w
 Upgrading to a newer Workframe version is an ordinary OpenSpec change in this project, never an automatic overwrite:
 
 - Copy a canonical file whole. Do not restate one in your own words, however well you understand it — a paraphrase reads like an upgrade and is not one.
+- Put a rule this project decided for itself in `docs/PROJECT_RULES.md`. Never add one by editing a canonical file: an edited canonical file is indistinguishable from a paraphrased one.
 - Keep `docs/CONCEPTS.md`, `docs/QUALITY.md`, and `docs/DEBT.md`. They belong to this project and are never replaced by the template.
 - Finish with the project's canonical files byte-identical to the target version's template, and name any deliberately skipped part in the marker's `notes`.
 - Update `.project-workframe-version` only after that verification.

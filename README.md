@@ -75,6 +75,7 @@ An example first message:
 | `docs/AGENT_WORKFLOW.md` | Neutral process from idea to verification. |
 | `docs/QUALITY.md` and `docs/checklists/` | Contract for project verification. |
 | `docs/DEBT.md` | Durable register of divergences and deferred work that outlives an archived change. |
+| `docs/PROJECT_RULES.md` | Rules the project decided for itself, kept out of the canonical files. |
 | `openspec/` | OpenSpec configuration for intentional non-trivial changes. |
 | `.agents/skills/` | Canonical project workflows: OpenSpec and the coherence audit. |
 | `.codex/skills/`, `.claude/skills/`, `.qwen/skills/` | Client entry points to those same workflows. |

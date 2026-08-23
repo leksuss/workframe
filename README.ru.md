@@ -75,6 +75,7 @@ git init /path/to/my-project
 | `docs/AGENT_WORKFLOW.md` | Нейтральный process работы от идеи до проверки. |
 | `docs/QUALITY.md` и `docs/checklists/` | Contract для проектных проверок. |
 | `docs/DEBT.md` | Постоянный реестр расхождений и отложенной работы, переживающей архивацию change. |
+| `docs/PROJECT_RULES.md` | Правила, которые проект решил за себя, вынесенные из канонических файлов. |
 | `openspec/` | Конфигурация OpenSpec для намеренных нетривиальных изменений. |
 | `.agents/skills/` | Канонические рабочие процессы проекта: OpenSpec и аудит согласованности. |
 | `.codex/skills/`, `.claude/skills/`, `.qwen/skills/` | Точки входа соответствующих клиентов в те же workflows. |

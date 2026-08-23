@@ -54,6 +54,8 @@ Project rules, workflow documents, checklists, and workflow skills arrive from W
 
 Upgrading to a newer Workframe version is an ordinary change inside the project. Canonical files are copied whole rather than restated, the version marker records what was applied and what was deliberately skipped, and the change ends with the project's canonical files byte-identical to the target version's template.
 
+Rules the project decides for itself live in the project's own rules file, never as an edit to a canonical file: an edited canonical file cannot be told apart from a paraphrased one.
+
 ## Safety
 
 Agents never discard user changes, rewrite history, merge, rebase, delete branches, or perform destructive operations unless explicitly requested.

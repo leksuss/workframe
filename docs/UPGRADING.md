@@ -50,7 +50,7 @@ The command is read-only. It reports the version and modules recorded by the pro
 
 The marker is not evidence. It records what an upgrade intended to apply; the content level is computed by comparing the project's canonical files with the templates of released versions. The two disagreeing is the normal reason to run this check.
 
-Files the project owns — `docs/CONCEPTS.md`, `docs/QUALITY.md`, `docs/DEBT.md`, and the marker — are reported separately, because their divergence is expected. A difference anywhere is review material, not permission to overwrite project-specific rules.
+Files the project owns — `docs/CONCEPTS.md`, `docs/QUALITY.md`, `docs/DEBT.md`, `docs/PROJECT_RULES.md`, and the marker — are reported separately, because their divergence is expected. A difference anywhere is review material, not permission to overwrite project-specific rules.
 
 Then give the agent this request:
 
@@ -83,7 +83,7 @@ Write the OpenSpec artifacts in Russian by default.
 - Base rules and workflow documents, checklists, and `openspec/config.yaml` — canonical, and equality with the template is the goal.
 - Workflow skills installed in every project: `.agents/skills/` and the `.codex/`, `.claude/`, `.qwen/` adapters that load them — canonical.
 - Files that arrive only with an optional module the project selected: `.codex/skills/design-orchestration/` with `design-pencil`, `docs/checklists/frontend-quality.md` with `frontend-quality` — canonical when the module is installed.
-- `docs/CONCEPTS.md`, `docs/QUALITY.md`, `docs/DEBT.md`, and `.project-workframe-version` — the project's own. They are expected to differ.
+- `docs/CONCEPTS.md`, `docs/QUALITY.md`, `docs/DEBT.md`, `docs/PROJECT_RULES.md`, and `.project-workframe-version` — the project's own. They are expected to differ.
 
 Do not overwrite project-specific `docs/CONCEPTS.md` with the Workframe template. Use the template only as a reference if the project constitution needs deliberate improvement.
 
@@ -122,7 +122,7 @@ A project with a long history may reasonably keep dozens of `open` entries after
 2. Create the OpenSpec change.
 3. Compare files manually or with `diff`.
 4. Apply only relevant changes.
-5. Preserve project-specific additions in `AGENTS.md`, checklists, and local skills.
+5. Move project-specific additions out of the canonical files into `docs/PROJECT_RULES.md`, copying their text verbatim. Canonical files end up byte-identical to the template; the project's own rules keep their wording and gain an address.
 6. If adopting the verification lifecycle, create or update `docs/QUALITY.md` for the real stack rather than leaving it in the template's pending state.
 7. If adopting the coherence lifecycle, create an empty `docs/DEBT.md` and leave the first audit to a separate change.
 8. Re-run `check-workframe-update.sh` and confirm every canonical file reports `equal`, except parts the change deliberately skipped.
@@ -164,7 +164,8 @@ Use these diffs as review material, not as automatic replacement commands.
 - Do not overwrite `docs/DEBT.md` with the template. The template register ships empty; copying it over a project's register destroys every recorded finding.
 - Do not copy `source/` or `examples/` into the target project.
 - Do not mix the upgrade with unrelated feature work.
-- Do not remove project-specific rules just because the base template does not contain them.
+- Do not remove project-specific rules just because the base template does not contain them. Move them to `docs/PROJECT_RULES.md` instead.
+- Do not add a project rule by editing a canonical file. The comparison cannot tell that edit apart from a paraphrase, and one benign difference makes every real one unreadable.
 - Do not restate a canonical file in your own words. Copy it whole, however well you understand what it says. A paraphrase passes review as an upgrade and leaves the project running a private fork of the rules.
 - Do not auto-merge old projects to a new Workframe version.
 

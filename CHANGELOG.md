@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 0.5.0 - 2026-08-23
+
+- Added `docs/PROJECT_RULES.md` to the payload: the rules a project decides for itself now have their own addressed file, and a canonical file is never edited to hold one.
+- Resolved the contradiction recorded as `D-007`. Byte-identical canonical files and preserved project rules were mutually exclusive as long as project rules lived inside canonical files; a project that kept its own rules could never report a clean upgrade, which made the signal meaningless.
+- The upgrade guide now moves existing project-specific additions out of canonical files verbatim instead of preserving them in place, and the upgrade check treats the new file as project-local.
+
 ## 0.4.0 - 2026-08-23
 
 - Every payload file now has an address in the rules that travel with it: the feature, design, and release readiness checklists, the optional frontend checklist, and `.project-workframe-version`, which no project rule had ever mentioned. Workframe's own rules now require a new payload file to get an address in the same change.

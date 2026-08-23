@@ -67,6 +67,7 @@ PROJECT_LOCAL_FILES=(
   "docs/CONCEPTS.md"
   "docs/QUALITY.md"
   "docs/DEBT.md"
+  "docs/PROJECT_RULES.md"
   ".project-workframe-version"
 )
 
