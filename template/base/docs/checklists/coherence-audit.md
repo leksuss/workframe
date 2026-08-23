@@ -64,6 +64,7 @@ Findings are `semantic`. Record both sides; repair neither.
 - One statement kept in two places: either the copies have drifted, or one should reference the other.
 - Rules repeated across `AGENTS.md`, `docs/AGENT_WORKFLOW.md`, and checklists still agree.
 - Client adapters and canonical instructions have not diverged.
+- Files copied from Workframe still match the template of the version recorded in `.project-workframe-version`, when that Workframe checkout is available.
 
 Verbatim duplication is `mechanical`; drifted copies stating different things are `semantic`.
 

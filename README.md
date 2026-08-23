@@ -109,6 +109,8 @@ The current Workframe version is in root [`VERSION`](VERSION) and follows Semant
 /path/to/workframe/scripts/check-workframe-update.sh --target /path/to/project
 ```
 
+The report compares every payload file with the template — `equal`, `differs`, or `missing` — and computes the version the installed content actually matches, rather than trusting the marker. A file restated from memory instead of copied shows up as matching no released template at all.
+
 Then ask the agent to create `upgrade-workframe-guidance`, review the report, apply only relevant updates, and preserve project-specific rules. It does not auto-overwrite the project. Details: [docs/UPGRADING.md](docs/UPGRADING.md).
 
 ## Workframe Repository Layout

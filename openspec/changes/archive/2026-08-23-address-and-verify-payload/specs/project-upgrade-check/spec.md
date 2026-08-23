@@ -1,8 +1,5 @@
-# project-upgrade-check Specification
+## MODIFIED Requirements
 
-## Purpose
-Определить, как владелец получает доказуемую основу для обновления Workframe в существующем проекте: read-only проверку, которая сравнивает установленный payload с шаблоном пофайлово, вычисляет фактический уровень содержимого вместо доверия маркеру и делает побайтовое равенство канонических файлов условием завершения апгрейда.
-## Requirements
 ### Requirement: Read-only проверка обновления проекта
 Workframe MUST предоставлять `scripts/check-workframe-update.sh --target <path>` для проверки существующего проекта без изменения файлов target project. Отчёт MUST показывать применённую версию marker, текущий root `VERSION`, modules из marker (или `unknown`), релизные заметки и следующий шаг с project-local OpenSpec change. Отчёт MUST сравнивать установленный payload с шаблоном пофайлово — весь `template/base` и payload установленных modules — и печатать для каждого файла `equal`, `differs` или `missing`. Файлы, которые проект обязан вести сам, MUST выводиться отдельной секцией, где расхождение является ожидаемым состоянием.
 
@@ -34,6 +31,8 @@ Workframe MUST предоставлять `scripts/check-workframe-update.sh --t
 #### Scenario: Marker расходится с содержимым
 - **WHEN** версия в marker не соответствует уровню установленных файлов
 - **THEN** отчёт печатает обе величины: записанную в marker и вычисленную по содержимому
+
+## ADDED Requirements
 
 ### Requirement: Фактический уровень содержимого проекта
 
@@ -82,4 +81,3 @@ Payload MUST требовать, чтобы change, обновляющий Workf
 
 - **WHEN** change не касается Workframe payload проекта
 - **THEN** пункт о побайтовом равенстве к нему не применяется
-

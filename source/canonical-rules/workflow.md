@@ -48,6 +48,12 @@ Checks in `verification.md` observe one change. They do not observe what a long 
 
 `coherence.md` covers that state. It defines the truth hierarchy between code, specs, constitution, and descriptive documentation; the read-only status of the archive; which findings an agent repairs on its own and which it only records; the reconcile step before archiving a change; and the durable register where unresolved findings live.
 
+## Payload
+
+Project rules, workflow documents, checklists, and workflow skills arrive from Workframe. Every file that arrives is addressed by a rule that arrives with it; a file no shipped rule points to never reaches the agent that should use it.
+
+Upgrading to a newer Workframe version is an ordinary change inside the project. Canonical files are copied whole rather than restated, the version marker records what was applied and what was deliberately skipped, and the change ends with the project's canonical files byte-identical to the target version's template.
+
 ## Safety
 
 Agents never discard user changes, rewrite history, merge, rebase, delete branches, or perform destructive operations unless explicitly requested.

@@ -89,9 +89,11 @@ fi
 
 if [[ -f "$TARGET/.project-workframe-version" ]]; then
   marker_modules="agent-skills"
-  for module in "${MODULES[@]}"; do
-    marker_modules+=",$module"
-  done
+  if [[ "$MODULE_COUNT" -gt 0 ]]; then
+    for module in "${MODULES[@]}"; do
+      marker_modules+=",$module"
+    done
+  fi
   sed -i.bak "s/workframe: VERSION/workframe: $WORKFRAME_VERSION/" "$TARGET/.project-workframe-version"
   sed -i.bak "s/modules: MODULES/modules: $marker_modules/" "$TARGET/.project-workframe-version"
   rm -f "$TARGET/.project-workframe-version.bak"

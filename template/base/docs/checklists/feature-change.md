@@ -6,6 +6,7 @@ Use this checklist before and during non-trivial product or behavior changes.
 
 - Read `docs/CONCEPTS.md`.
 - Read the current project policy in `docs/QUALITY.md`.
+- Check `docs/DEBT.md` for open entries in the affected area.
 - Identify the user journey affected by the change.
 - Decide whether OpenSpec is required.
 - Check the current git branch and uncommitted changes.
@@ -39,4 +40,5 @@ Use this checklist before and during non-trivial product or behavior changes.
 - Verify the implemented behavior matches the OpenSpec change.
 - For every completed task, verify its stated result and verification method rather than relying only on its checkbox.
 - Perform manual verification where automation does not cover the risk.
+- Reconcile artifacts touched by the change; repair `mechanical` findings and record `semantic` or `structural` findings in `docs/DEBT.md`.
 - Propose archive when complete.

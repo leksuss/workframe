@@ -24,6 +24,8 @@ For non-trivial feature work, behavior changes, integrations, and refactors, use
 
 Do not use OpenSpec for tiny cosmetic fixes, typo fixes, dependency bumps, or purely internal cleanup unless they change documented behavior.
 
+Follow `docs/checklists/feature-change.md` through the workflow below; it holds the step list, these rules hold the reasoning.
+
 Before implementation:
 
 - Start an OpenSpec change using the project's OpenSpec workflow.
@@ -45,6 +47,7 @@ After implementation:
 - Treat skipped or unavailable blocking checks as non-passing unless the owner explicitly accepts the documented exception.
 - Verify that the active OpenSpec change reflects the implemented behavior.
 - Run the reconcile step described under `Coherence` before proposing archive.
+- Check `docs/checklists/release-readiness.md` before proposing archive.
 - Propose archiving the OpenSpec change when the work is complete and verified.
 - Do not archive automatically unless the user explicitly asks for it.
 
@@ -214,4 +217,17 @@ When a task affects visual product experience:
 - Consider responsive behavior, loading states, empty states, error states, focus states, and text overflow.
 - Verify visually when possible.
 
+Follow `docs/checklists/design-change.md` for these changes. When `docs/checklists/frontend-quality.md` is installed, use it to verify frontend work before handing it back.
+
 Pencil MCP is optional and disabled by default. If a task requires editing `.pen` files and Pencil MCP is unavailable, ask the user to enable it or work from exported artifacts instead. Do not pretend a design artifact was updated when it was not.
+
+## Workframe Payload
+
+This project's agent rules, workflow document, checklists, and workflow skills were copied from Workframe. `.project-workframe-version` records the version applied, the modules installed, and anything an upgrade deliberately skipped.
+
+Upgrading to a newer Workframe version is an ordinary OpenSpec change in this project, never an automatic overwrite:
+
+- Copy a canonical file whole. Do not restate one in your own words, however well you understand it — a paraphrase reads like an upgrade and is not one.
+- Keep `docs/CONCEPTS.md`, `docs/QUALITY.md`, and `docs/DEBT.md`. They belong to this project and are never replaced by the template.
+- Finish with the project's canonical files byte-identical to the target version's template, and name any deliberately skipped part in the marker's `notes`.
+- Update `.project-workframe-version` only after that verification.

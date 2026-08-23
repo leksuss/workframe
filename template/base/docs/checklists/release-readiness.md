@@ -9,6 +9,7 @@ Use this before publishing, deploying, merging, or archiving meaningful work.
 - Applicable advisory findings were triaged as `confirmed`, `false positive`, or `deferred`.
 - Important manual verification was performed where automated checks are insufficient.
 - Documentation close to the changed behavior was updated.
+- When the change upgraded this project's Workframe payload: the project's canonical files are byte-identical to the target version's template, and any deliberately skipped part is named in `.project-workframe-version` notes.
 - No placeholder remains in any artifact this change created or modified, including specs synced during archive.
 - Entities this change removed are gone from every reference across the repository.
 - Unfinished `## Фаза 2. Углубление` items were moved to `docs/DEBT.md` before archive.

@@ -133,6 +133,7 @@ When implementation differs from the active OpenSpec change:
 When a change modifies generated project payload behavior:
 
 - Update `template/` files.
+- Give every payload file an address in the rules that travel with it. A file no shipped rule points to never reaches the agent that should use it, whatever the Workframe documentation says about it.
 - Update root docs and `source/` notes when they explain that behavior.
 - Consider whether `README.md`, `README.ru.md`, `docs/UPGRADING.md`, or `CHANGELOG.md` need changes.
 

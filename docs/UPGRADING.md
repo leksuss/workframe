@@ -46,7 +46,11 @@ From the Workframe checkout, run:
 scripts/check-workframe-update.sh --target /path/to/project
 ```
 
-The command is read-only. It reports the version and modules recorded by the project, the version of this Workframe checkout, release notes to review, and the base files that differ from the current template. A difference is review material, not permission to overwrite project-specific rules.
+The command is read-only. It reports the version and modules recorded by the project, the version of this Workframe checkout, the level the installed content actually matches, release notes to review, and the state of every payload file against the template: `equal`, `differs`, or `missing`. A file that differs also names the newest release it does match, so a copy written from memory is visible as matching no released template at all.
+
+The marker is not evidence. It records what an upgrade intended to apply; the content level is computed by comparing the project's canonical files with the templates of released versions. The two disagreeing is the normal reason to run this check.
+
+Files the project owns — `docs/CONCEPTS.md`, `docs/QUALITY.md`, `docs/DEBT.md`, and the marker — are reported separately, because their divergence is expected. A difference anywhere is review material, not permission to overwrite project-specific rules.
 
 Then give the agent this request:
 
@@ -74,34 +78,12 @@ Write the OpenSpec artifacts in Russian by default.
 
 ## Files To Compare
 
-Common base files:
+`scripts/check-workframe-update.sh` enumerates the payload itself, so this guide does not repeat the list: a second copy of it would drift from the template it describes. Read the report in four groups.
 
-- `AGENTS.md`
-- `docs/AGENT_WORKFLOW.md`
-- `docs/QUALITY.md`
-- `docs/DEBT.md`
-- `docs/checklists/feature-change.md`
-- `docs/checklists/design-change.md`
-- `docs/checklists/release-readiness.md`
-- `docs/checklists/coherence-audit.md`
-- `openspec/config.yaml`
-- `.project-workframe-version`
-
-Agent workflow files installed in every new project:
-
-- `.agents/skills/openspec-*`
-- `.codex/skills/openspec-*`
-- `.claude/skills/openspec-*`
-- `.qwen/skills/openspec-*`
-- `.agents/skills/coherence-audit/`
-- `.codex/skills/coherence-audit/`
-- `.claude/skills/coherence-audit/`
-- `.qwen/skills/coherence-audit/`
-
-Files that arrive only with an optional module, and only if the project selected it:
-
-- `.codex/skills/design-orchestration/` — `design-pencil`
-- `docs/checklists/frontend-quality.md` — `frontend-quality`
+- Base rules and workflow documents, checklists, and `openspec/config.yaml` — canonical, and equality with the template is the goal.
+- Workflow skills installed in every project: `.agents/skills/` and the `.codex/`, `.claude/`, `.qwen/` adapters that load them — canonical.
+- Files that arrive only with an optional module the project selected: `.codex/skills/design-orchestration/` with `design-pencil`, `docs/checklists/frontend-quality.md` with `frontend-quality` — canonical when the module is installed.
+- `docs/CONCEPTS.md`, `docs/QUALITY.md`, `docs/DEBT.md`, and `.project-workframe-version` — the project's own. They are expected to differ.
 
 Do not overwrite project-specific `docs/CONCEPTS.md` with the Workframe template. Use the template only as a reference if the project constitution needs deliberate improvement.
 
@@ -143,14 +125,15 @@ A project with a long history may reasonably keep dozens of `open` entries after
 5. Preserve project-specific additions in `AGENTS.md`, checklists, and local skills.
 6. If adopting the verification lifecycle, create or update `docs/QUALITY.md` for the real stack rather than leaving it in the template's pending state.
 7. If adopting the coherence lifecycle, create an empty `docs/DEBT.md` and leave the first audit to a separate change.
-8. Update `.project-workframe-version`.
-9. Run lightweight verification:
+8. Re-run `check-workframe-update.sh` and confirm every canonical file reports `equal`, except parts the change deliberately skipped.
+9. Update `.project-workframe-version`, naming any deliberately skipped part in `notes`.
+10. Run lightweight verification:
    - review links in docs;
    - run shellcheck or syntax checks for changed scripts when applicable;
    - run a smoke copy to a temporary directory if init behavior changed.
-10. Mark OpenSpec tasks complete.
-11. Commit the upgrade.
-12. Propose archive when verified.
+11. Mark OpenSpec tasks complete.
+12. Commit the upgrade.
+13. Propose archive when verified.
 
 ## Manual Diff Example
 
@@ -182,6 +165,7 @@ Use these diffs as review material, not as automatic replacement commands.
 - Do not copy `source/` or `examples/` into the target project.
 - Do not mix the upgrade with unrelated feature work.
 - Do not remove project-specific rules just because the base template does not contain them.
+- Do not restate a canonical file in your own words. Copy it whole, however well you understand what it says. A paraphrase passes review as an upgrade and leaves the project running a private fork of the rules.
 - Do not auto-merge old projects to a new Workframe version.
 
 ## Version Marker
