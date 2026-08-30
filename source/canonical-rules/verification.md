@@ -21,6 +21,68 @@ The change design records the surfaces, risks, check classes, and important trad
 
 OpenSpec records why the pipeline changed. The current commands and policy remain in `docs/QUALITY.md` after the change is archived.
 
+## Contract-Driven Verification
+
+Verification follows one evidence chain:
+
+```text
+requirement
+→ production ownership path
+→ positive verification
+→ negative/adversarial verification when risk requires it
+→ recorded result
+→ independent review
+→ archive decision
+```
+
+A task checkbox records the end of this chain, not the end of implementation. Every non-atomic task names an observable expected result, the affected production surface or ownership path, material constraints and protective boundaries, and a concrete verification method. Do not mark it complete until that method ran and its result was recorded, or the owner accepted a documented exception. An aggregate green suite is not evidence for a scenario the suite did not execute.
+
+When a change is complete, re-read every task and match its claim to the implementation path and actual result. Check assertions against the exact required outcome: a test that proves rejection does not satisfy a requirement for success, and a mock does not satisfy a required loopback or other production integration path.
+
+## Proportional Evidence Levels
+
+Classify the change by the highest-risk affected surface:
+
+- `atomic low-risk`: an obvious change → result → check link in the task or final review is enough; no separate traceability table;
+- `behavior`: trace each changed requirement or scenario to its production path, evidence and result; positive verification is required and negative verification follows the risk;
+- `high-risk boundary`: make traceability explicit, exercise applicable positive and adversarial scenarios including bypass and alternative ownership paths, and use an independent final review context;
+- `release/certification`: also independently re-verify persisted evidence and bind final evidence to the exact tracked revision or equivalent identity.
+
+For `behavior` and higher levels, record at least:
+
+```text
+requirement or scenario | production implementation or ownership path | test/check/evidence | passed/failed/skipped/unavailable
+```
+
+Keep the record in the change artifacts. A separate heavy table is unnecessary for an atomic change whose relationship is genuinely obvious. Traceability is incomplete when a requirement has no implementation path, no evidence, or evidence for a different outcome. Include public/default paths and every relevant ownership path, not only the UI or facade used by the common happy path.
+
+## Protective Boundaries And Adversarial Review
+
+Negative or adversarial verification is mandatory when a change affects one or more of these surfaces:
+
+- credentials, secrets, and redaction;
+- authentication, authorization, permissions, and allow-lists;
+- network requests and external adapters;
+- timeouts, cancellation, budgets, and resource limits;
+- streaming and bounded payloads;
+- persistent storage, atomic writes, and rollback;
+- idempotency, compare-and-swap, leases, and restart/resume;
+- public APIs, server boundaries, and embedding defaults;
+- certified evidence, manifests, digests, and revision binding;
+- irreversible or externally visible side effects.
+
+Choose scenarios from the actual risk rather than running every possible attack. Consider direct API bypass around a disabled UI, extra or undeclared fields, missing headers/permissions/allow-list entries, a body without `content-length`, a stalled dependency, retry and collision, stale or tampered persisted state, an optimistic default, partial write and rollback, and alternate paths such as CLI, API, console, supervisor/child, restart/resume, or embedding.
+
+Bounded behavior must be enforced while data is consumed, not only after full materialization. Readiness and public defaults fail closed when their dependency is absent or unknown. A permission check does not substitute for a required capability allow-list.
+
+## Execution And Certification
+
+When a change produces a certifiable persisted evidence artifact, execution and certification are separate responsibilities. A runner does not become an independent verifier merely because it performs inline assertions or records a digest.
+
+The verifier must be able to re-open the saved artifact and, as applicable, check schema/version, provenance, exact revision or identity binding, digest, scope/tier, internal consistency, forbidden sensitive fields, tampering or stale state, and fail-closed behavior. If a separate verifier is disproportionate to the risk, the design records why and names the independent check used instead.
+
+Final release or certification evidence records the exact tracked revision it covers and applicable artifact digests. A later tracked commit makes that evidence stale; rerun the blocking gate on the final revision before claiming readiness.
+
 ## Policy Modes And Run Results
 
 Each declared check has one policy mode:
@@ -37,6 +99,10 @@ Record the result of a particular run separately:
 - `unavailable` with the missing prerequisite or environment constraint.
 
 A skipped or unavailable blocking check is not a passing check. Explain its impact before proposing archive, merge, release, or deployment.
+
+## Flaky And Timing-Sensitive Results
+
+A random successful rerun does not erase the first failure. Preserve the failed result, diagnose the check in isolation, then repeat the full blocking gate. If the instability is confirmed, fix it or classify it explicitly under the project quality policy. Never hide the original failure or report a one-off rerun as stable evidence.
 
 ## Verification Levels
 
@@ -67,3 +133,9 @@ When a project selects Archscope, the normal starting policy is to review its Ma
 - Flaky or prohibitively slow checks are not suitable blocking gates until their reliability and execution level are made explicit.
 
 When CI exists, enforce blocking checks there where practical. Textual policy documents the contract; it does not substitute for technical enforcement.
+
+## Independent Final Review
+
+Before proposing archive, change perspective from implementer to adversarial reviewer. Re-read proposal, design, specs, tasks, final diff, and recorded results without relying on task checkboxes. Look for spec/code mismatch, unverified claims, tests that certify the wrong outcome, unreachable test doubles, optimistic defaults, bypass paths, unbounded operations, runner/verifier conflation, and evidence not bound to the final revision.
+
+For a high-risk change, use another agent or model, or an equivalent separate review context that starts from repository artifacts rather than the implementation narrative. This does not require manual owner review of every change. Repair mechanical findings immediately; classify semantic and structural findings under the coherence policy.

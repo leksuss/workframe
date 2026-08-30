@@ -42,6 +42,12 @@ Technology decisions and meaningful technology-surface changes follow the stack-
 
 Blocking checks gate completion. Advisory checks require review and triage but do not fail a change automatically. Skipped or unavailable blocking checks are documented explicitly and never treated as passing by default.
 
+The change follows a contract-driven evidence chain: requirement → production ownership path → positive verification → risk-based negative/adversarial verification → recorded result → independent review → archive decision. A task checkbox records that its declared method ran and proved the exact expected outcome, not merely that implementation exists or an aggregate suite is green.
+
+Scale the record to the highest risk. An atomic low-risk change needs only an obvious change/result/check link. A behavior change traces changed requirements to production paths and evidence. A high-risk boundary change makes traceability explicit, covers applicable bypass and alternative ownership paths, and receives an independent final review context. A release or certification change also re-verifies persisted evidence independently and binds it to the exact tracked revision.
+
+Before archive, re-read proposal, design, specs, tasks, final diff, and results without trusting checkboxes. A tracked commit after final evidence makes that evidence stale. If a failed blocking check later passes once, keep the first failure, diagnose it in isolation, and rerun the full blocking gate rather than reporting the rerun alone.
+
 ## Coherence
 
 Checks in `verification.md` observe one change. They do not observe what a long series of changes accumulates: dead artifacts, contradictory statements, duplicated documentation, and code that has drifted from its specification.

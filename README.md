@@ -96,6 +96,8 @@ Tiny edits can be made directly. Features, behavior changes, integrations, mater
 
 One OpenSpec change maps to one Git branch. OpenSpec artifacts are Russian by default, while technical identifiers stay English where clearer. When a technology surface appears or changes materially, that same change derives the smallest useful quality pipeline and updates `docs/QUALITY.md`.
 
+Verification is contract-driven and proportional. Atomic low-risk edits keep an obvious change/result/check link. Behavior changes trace requirements to real production ownership paths and evidence. High-risk boundaries add applicable adversarial and bypass scenarios plus an independent final review context. Release or certification work also re-verifies persisted evidence independently and binds final results to the exact tracked revision. A checkbox means its declared verification method ran; a general green suite does not prove a scenario it never executed.
+
 A long series of changes drifts even when every single change was correct. Before proposing archive, the agent reconciles the artifacts that change touched: no leftover placeholders, no references to removed entities, and unfinished deferred work moved into `docs/DEBT.md` rather than archived away with the change. A full-repository coherence audit runs only when you ask for it. If it changes the rules it is filed as an ordinary change; if it only repaired broken references and leftovers, it is filed directly as cleanup. Either way it stays on its own branch as its own commit. The agent repairs objectively broken things itself and records contradictions for your decision instead of resolving them.
 
 Workframe never auto-updates older projects. An upgrade is a separate, reviewable change inside the project. See [docs/UPGRADING.md](docs/UPGRADING.md).
@@ -112,7 +114,7 @@ The current Workframe version is in root [`VERSION`](VERSION) and follows Semant
 
 The report compares every payload file with the template — `equal`, `differs`, or `missing` — and computes the version the installed content actually matches, rather than trusting the marker. A file restated from memory instead of copied shows up as matching no released template at all.
 
-Then ask the agent to create `upgrade-workframe-guidance`, review the report, apply only relevant updates, and preserve project-specific rules. It does not auto-overwrite the project. Details: [docs/UPGRADING.md](docs/UPGRADING.md).
+Then ask the agent to create `upgrade-workframe-guidance`, review the report, apply canonical files whole, and preserve the project-owned `docs/CONCEPTS.md`, `docs/QUALITY.md`, `docs/DEBT.md`, and `docs/PROJECT_RULES.md`. The project keeps its own commands and adopts the new risk level, traceability, adversarial, and final-review gates through that local change. Workframe does not auto-overwrite the project. Details: [docs/UPGRADING.md](docs/UPGRADING.md).
 
 ## Workframe Repository Layout
 

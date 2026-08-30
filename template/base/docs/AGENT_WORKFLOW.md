@@ -117,7 +117,34 @@ For example:
 - [ ] 1.4 Update public API documentation; verify documented responses match the endpoint tests.
 ```
 
-When reviewing a completed change, check each task against its stated result and verification method, not only whether its checkbox is marked.
+Do not mark a task complete until its stated verification method has actually run and the result is recorded, or the owner has accepted a documented exception. A green aggregate suite is not evidence for a scenario it did not execute. When reviewing a completed change, check each task against its stated result, production ownership path, exact expected outcome, and verification evidence, not only whether its checkbox is marked.
+
+## Contract-Driven Verification
+
+Use `docs/QUALITY.md` for project commands and the feature/release checklists for the steps. The evidence chain is:
+
+```text
+requirement → production ownership path → positive verification
+→ risk-based negative/adversarial verification → recorded result
+→ independent review → archive decision
+```
+
+Scale it to the highest risk:
+
+- `atomic low-risk`: record an obvious change → result → check link; no separate matrix;
+- `behavior`: trace each changed requirement or scenario to its production path, evidence, and result;
+- `high-risk boundary`: make traceability explicit, cover applicable bypass and alternative ownership paths, and use an independent final review context;
+- `release/certification`: also re-verify persisted evidence independently and bind final evidence to the exact tracked revision or equivalent identity.
+
+For behavior and higher levels, record `requirement/scenario | production implementation/ownership path | test/check/evidence | passed/failed/skipped/unavailable` in the change artifacts. Missing implementation, missing evidence, evidence for a different outcome, or coverage limited to a UI/facade when a direct public/server/default path exists means the contract is incomplete.
+
+Protective boundaries include credentials/secrets/redaction; authentication/authorization/permissions/allow-lists; network/external adapters; timeouts/cancellation/budgets/resource limits; streaming/bounded payloads; persistence/atomic writes/rollback; idempotency/CAS/leases/restart; public API/server/embedding defaults; certified evidence/manifests/digests/revision binding; and irreversible or externally visible side effects. Choose negative scenarios from the actual risk rather than running every possible check.
+
+When certification artifacts exist, the verifier must re-open saved evidence and check applicable schema/version, provenance, revision/identity, digest, scope/tier, consistency, sensitive fields, tampering/staleness, and fail-closed behavior. Runner inline assertions do not make the runner independent. If a separate verifier is disproportionate, design explains why and names the independent check used instead.
+
+Before archive, re-read proposal, design, specs, tasks, final diff, and results without trusting checkboxes. Look for wrong-outcome tests, unreachable doubles, optimistic defaults, bypasses, unbounded operations, runner/verifier conflation, and stale evidence. High-risk work uses another agent/model or an equivalent isolated review context and records the method.
+
+A tracked commit after final evidence makes that evidence stale. If a blocking check fails and one rerun passes, retain the first failure, diagnose it in isolation, then repeat the full blocking gate. Fix or explicitly classify confirmed flakiness under `docs/QUALITY.md`.
 
 ## Work Sequencing
 
@@ -155,11 +182,11 @@ Two levels address that, at very different cost.
 
 Runs before every proposed archive. Scope is limited to what the change touched, so it costs minutes.
 
-Confirm that specs describe the final behavior; that no placeholder survives in artifacts the change created or modified, including specs it synced during archive; that entities the change removed are gone from every reference; and that unfinished `## Фаза 2. Углубление` items have moved to `docs/DEBT.md`.
+Confirm that specs describe the final behavior; every completed task maps to its production path and recorded result; protective boundaries have applicable negative evidence; persisted certification evidence can be independently re-verified; final evidence covers the current tracked revision; no placeholder survives in artifacts the change created or modified, including specs it synced during archive; entities the change removed are gone from every reference; and unfinished `## Фаза 2. Углубление` items have moved to `docs/DEBT.md`.
 
 The last one matters most. Without it, deferred work is archived along with the change and stops existing for every future session.
 
-Reconcile is a project rule rather than a modification of the installed OpenSpec workflow skills. Those skills come from upstream; editing them would fork them and create exactly the drift this section exists to prevent.
+Project rules and `docs/checklists/release-readiness.md` remain the complete reconcile source. Canonical Workframe workflow skills enforce its entry and exit gates and point back to the project files instead of duplicating the full checklist. Do not hand-edit third-party cache or generated skill copies; update through a Workframe payload upgrade.
 
 ### Level Two: Audit
 

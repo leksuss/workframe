@@ -70,16 +70,45 @@ Implement tasks from an OpenSpec change.
    - Show which task is being worked on
    - Make the code changes required
    - Keep changes minimal and focused
-   - Mark task complete in the tasks file: `- [ ]` → `- [x]`
+   - Run the task's declared verification method against its required production ownership path and exact expected outcome
+   - Record the result as `passed`, `failed`, `skipped`, or `unavailable`, including evidence and revision/notes where applicable
+   - Mark the task complete only after a passing result, or after the owner accepts a documented `skipped`/`unavailable` exception: `- [ ]` → `- [x]`
    - Continue to next task
 
    **Pause if:**
    - Task is unclear → ask for clarification
+   - The required production path, protective boundary, or verification method is missing → update artifacts or ask for clarification
    - Implementation reveals a design issue → suggest updating artifacts
    - Error or blocker encountered → report and wait for guidance
+   - A blocking method is `failed`, `skipped`, or `unavailable` without an accepted owner exception → keep the task incomplete
    - User interrupts
 
-7. **On completion or pause, show status**
+7. **Verify contract traceability**
+
+   Before final completion:
+   - Re-read every task and match its expected result to the production implementation/ownership path and recorded evidence. Do not infer completion from checkboxes.
+   - For `behavior` and higher levels, confirm each changed requirement/scenario has implementation, evidence for the exact outcome, and a result.
+   - A mock does not satisfy a required loopback/integration path; a rejection assertion does not satisfy a required success outcome; a facade test does not cover a direct public/server/default path unless the same ownership path is proven.
+   - For protective boundaries, run the applicable negative/adversarial scenarios selected in design, including relevant bypass and alternate CLI/API/console/supervisor/restart/embedding paths.
+   - Re-open persisted certification evidence through its independent verifier. Runner inline assertions or a stored-but-unchecked digest are insufficient.
+
+8. **Handle flaky or timing-sensitive failures**
+
+   If a blocking gate fails and a rerun passes:
+   - keep the first failure in the record;
+   - diagnose the check in isolation;
+   - fix confirmed instability or classify it explicitly under `docs/QUALITY.md`;
+   - rerun the complete blocking gate. Never report a one-off rerun as if the first failure did not happen.
+
+9. **Perform an independent final review**
+
+   Before claiming completion, start a fresh adversarial review pass over proposal, design, specs, tasks, final diff, and recorded results without trusting checkboxes. Look for spec/code mismatch, unverified claims, wrong-outcome tests, unreachable doubles, optimistic defaults, bypass paths, unbounded operations, runner/verifier conflation, and stale evidence.
+
+   For a `high-risk boundary` or `release/certification` change, use another agent/model or an equivalent isolated review context and record which method was used. Repair mechanical findings; record semantic or structural findings under the project's coherence rules.
+
+   Final release/certification evidence must name the exact tracked revision and applicable digests. A later tracked commit makes it stale and requires the blocking gate again.
+
+10. **On completion or pause, show status**
 
    Display:
    - Tasks completed this session
@@ -144,9 +173,12 @@ What would you like to do?
 - If task is ambiguous, pause and ask before implementing
 - If implementation reveals issues, pause and suggest artifact updates
 - Keep code changes minimal and scoped to each task
-- Update task checkbox immediately after completing each task
+- Update a task checkbox only after its declared verification result is recorded
 - Pause on errors, blockers, or unclear requirements - don't guess
 - Use contextFiles from CLI output, don't assume specific file names
+- Before final completion, trace every completed task to its stated result, production path, exact outcome, and verification evidence
+- An aggregate green suite is not proof of a task scenario that did not run
+- Do not declare completion when a required negative scenario, independent verifier, final-revision binding, or owner decision for a non-passing blocking result is missing
 
 **Fluid Workflow Integration**
 

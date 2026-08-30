@@ -56,6 +56,9 @@ Findings are usually `mechanical`; a promise that reflects an abandoned decision
 - Every requirement in `openspec/specs/` has an observable implementation.
 - Notable behavior in the code has a corresponding requirement.
 - Scenarios describe what the system does now, not what an earlier change intended.
+- Requirement traceability reaches the real production ownership path, including public/default and direct server paths rather than only UI/facade tests.
+- Tests assert the exact specified outcome; a rejection test does not certify a required success path.
+- A test double used as evidence is reachable from the production path or is explicitly justified; a mock does not stand in for a required loopback/integration check.
 
 Findings are `semantic`. Record both sides; repair neither.
 
@@ -65,6 +68,8 @@ Findings are `semantic`. Record both sides; repair neither.
 - Rules repeated across `AGENTS.md`, `docs/AGENT_WORKFLOW.md`, and checklists still agree.
 - Client adapters and canonical instructions have not diverged.
 - Files copied from Workframe still match the template of the version recorded in `.project-workframe-version`, when that Workframe checkout is available.
+- Persisted certification evidence is re-verifiable independently of its runner and binds provenance, digest, and final revision where applicable.
+- Final evidence is not stale because tracked commits followed its recorded revision.
 
 Verbatim duplication is `mechanical`; drifted copies stating different things are `semantic`.
 
@@ -81,6 +86,8 @@ Findings are `semantic`. Missing references do not prove the artifact is unused,
 - Files that have grown past what one file should hold.
 - Responsibilities that have blurred across module boundaries.
 - Logic duplicated across places that should share it.
+- Protective boundaries are not enforced only in one facade while alternate CLI, API, console, supervisor/child, restart/resume, or embedding paths bypass them.
+- Streaming/resource-limit checks happen before full materialization; public defaults are not optimistic when dependencies are absent; runner and verifier responsibilities are not conflated.
 
 Findings are `structural`. Record them; refactoring is a separate change.
 

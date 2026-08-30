@@ -102,6 +102,19 @@ In the project-local upgrade change:
 
 The upgrade may document an existing pipeline without changing its tools. Adding a new analyzer or tightening a gate should be justified by project risks, not by the Workframe template.
 
+### Adopting Contract-Driven Gates
+
+The upgraded canonical files add a risk-based evidence contract; they do not choose product commands for the project. During the project-local upgrade change:
+
+1. Preserve `docs/CONCEPTS.md`, `docs/QUALITY.md`, `docs/DEBT.md`, and `docs/PROJECT_RULES.md` byte-for-byte before copying canonical files. These four documents remain project-owned.
+2. Copy canonical rules, checklists, and `.agents/skills/` whole, together with the thin `.codex/`, `.claude/`, and `.qwen/` adapters. Do not paraphrase the new gates into a private workflow.
+3. Classify the upgrade itself by its highest-risk surface. A workflow-only adoption is normally `behavior`; an upgrade that also changes credentials, permissions, external I/O, persistence, public APIs, resource bounds, or release evidence may be `high-risk boundary` or `release/certification`.
+4. Add project-specific verification commands and prerequisites to the existing `docs/QUALITY.md`. Keep product rules, allow-lists, deployment constraints, and stack-specific exceptions in `docs/PROJECT_RULES.md` or `docs/QUALITY.md`.
+5. Trace each adopted requirement to the installed canonical file and the verification that proves it is present. For high-risk product changes, extend that traceability to real production ownership paths and applicable adversarial scenarios.
+6. Run the project's full blocking gate after the final tracked change. If a failure passes on rerun, retain the first failure, diagnose it, and repeat the complete gate.
+
+Do not replace the project-owned `docs/QUALITY.md` with the template's pending version. Merge the contract into the project's existing policy while preserving its commands and history.
+
 ## Adopting The Coherence Lifecycle
 
 An existing project has already accumulated whatever drift it has. The first audit after adoption will therefore find far more than a routine one, and that backlog is not the upgrade's job to clear.
@@ -126,14 +139,16 @@ A project with a long history may reasonably keep dozens of `open` entries after
 6. If adopting the verification lifecycle, create or update `docs/QUALITY.md` for the real stack rather than leaving it in the template's pending state.
 7. If adopting the coherence lifecycle, create an empty `docs/DEBT.md` and leave the first audit to a separate change.
 8. Re-run `check-workframe-update.sh` and confirm every canonical file reports `equal`, except parts the change deliberately skipped.
-9. Update `.project-workframe-version`, naming any deliberately skipped part in `notes`.
-10. Run lightweight verification:
+9. Verify that `docs/CONCEPTS.md`, `docs/QUALITY.md`, `docs/DEBT.md`, and `docs/PROJECT_RULES.md` still contain the project-owned content captured before the upgrade.
+10. Update `.project-workframe-version`, naming any deliberately skipped part in `notes`.
+11. Run lightweight verification:
    - review links in docs;
    - run shellcheck or syntax checks for changed scripts when applicable;
    - run a smoke copy to a temporary directory if init behavior changed.
-11. Mark OpenSpec tasks complete.
-12. Commit the upgrade.
-13. Propose archive when verified.
+12. Record task-level verification results and perform the final adversarial review required by the chosen risk level.
+13. Mark OpenSpec tasks complete only after their declared methods pass or an allowed owner exception is recorded.
+14. Commit the upgrade.
+15. Run final revision-bound gates when the project claims release/certification readiness, then propose archive when verified.
 
 ## Manual Diff Example
 

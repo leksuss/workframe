@@ -44,13 +44,26 @@ Archive a completed change in the experimental workflow.
    Count tasks marked with `- [ ]` (incomplete) vs `- [x]` (complete).
 
    **If incomplete tasks found:**
-   - Display warning showing count of incomplete tasks
-   - Use **AskUserQuestion tool** to confirm user wants to proceed
-   - Proceed if user confirms
+   - Stop. Display the incomplete tasks and explain that archive readiness has not been established.
 
    **If no tasks file exists:** Proceed without task-related warning.
 
-4. **Assess delta spec sync state**
+4. **Check verification and review readiness**
+
+   Read the change's proposal, design, specs, tasks, verification records, and project release-readiness checklist. Do not infer readiness from checkboxes. Stop archive when any of these applies:
+   - a completed non-atomic task has no declared verification result for its production ownership path and exact expected outcome;
+   - a blocking result is `failed`, or is `skipped`/`unavailable` without a documented owner decision;
+   - a spec/code divergence is unregistered;
+   - a changed protective boundary lacks applicable negative/adversarial evidence, including relevant facade/API bypass or alternative ownership paths;
+   - persisted certification evidence cannot be re-opened by an independent verifier;
+   - final release/certification evidence does not name the current exact tracked revision, or a later tracked commit made it stale;
+   - unfinished depth items have not moved to `docs/DEBT.md`;
+   - residual risks, unstable results, or exceptions are hidden from the final record;
+   - the fresh final adversarial review was not recorded, including its independent context for high-risk work.
+
+   A runner's inline assertions do not satisfy independent certification. A successful rerun does not erase a previously failed blocking gate; require isolated diagnosis and a later full-gate pass.
+
+5. **Assess delta spec sync state**
 
    Check for delta specs at `openspec/changes/<name>/specs/`. If none exist, proceed without sync prompt.
 
@@ -65,7 +78,7 @@ Archive a completed change in the experimental workflow.
 
    If user chooses sync, use Task tool (subagent_type: "general-purpose", prompt: "Use Skill tool to invoke openspec-sync-specs for change '<name>'. Delta spec analysis: <include the analyzed delta spec summary>"). Proceed to archive regardless of choice.
 
-5. **Perform the archive**
+6. **Perform the archive**
 
    Create the archive directory if it doesn't exist:
    ```bash
@@ -82,7 +95,7 @@ Archive a completed change in the experimental workflow.
    mv openspec/changes/<name> openspec/changes/archive/YYYY-MM-DD-<name>
    ```
 
-6. **Display summary**
+7. **Display summary**
 
    Show archive completion summary including:
    - Change name
@@ -107,7 +120,7 @@ All artifacts complete. All tasks complete.
 **Guardrails**
 - Always prompt for change selection if not provided
 - Use artifact graph (openspec status --json) for completion checking
-- Don't block archive on warnings - just inform and confirm
+- Block archive when task completion or verification/review readiness is not established; owner acceptance only resolves explicitly documented exceptions allowed by project policy
 - Preserve .openspec.yaml when moving to archive (it moves with the directory)
 - Show clear summary of what happened
 - If sync is requested, use openspec-sync-specs approach (agent-driven)

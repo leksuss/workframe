@@ -84,6 +84,14 @@ When ready to implement, run /opsx:apply
    openspec status --change "<name>"
    ```
 
+6. **Build the verification contract into the artifacts**
+
+   - Classify the change by its highest-risk affected surface as `atomic low-risk`, `behavior`, `high-risk boundary`, or `release/certification`.
+   - For every non-atomic task, define the observable result, production surface or ownership path, material constraints/protective boundaries, and concrete verification method.
+   - For `behavior` and higher levels, trace each changed requirement/scenario to its production path, planned evidence, and eventual result. Make the record explicit for high-risk and release/certification changes.
+   - Define positive verification for the exact required outcome. When a protective boundary is affected, choose applicable negative/adversarial scenarios, including bypass and alternative ownership paths.
+   - If persisted certification evidence will exist, define an independent verifier. If a separate verifier is disproportionate, explain why and name the independent check used instead.
+
 **Output**
 
 After completing all artifacts, summarize:
@@ -101,6 +109,14 @@ After completing all artifacts, summarize:
 - **IMPORTANT**: `context` and `rules` are constraints for YOU, not content for the file
   - Do NOT copy `<context>`, `<rules>`, `<project_context>` blocks into the artifact
   - These guide what you write, but should never appear in the output
+
+**Task Design Guidelines**
+
+- Treat `tasks.md` as a contract between planner, implementer, and reviewer.
+- Every non-atomic task names its expected result, production ownership path, material constraints/protective boundaries, and verification method, or points precisely to an artifact that does.
+- A task checkbox means its declared verification method ran and produced a recorded result; a general green suite is not enough when the required scenario is absent.
+- Name the real production path. Do not plan a mock as a substitute for required loopback/integration evidence or a facade test as evidence for an untested direct API path.
+- Keep large blocks visible and use ordered substeps where they prevent unstated product or architecture decisions. Do not manufacture microtasks for an atomic change.
 
 **Guardrails**
 - Create ALL artifacts needed for implementation (as defined by schema's `apply.requires`)

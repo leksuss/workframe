@@ -49,9 +49,11 @@ An artifact with no inbound references is `semantic`, not `mechanical`. Absence 
 
 ## Two Levels
 
-**Reconcile.** Runs before an agent proposes to archive a change. Its scope is limited to the artifacts that change touched. It confirms that specifications describe the final behavior, that created or modified artifacts contain no placeholders, that removed entities are gone from all references, and that unfinished deferred improvements have been moved into the durable register.
+**Reconcile.** Runs before an agent proposes to archive a change. Its scope is limited to the artifacts that change touched. It confirms that specifications describe the final behavior, every completed task maps to its production ownership path and recorded result, evidence proves the exact required outcome, applicable protective boundaries have adversarial coverage, release evidence covers the final tracked revision, created or modified artifacts contain no placeholders, removed entities are gone from all references, and unfinished deferred improvements have been moved into the durable register.
 
-Reconcile is expressed as a project rule. Where a project uses vendored upstream workflow skills, those skills are not modified to carry it; forking them would create the same class of drift these rules exist to remove.
+As part of reconcile, re-read proposal, design, specs, tasks, final diff, and results without trusting checkboxes. A public/default or alternate ownership path missing from traceability is a finding, not an implicit assumption. Persisted certification evidence must be re-openable by an independent verifier; runner inline assertions are not enough. High-risk work uses another agent/model or an equivalent separate review context and records which path was used.
+
+The project rules and release-readiness checklist remain the complete source for reconcile. Canonical Workframe workflow skills may enforce its entry and exit gates and point to those project files, but they do not duplicate the full checklist. Do not patch third-party cache or generated copies by hand; update Workframe's canonical skill template and regenerate or reinstall adapters through the supported path.
 
 **Audit.** Covers the whole repository and runs on the owner's decision. An agent may propose an audit; it does not start one on its own.
 

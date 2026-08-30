@@ -59,9 +59,21 @@ Treat `tasks.md` as a handoff contract between the agent that plans a change, th
 
 - Decompose non-atomic work until an implementer can complete a task without inventing a product or architectural decision.
 - Each such task must state the expected result, affected area, material constraints, and verification method. It may refer precisely to the relevant proposal, design, or spec instead of repeating settled decisions.
+- Name the production surface or ownership path and any protective boundary that the verification method must exercise. A mock or aggregate suite does not substitute for a required integration scenario.
 - Keep large blocks visible at the top level, and use ordered substeps (`1.1`, `1.2`, ...) where they reduce uncertainty. Put contracts and skeleton work before implementation, then checks and documentation.
 - Do not manufacture microtasks for an already atomic change. If a required decision is missing, update the OpenSpec artifacts or ask for clarification before implementation.
-- Before completion, verify the implementation against each task's expected result and verification method, not just its checkbox.
+- Do not mark a task complete until its verification method has run and its result is recorded, or the owner has accepted a documented exception.
+- Before completion, verify the implementation against each task's expected result, production path, exact outcome, and verification evidence, not just its checkbox.
+
+## Contract-Driven Verification
+
+Follow the detailed lifecycle in `docs/AGENT_WORKFLOW.md`, the current commands and modes in `docs/QUALITY.md`, and the steps in `docs/checklists/feature-change.md` and `docs/checklists/release-readiness.md`.
+
+Classify work by its highest risk as `atomic low-risk`, `behavior`, `high-risk boundary`, or `release/certification`. For behavior and higher levels, record requirement/scenario → production ownership path → test/check/evidence → `passed`, `failed`, `skipped`, or `unavailable`. Protective boundaries require applicable negative/adversarial scenarios, including relevant facade/API bypass and alternative ownership paths.
+
+Persisted certification evidence needs independent re-verification; runner inline assertions are not a verifier. Before archive, perform a fresh adversarial pass over proposal, design, specs, tasks, final diff, and results without trusting checkboxes. High-risk work uses another agent/model or an equivalent isolated review context. Bind final release evidence to the exact tracked revision; a later tracked commit makes it stale.
+
+If a blocking check fails and a rerun passes, preserve the first failure, diagnose it in isolation, then rerun the full blocking gate. Do not silently replace the failure with the successful rerun.
 
 ## Quality Pipeline
 
@@ -192,6 +204,9 @@ Do not record a suspected contradiction you cannot support by quoting both sides
 Before proposing archive, check the artifacts this change touched:
 
 - specs describe the final behavior;
+- completed tasks map to production ownership paths and recorded verification results that prove the exact expected outcome;
+- applicable protective boundaries have negative/adversarial evidence and persisted certification artifacts are independently re-verifiable;
+- final release evidence covers the current tracked revision;
 - no placeholders remain in artifacts this change created or modified, including specs it synced;
 - entities this change removed are gone from all references;
 - unfinished `## Фаза 2. Углубление` items have moved to `docs/DEBT.md`.

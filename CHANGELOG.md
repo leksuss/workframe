@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+## 0.6.0 - 2026-08-30
+
+- Added a proportional contract-driven verification lifecycle: task completion now follows requirement → production ownership path → exact positive result → risk-based adversarial evidence → recorded result → independent review → archive decision.
+- Added explicit traceability for behavior, high-risk boundary, and release/certification changes, while atomic low-risk edits keep a lightweight change/result/check link.
+- Protective boundaries now trigger applicable negative scenarios for bypass paths, allow-lists, stalled dependencies, bounded streaming, persistence/rollback, public defaults, restart/resume, and other alternate ownership paths.
+- Separated execution from certification: persisted evidence must be independently re-verifiable, and final release evidence is bound to the exact tracked revision and becomes stale after a later commit.
+- Strengthened OpenSpec propose/apply/archive workflows and feature, release-readiness, and coherence checklists. Checkboxes no longer substitute for declared verification results, and high-risk work gets a separate adversarial review context.
+- Added fail-visible handling for flaky or timing-sensitive blocking checks: the first failure remains recorded, isolated diagnosis comes before a full-gate rerun, and confirmed instability is fixed or classified by policy.
+- Added `scripts/verify-contract-driven-workflow.sh`, covering canonical contract clauses, thin client adapters including Claude Code discovery, fresh installation, negative mutation, upgrade payload consistency, and byte-preservation of project-owned documents.
+- Existing projects adopt the lifecycle through their own OpenSpec upgrade change, copying canonical files whole while preserving `docs/CONCEPTS.md`, `docs/QUALITY.md`, `docs/DEBT.md`, and `docs/PROJECT_RULES.md` and retaining stack-specific commands in project policy.
+
 ## 0.5.0 - 2026-08-23
 
 - Added `docs/PROJECT_RULES.md` to the payload: the rules a project decides for itself now have their own addressed file, and a canonical file is never edited to hold one.
