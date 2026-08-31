@@ -59,7 +59,7 @@ Archive a completed change in the experimental workflow.
    - final release/certification evidence does not name the current exact tracked revision, or a later tracked commit made it stale;
    - unfinished depth items have not moved to `docs/DEBT.md`;
    - residual risks, unstable results, or exceptions are hidden from the final record;
-   - the fresh final adversarial review was not recorded, including its independent context for high-risk work.
+   - the fresh final adversarial review was not recorded, including its independent context for high-risk work, or that context only re-read the diff on `release/certification` work instead of executing hostile inputs and naming what was run.
 
    A runner's inline assertions do not satisfy independent certification. A successful rerun does not erase a previously failed blocking gate; require isolated diagnosis and a later full-gate pass.
 

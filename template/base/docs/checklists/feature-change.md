@@ -22,7 +22,7 @@ Use this checklist before and during non-trivial product or behavior changes.
 - Add tasks that can be verified and, when non-atomic, state the expected result, affected area, material constraints, and verification method or a precise OpenSpec reference.
 - For every non-atomic task, name the production surface or ownership path and any protective boundary its verification must exercise.
 - For `behavior` and higher levels, record requirement/scenario → production path → test/check/evidence → result; make the record explicit for high-risk and release/certification changes.
-- Define positive verification for the exact required outcome. Add risk-based negative/adversarial scenarios for protective boundaries.
+- Define positive verification for the exact required outcome. Add risk-based negative/adversarial scenarios for protective boundaries. When a decision reads data the code does not control, list every field of that data the decision reads and produce one hostile case per field. That list belongs in the change artifacts; adversarial coverage is judged against it, not against the author's sense of completeness.
 - When certification evidence will persist, define the independent verifier or explain why a separate verifier is disproportionate and name the independent check used instead.
 - Split a large block into ordered substeps when this prevents the implementer from inventing a product or architectural decision; do not manufacture microtasks for atomic work.
 - If the change introduces or materially changes a technology surface, derive checks from its risks and include pipeline work in design and tasks.
@@ -48,10 +48,11 @@ Use this checklist before and during non-trivial product or behavior changes.
 - Preserve the first failed result when a rerun passes; diagnose it in isolation, then rerun the complete blocking gate and classify confirmed flakiness under `docs/QUALITY.md`.
 - Review applicable advisory checks and triage findings as `confirmed`, `false positive`, or `deferred`.
 - Verify the implemented behavior matches the OpenSpec change.
-- For every completed task, verify its exact stated outcome, production path, implementation, evidence, and result rather than relying on its checkbox or an aggregate green suite.
+- For every completed task, verify its exact stated outcome, production path, implementation, evidence, and result rather than relying on its checkbox or an aggregate green suite. A claim that something never happens requires an observation — a counter, a probe, a recorded absence in an artifact — not reasoning about control flow.
+- For a protective boundary, show each adversarial test failing with its guard removed, and record that it did.
 - Re-open persisted certification evidence through the independent verifier and test applicable stale/tampered/fail-closed cases.
 - Record the exact tracked revision for final release/certification evidence; rerun the blocking gate after any later tracked commit.
 - Perform manual verification where automation does not cover the risk.
-- Perform a fresh adversarial review of proposal, design, specs, tasks, final diff, and results without trusting checkboxes. For high-risk changes, use another agent/model or an equivalent isolated review context and record which.
+- Perform a fresh adversarial review of proposal, design, specs, tasks, final diff, and results without trusting checkboxes. For high-risk changes, use another agent/model or an equivalent isolated review context and record which. A re-reading of the diff is not an adversarial pass. For `release/certification` work the independent context executes code — builds hostile inputs, runs them, records their output — and the record names what was run.
 - Reconcile artifacts touched by the change; repair `mechanical` findings and record `semantic` or `structural` findings in `docs/DEBT.md`.
 - Propose archive when complete.

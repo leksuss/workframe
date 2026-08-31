@@ -88,8 +88,8 @@ Implement tasks from an OpenSpec change.
    Before final completion:
    - Re-read every task and match its expected result to the production implementation/ownership path and recorded evidence. Do not infer completion from checkboxes.
    - For `behavior` and higher levels, confirm each changed requirement/scenario has implementation, evidence for the exact outcome, and a result.
-   - A mock does not satisfy a required loopback/integration path; a rejection assertion does not satisfy a required success outcome; a facade test does not cover a direct public/server/default path unless the same ownership path is proven.
-   - For protective boundaries, run the applicable negative/adversarial scenarios selected in design, including relevant bypass and alternate CLI/API/console/supervisor/restart/embedding paths.
+   - A mock does not satisfy a required loopback/integration path; a rejection assertion does not satisfy a required success outcome; a facade test does not cover a direct public/server/default path unless the same ownership path is proven. A claim that something never happens requires an observation — a counter, a probe, a recorded absence in an artifact — not reasoning about control flow.
+   - For protective boundaries, run the applicable negative/adversarial scenarios selected in design, including relevant bypass and alternate CLI/API/console/supervisor/restart/embedding paths. For a protective boundary, show each adversarial test failing with its guard removed, and record that it did.
    - Re-open persisted certification evidence through its independent verifier. Runner inline assertions or a stored-but-unchecked digest are insufficient.
 
 8. **Handle flaky or timing-sensitive failures**
@@ -102,9 +102,9 @@ Implement tasks from an OpenSpec change.
 
 9. **Perform an independent final review**
 
-   Before claiming completion, start a fresh adversarial review pass over proposal, design, specs, tasks, final diff, and recorded results without trusting checkboxes. Look for spec/code mismatch, unverified claims, wrong-outcome tests, unreachable doubles, optimistic defaults, bypass paths, unbounded operations, runner/verifier conflation, and stale evidence.
+   Before claiming completion, start a fresh adversarial review pass over proposal, design, specs, tasks, final diff, and recorded results without trusting checkboxes. Look for spec/code mismatch, unverified claims, wrong-outcome tests, unreachable doubles, optimistic defaults, bypass paths, unbounded operations, runner/verifier conflation, and stale evidence. A design claim that a library, runtime, or platform guarantees X, when a safety decision rests on it, must cite an executed probe; reasoning about documented behavior is not evidence.
 
-   For a `high-risk boundary` or `release/certification` change, use another agent/model or an equivalent isolated review context and record which method was used. Repair mechanical findings; record semantic or structural findings under the project's coherence rules.
+   For a `high-risk boundary` or `release/certification` change, use another agent/model or an equivalent isolated review context and record which method was used. A re-reading of the diff is not an adversarial pass. For `release/certification` work the independent context executes code — builds hostile inputs, runs them, records their output — and the record names what was run. Repair mechanical findings; record semantic or structural findings under the project's coherence rules.
 
    Final release/certification evidence must name the exact tracked revision and applicable digests. A later tracked commit makes it stale and requires the blocking gate again.
 

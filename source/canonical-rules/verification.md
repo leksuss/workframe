@@ -37,7 +37,7 @@ requirement
 
 A task checkbox records the end of this chain, not the end of implementation. Every non-atomic task names an observable expected result, the affected production surface or ownership path, material constraints and protective boundaries, and a concrete verification method. Do not mark it complete until that method ran and its result was recorded, or the owner accepted a documented exception. An aggregate green suite is not evidence for a scenario the suite did not execute.
 
-When a change is complete, re-read every task and match its claim to the implementation path and actual result. Check assertions against the exact required outcome: a test that proves rejection does not satisfy a requirement for success, and a mock does not satisfy a required loopback or other production integration path.
+When a change is complete, re-read every task and match its claim to the implementation path and actual result. Check assertions against the exact required outcome: a test that proves rejection does not satisfy a requirement for success, and a mock does not satisfy a required loopback or other production integration path. A claim that something never happens requires an observation — a counter, a probe, a recorded absence in an artifact — not reasoning about control flow.
 
 ## Proportional Evidence Levels
 
@@ -71,9 +71,9 @@ Negative or adversarial verification is mandatory when a change affects one or m
 - certified evidence, manifests, digests, and revision binding;
 - irreversible or externally visible side effects.
 
-Choose scenarios from the actual risk rather than running every possible attack. Consider direct API bypass around a disabled UI, extra or undeclared fields, missing headers/permissions/allow-list entries, a body without `content-length`, a stalled dependency, retry and collision, stale or tampered persisted state, an optimistic default, partial write and rollback, and alternate paths such as CLI, API, console, supervisor/child, restart/resume, or embedding.
+Choose scenarios from the actual risk rather than running every possible attack. Consider direct API bypass around a disabled UI, extra or undeclared fields, missing headers/permissions/allow-list entries, a body without `content-length`, a stalled dependency, retry and collision, stale or tampered persisted state, an optimistic default, partial write and rollback, and alternate paths such as CLI, API, console, supervisor/child, restart/resume, or embedding. When a decision reads data the code does not control, list every field of that data the decision reads and produce one hostile case per field. That list belongs in the change artifacts; adversarial coverage is judged against it, not against the author's sense of completeness.
 
-Bounded behavior must be enforced while data is consumed, not only after full materialization. Readiness and public defaults fail closed when their dependency is absent or unknown. A permission check does not substitute for a required capability allow-list.
+Bounded behavior must be enforced while data is consumed, not only after full materialization. Readiness and public defaults fail closed when their dependency is absent or unknown. A permission check does not substitute for a required capability allow-list. For a protective boundary, show each adversarial test failing with its guard removed, and record that it did.
 
 ## Execution And Certification
 
@@ -136,6 +136,6 @@ When CI exists, enforce blocking checks there where practical. Textual policy do
 
 ## Independent Final Review
 
-Before proposing archive, change perspective from implementer to adversarial reviewer. Re-read proposal, design, specs, tasks, final diff, and recorded results without relying on task checkboxes. Look for spec/code mismatch, unverified claims, tests that certify the wrong outcome, unreachable test doubles, optimistic defaults, bypass paths, unbounded operations, runner/verifier conflation, and evidence not bound to the final revision.
+Before proposing archive, change perspective from implementer to adversarial reviewer. Re-read proposal, design, specs, tasks, final diff, and recorded results without relying on task checkboxes. Look for spec/code mismatch, unverified claims, tests that certify the wrong outcome, unreachable test doubles, optimistic defaults, bypass paths, unbounded operations, runner/verifier conflation, and evidence not bound to the final revision. A design claim that a library, runtime, or platform guarantees X, when a safety decision rests on it, must cite an executed probe; reasoning about documented behavior is not evidence.
 
-For a high-risk change, use another agent or model, or an equivalent separate review context that starts from repository artifacts rather than the implementation narrative. This does not require manual owner review of every change. Repair mechanical findings immediately; classify semantic and structural findings under the coherence policy.
+For a high-risk change, use another agent or model, or an equivalent separate review context that starts from repository artifacts rather than the implementation narrative. This does not require manual owner review of every change. A re-reading of the diff is not an adversarial pass. For `release/certification` work the independent context executes code — builds hostile inputs, runs them, records their output — and the record names what was run. Repair mechanical findings immediately; classify semantic and structural findings under the coherence policy.

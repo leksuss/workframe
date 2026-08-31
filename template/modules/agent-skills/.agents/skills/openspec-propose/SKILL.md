@@ -89,7 +89,7 @@ When ready to implement, run /opsx:apply
    - Classify the change by its highest-risk affected surface as `atomic low-risk`, `behavior`, `high-risk boundary`, or `release/certification`.
    - For every non-atomic task, define the observable result, production surface or ownership path, material constraints/protective boundaries, and concrete verification method.
    - For `behavior` and higher levels, trace each changed requirement/scenario to its production path, planned evidence, and eventual result. Make the record explicit for high-risk and release/certification changes.
-   - Define positive verification for the exact required outcome. When a protective boundary is affected, choose applicable negative/adversarial scenarios, including bypass and alternative ownership paths.
+   - Define positive verification for the exact required outcome. When a protective boundary is affected, choose applicable negative/adversarial scenarios, including bypass and alternative ownership paths. When a decision reads data the code does not control, list every field of that data the decision reads and produce one hostile case per field. That list belongs in the change artifacts; adversarial coverage is judged against it, not against the author's sense of completeness.
    - If persisted certification evidence will exist, define an independent verifier. If a separate verifier is disproportionate, explain why and name the independent check used instead.
 
 **Output**

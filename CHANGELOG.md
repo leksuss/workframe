@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+## 0.6.1 - 2026-08-31
+
+- Added an adversarial-case generator: when a decision reads data the code does not control, every field that decision reads is listed and each field gets one hostile case. Coverage is judged against that list, not against the author's sense of completeness.
+- A claim that something never happens now requires an observation — a counter, a probe, a recorded absence in an artifact — instead of reasoning about control flow.
+- A design claim that a library, runtime, or platform guarantees something must cite an executed probe whenever a safety decision rests on it.
+- Re-reading the diff no longer counts as an adversarial pass for `release/certification` work: the independent context executes code, builds hostile inputs, runs them, and the record names what was run.
+- Adversarial tests for a protective boundary must be shown failing with the guard removed, so a test that passes with or without the guard is visible.
+- No new defect category was added. `0.6.0` already named `optimistic defaults`, `bypass paths`, `unverified claims`, and `runner/verifier conflation`; what was missing was a method that produces a countable result an outsider can check.
+- `scripts/verify-contract-driven-workflow.sh` now probes each method on every surface that carries it and rejects five negative fixtures, one per method clause.
+
 ## 0.6.0 - 2026-08-30
 
 - Added a proportional contract-driven verification lifecycle: task completion now follows requirement → production ownership path → exact positive result → risk-based adversarial evidence → recorded result → independent review → archive decision.

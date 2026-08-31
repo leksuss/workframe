@@ -16,8 +16,32 @@ probe_file() {
   require_phrase "$1" "Contract-Driven Verification"
 }
 
+# The executable-evidence methods, probed by the clause that carries their
+# countable requirement. A synonym is not a substitute: each phrase names what a
+# reviewer counts, so losing it loses the method.
+probe_methods_file() {
+  require_phrase "$1" "one hostile case per field"
+  require_phrase "$1" "must cite an executed probe"
+  require_phrase "$1" "not an adversarial pass"
+}
+
+probe_execution_methods_file() {
+  require_phrase "$1" "not reasoning about control flow"
+  require_phrase "$1" "failing with its guard removed"
+}
+
 if [[ "${1:-}" == "--probe-file" ]]; then
   probe_file "${2:-}"
+  exit
+fi
+
+if [[ "${1:-}" == "--probe-methods" ]]; then
+  probe_methods_file "${2:-}"
+  exit
+fi
+
+if [[ "${1:-}" == "--probe-execution-methods" ]]; then
+  probe_execution_methods_file "${2:-}"
   exit
 fi
 
@@ -35,6 +59,26 @@ if [[ "${1:-}" == "--self-test" ]]; then
     exit 1
   fi
   echo "Negative contract fixture rejected."
+
+  # Each method probe must reject the removal of its own clause. A probe that
+  # survives its own mutation certifies nothing.
+  method_mutations=(
+    "$WORKFRAME_ROOT/template/base/AGENTS.md|--probe-methods|one hostile case per field|one plausible case"
+    "$WORKFRAME_ROOT/template/base/AGENTS.md|--probe-methods|must cite an executed probe|is accepted from documented behavior"
+    "$WORKFRAME_ROOT/template/base/AGENTS.md|--probe-methods|not an adversarial pass|an adversarial pass"
+    "$WORKFRAME_ROOT/template/base/docs/AGENT_WORKFLOW.md|--probe-execution-methods|not reasoning about control flow|accepted from control-flow reasoning"
+    "$WORKFRAME_ROOT/template/base/docs/AGENT_WORKFLOW.md|--probe-execution-methods|failing with its guard removed|passing with its guard removed"
+  )
+  for mutation in "${method_mutations[@]}"; do
+    IFS='|' read -r source probe phrase replacement <<< "$mutation"
+    mutated="$TEMP_ROOT/AGENTS-method.md"
+    sed "s/$phrase/$replacement/g" "$source" > "$mutated"
+    if "$0" "$probe" "$mutated" >/dev/null 2>&1; then
+      echo "Method mutation unexpectedly passed probing: $phrase" >&2
+      exit 1
+    fi
+  done
+  echo "Negative method fixtures rejected."
   exit
 fi
 
@@ -69,6 +113,34 @@ require_phrase "$WORKFRAME_ROOT/template/modules/agent-skills/.agents/skills/ope
 require_phrase "$WORKFRAME_ROOT/template/modules/agent-skills/.agents/skills/openspec-apply-change/SKILL.md" "Verify contract traceability"
 require_phrase "$WORKFRAME_ROOT/template/modules/agent-skills/.agents/skills/openspec-archive-change/SKILL.md" "Check verification and review readiness"
 
+# Executable-evidence methods, per surface. Each phrase turns a judgment about
+# completeness into something a reviewer can count without knowing the system.
+for surface in \
+  "$WORKFRAME_ROOT/AGENTS.md" \
+  "$WORKFRAME_ROOT/template/base/AGENTS.md" \
+  "$WORKFRAME_ROOT/template/base/docs/AGENT_WORKFLOW.md" \
+  "$WORKFRAME_ROOT/source/canonical-rules/verification.md"; do
+  probe_methods_file "$surface"
+done
+for surface in \
+  "$WORKFRAME_ROOT/template/base/docs/AGENT_WORKFLOW.md" \
+  "$WORKFRAME_ROOT/template/base/docs/checklists/feature-change.md" \
+  "$WORKFRAME_ROOT/template/base/docs/checklists/release-readiness.md" \
+  "$WORKFRAME_ROOT/source/canonical-rules/verification.md"; do
+  probe_execution_methods_file "$surface"
+done
+require_phrase "$WORKFRAME_ROOT/template/base/docs/checklists/feature-change.md" "one hostile case per field"
+require_phrase "$WORKFRAME_ROOT/template/base/docs/checklists/feature-change.md" "not an adversarial pass"
+require_phrase "$WORKFRAME_ROOT/template/base/docs/checklists/release-readiness.md" "one hostile case per field"
+require_phrase "$WORKFRAME_ROOT/template/base/docs/checklists/release-readiness.md" "not an adversarial pass"
+apply_skill="$WORKFRAME_ROOT/template/modules/agent-skills/.agents/skills/openspec-apply-change/SKILL.md"
+require_phrase "$apply_skill" "not reasoning about control flow"
+require_phrase "$apply_skill" "failing with its guard removed"
+require_phrase "$apply_skill" "must cite an executed probe"
+require_phrase "$apply_skill" "not an adversarial pass"
+require_phrase "$WORKFRAME_ROOT/template/modules/agent-skills/.agents/skills/openspec-propose/SKILL.md" "one hostile case per field"
+require_phrase "$WORKFRAME_ROOT/template/modules/agent-skills/.agents/skills/openspec-archive-change/SKILL.md" "instead of executing hostile inputs and naming what was run"
+
 "$WORKFRAME_ROOT/scripts/verify-agent-adapters.sh" >/dev/null
 
 # Fresh installation must deliver the universal skill plus thin client adapters
@@ -79,6 +151,8 @@ mkdir -p "$fresh_target"
 require_phrase "$fresh_target/AGENTS.md" "## Contract-Driven Verification"
 require_phrase "$fresh_target/docs/AGENT_WORKFLOW.md" "requirement → production ownership path"
 require_phrase "$fresh_target/.agents/skills/openspec-apply-change/SKILL.md" "Verify contract traceability"
+probe_methods_file "$fresh_target/AGENTS.md"
+probe_methods_file "$fresh_target/docs/AGENT_WORKFLOW.md"
 for client in .codex .claude .qwen; do
   require_phrase "$fresh_target/$client/skills/openspec-apply-change/SKILL.md" ".agents/skills/openspec-apply-change/SKILL.md"
 done
