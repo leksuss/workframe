@@ -52,4 +52,3 @@ Automatically loaded entry point MUST содержать обязательны�
 - **WHEN** агент не уверен, относится ли запрос к named workflow trigger
 - **THEN** он считает trigger применимым
 - **AND** читает адресованный canonical source до действия
-
