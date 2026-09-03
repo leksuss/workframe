@@ -1,251 +1,55 @@
 # Agent Instructions
 
-Use this file as the operating rules for AI agents working in this repository.
+Use this file as the always-loaded rules for AI agents working in this repository. Detailed procedures are shipped separately and must be loaded only at the triggers below.
 
-## Session Handoff
+## Session State And Authority
 
-This project may be continued sequentially in different AI clients. At the start of a new session, read this file and `docs/AGENT_WORKFLOW.md`, then inspect `git status`, the current branch, and any active OpenSpec change before making changes. Treat repository state and approved project documents as the source of truth, not another agent's chat history.
+- Before changing files, inspect `git status`, the current branch, and active OpenSpec changes. Repository state and approved project documents override another agent's chat history.
+- Treat `docs/CONCEPTS.md` as the product constitution and `docs/PROJECT_RULES.md` as project-owned additions. Never rewrite the constitution unless the owner explicitly asks.
+- Workframe-supplied rules, workflow documents, checklists, and skills remain canonical; project-specific rules belong only in `docs/PROJECT_RULES.md`.
+- For conflicting instructions, follow this file, then the triggered project workflow/checklist, then tool-specific documentation. Ask the owner when a conflict changes product intent or would risk user work.
 
-## Project Context
+## Load Detailed Rules Only At Their Trigger
 
-When `docs/CONCEPTS.md` exists, treat it as the project constitution:
+Read each named file in full before the listed work; a path here is a mandatory routing rule, not optional background reading.
 
-- Read it before non-trivial feature work, behavior changes, integrations, redesigns, and refactors.
-- Use it to evaluate whether a proposed change fits the product values, audience, anti-goals, and feature-fit criteria.
-- Do not rewrite it unless the user explicitly asks.
+- Before proposing, planning, implementing, reviewing, or resuming a non-trivial change, read `docs/AGENT_WORKFLOW.md`, `docs/CONCEPTS.md`, `docs/PROJECT_RULES.md`, `docs/QUALITY.md`, and `docs/checklists/feature-change.md`. Check `docs/DEBT.md` and offer open entries in the affected area.
+- Before declaring a change complete or proposing archive, read `docs/checklists/release-readiness.md` and perform its reconcile and evidence checks.
+- Before a full repository audit, read `docs/checklists/coherence-audit.md`. Start such an audit only when the owner asks or accepts a proposal.
+- Before design, interaction, or frontend work, read `docs/checklists/design-change.md`; if installed, also read `docs/checklists/frontend-quality.md` before handoff.
+- When a project workflow skill applies, read the matching canonical `.agents/skills/<name>/SKILL.md` in full. Client-specific skill files are discovery adapters only.
 
-Read `docs/PROJECT_RULES.md` alongside it. That file holds the rules this project decided for itself; the rules in this file and in `docs/AGENT_WORKFLOW.md` come from Workframe.
+Simple questions and atomic low-risk edits do not require loading unrelated workflow documents.
+If unsure whether a trigger applies, treat it as applicable and load the referenced instructions before acting.
 
-For tool-specific instructions, prefer this file first, then `docs/AGENT_WORKFLOW.md`, then local tool or skill documentation.
+## Product And Change Routing
 
-When a new project is being discussed, lead the owner through purpose, audience, core value, principles, anti-goals, and key journeys. After the owner confirms those decisions, record them in `docs/CONCEPTS.md`, then proactively offer to prepare the first OpenSpec change. Do not ask the owner to name or edit this file, or to request the OpenSpec step separately.
+- For a new product, help the owner confirm purpose, audience, core value, principles, anti-goals, and key journeys. Record confirmed decisions in `docs/CONCEPTS.md`, then proactively offer the first OpenSpec proposal. The owner need not name files or request the OpenSpec step.
+- Use OpenSpec for non-trivial product or behavior changes, integrations, redesigns, data/public contracts, and material refactors. Tiny cosmetic or typo fixes, dependency bumps, and purely internal cleanup may be direct unless documented behavior changes.
+- A proposal does not authorize implementation unless the owner explicitly asked to proceed. Follow the active change during implementation and update its artifacts when real decisions change.
+- Follow `docs/QUALITY.md` for project commands and policy. A task is complete only after its declared method ran and its result was recorded or the owner accepted a documented exception.
+- Keep documentation and active specs aligned with implemented behavior. Prefer concise, concrete text; write OpenSpec artifacts in Russian by default and keep technical identifiers in English where clearer.
 
-## Feature Workflow
+## OpenSpec And Git
 
-For non-trivial feature work, behavior changes, integrations, and refactors, use OpenSpec.
+- One OpenSpec change uses one matching `feature/<change-id>` branch. Choose a concise id automatically unless the owner supplies one; do not mix unrelated changes.
+- Before creating or switching a branch, state the intended branch and check uncommitted changes. Do not switch if those changes could be affected without asking the owner.
+- On apply or resume, infer the active change only when current `feature/<change-id>` and `openspec/changes/<change-id>/` agree. Otherwise ask which change to continue.
+- Propose archive only after implementation, verification, and reconcile are complete. Do not archive, merge, rebase, tag, push, or create a PR without explicit authorization for that action.
+- Archive directory dates are UTC. After an explicitly requested archive and merge, leave the project's main branch current; start later changes from that branch.
 
-Do not use OpenSpec for tiny cosmetic fixes, typo fixes, dependency bumps, or purely internal cleanup unless they change documented behavior.
+## Safety
 
-Follow `docs/checklists/feature-change.md` through the workflow below; it holds the step list, these rules hold the reasoning.
+- Assume existing and uncommitted changes belong to the user. Preserve them and keep unrelated edits out of the change.
+- Never discard, overwrite, reset, or revert user changes; rewrite history; delete branches; or perform destructive actions unless explicitly requested.
+- If user work overlaps the task, adapt when safe and ask only when continuing would be ambiguous or risk loss.
+- Resolve exact targets before destructive actions and report any material deletion and whether it is recoverable.
 
-Before implementation:
+## Coherence And Payload
 
-- Start an OpenSpec change using the project's OpenSpec workflow.
-- Choose a concise change id automatically unless the user provides one.
-- Include how the change fits or conflicts with `docs/CONCEPTS.md` when it exists.
-- Check `docs/DEBT.md` for open entries in the area this change will touch, and offer the applicable ones to the user.
-- Do not write implementation code from an OpenSpec proposal step unless the user explicitly asks to proceed.
-
-During implementation:
-
-- Follow the active OpenSpec change.
-- Keep the active OpenSpec change artifacts up to date when scope, requirements, or implementation decisions change.
-- Follow the current quality policy in `docs/QUALITY.md`.
-
-After implementation:
-
-- Run the blocking checks declared for the changed surfaces in `docs/QUALITY.md`.
-- Review and triage applicable advisory findings.
-- Treat skipped or unavailable blocking checks as non-passing unless the owner explicitly accepts the documented exception.
-- Verify that the active OpenSpec change reflects the implemented behavior.
-- Run the reconcile step described under `Coherence` before proposing archive.
-- Check `docs/checklists/release-readiness.md` before proposing archive.
-- Propose archiving the OpenSpec change when the work is complete and verified.
-- Do not archive automatically unless the user explicitly asks for it.
-
-## OpenSpec Task Design
-
-Treat `tasks.md` as a handoff contract between the agent that plans a change, the agent that implements it, and the agent that reviews it.
-
-- Decompose non-atomic work until an implementer can complete a task without inventing a product or architectural decision.
-- Each such task must state the expected result, affected area, material constraints, and verification method. It may refer precisely to the relevant proposal, design, or spec instead of repeating settled decisions.
-- Name the production surface or ownership path and any protective boundary that the verification method must exercise. A mock or aggregate suite does not substitute for a required integration scenario.
-- Keep large blocks visible at the top level, and use ordered substeps (`1.1`, `1.2`, ...) where they reduce uncertainty. Put contracts and skeleton work before implementation, then checks and documentation.
-- Do not manufacture microtasks for an already atomic change. If a required decision is missing, update the OpenSpec artifacts or ask for clarification before implementation.
-- Do not mark a task complete until its verification method has run and its result is recorded, or the owner has accepted a documented exception.
-- Before completion, verify the implementation against each task's expected result, production path, exact outcome, and verification evidence, not just its checkbox.
-
-## Contract-Driven Verification
-
-Follow the detailed lifecycle in `docs/AGENT_WORKFLOW.md`, the current commands and modes in `docs/QUALITY.md`, and the steps in `docs/checklists/feature-change.md` and `docs/checklists/release-readiness.md`.
-
-Classify work by its highest risk as `atomic low-risk`, `behavior`, `high-risk boundary`, or `release/certification`. For behavior and higher levels, record requirement/scenario → production ownership path → test/check/evidence → `passed`, `failed`, `skipped`, or `unavailable`. Protective boundaries require applicable negative/adversarial scenarios, including relevant facade/API bypass and alternative ownership paths. When a decision reads data the code does not control, list every field of that data the decision reads and produce one hostile case per field. That list belongs in the change artifacts; adversarial coverage is judged against it, not against the author's sense of completeness.
-
-Persisted certification evidence needs independent re-verification; runner inline assertions are not a verifier. Before archive, perform a fresh adversarial pass over proposal, design, specs, tasks, final diff, and results without trusting checkboxes. A design claim that a library, runtime, or platform guarantees X, when a safety decision rests on it, must cite an executed probe; reasoning about documented behavior is not evidence. High-risk work uses another agent/model or an equivalent isolated review context. A re-reading of the diff is not an adversarial pass. For `release/certification` work the independent context executes code — builds hostile inputs, runs them, records their output — and the record names what was run. Bind final release evidence to the exact tracked revision; a later tracked commit makes it stale.
-
-If a blocking check fails and a rerun passes, preserve the first failure, diagnose it in isolation, then rerun the full blocking gate. Do not silently replace the failure with the successful rerun.
-
-## Quality Pipeline
-
-Work from project risks, not a generic list of fashionable tools. Derive checks in this order: executable surface, failure modes, check class, then stack-appropriate tool and command.
-
-When an OpenSpec change first introduces or materially changes a language, runtime, component, storage system, public contract, deployment surface, or other executable technology surface:
-
-- Describe the surfaces, risks, check classes, and important trade-offs in the change design.
-- Add tasks that implement or update the smallest useful quality pipeline early enough for the remaining work to use it.
-- Update `docs/QUALITY.md` in the same change with the current commands, modes, triggers, prerequisites, and exclusions.
-- Do not select tools before the stack and its risks are understood.
-
-Each check is `blocking`, `advisory`, or `not applicable`. Record a particular run separately as `passed`, `failed`, `skipped`, or `unavailable`. Advisory findings are triaged as `confirmed`, `false positive`, or `deferred`; confirmed findings block the current change only when they prevent its stated goal or safe completion.
-
-Use staged rollout when a strict gate would be misleading or disproportionate. Legacy code may need a baseline or changed-scope enforcement; generated and vendored code need explicit exclusions; spikes need an exit condition; polyglot projects may need per-surface commands. When CI exists, enforce blocking checks there where practical.
-
-## Work Sequencing
-
-Build systems and large features in two phases.
-
-Skeleton phase: build large blocks in sequence, each with minimal functionality — enough that the block exists and connects to the next one — until the whole system has an end-to-end skeleton.
-
-Depth phase: fill blocks with features, polish them, and address deferred improvements.
-
-When choosing the next work:
-
-- Check the plan first. Take the next unfinished item in `tasks.md`, in order. Do not move to the depth phase before the skeleton phase is complete.
-- Size each step to a whole block, not a small edit. The step should visibly advance toward the goal.
-- When you notice a flaw in a finished block, append it to the `## Фаза 2. Углубление` section of `tasks.md` instead of fixing it inline.
-- Fix a flaw immediately only when it is a true blocker — a defect that prevents building the next block. Then it is part of the current item, not a deferred improvement.
-- Move any `## Фаза 2. Углубление` item still unfinished to `docs/DEBT.md` before the change is archived. That section is archived with the change; the register is not.
-
-## OpenSpec And Git Branches
-
-Use one OpenSpec change per git branch.
-
-When starting a new OpenSpec change:
-
-- Choose a concise change id automatically unless the user provides one.
-- Create or switch to a matching git branch named `feature/<change-id>`.
-- Keep all implementation work for that change on that branch.
-- Do not mix unrelated OpenSpec changes in the same branch.
-
-When applying an OpenSpec change:
-
-- Confirm the current branch matches the active change id.
-- If the current branch is `feature/<change-id>`, treat `<change-id>` as the active OpenSpec change.
-- If the current branch does not clearly identify an active OpenSpec change, ask the user which change to continue.
-
-When resuming work in a new context:
-
-- Check the current git branch.
-- If it is named `feature/<change-id>` and `openspec/changes/<change-id>/` exists, continue that OpenSpec change.
-- If multiple active OpenSpec changes exist and the current branch does not identify one clearly, ask the user which change to continue.
-
-When the change is complete:
-
-- Propose archiving the OpenSpec change.
-- Do not archive automatically unless the user explicitly asks.
-- Dates in archive directory names are UTC. Near midnight they can differ from the local date; that is expected and is not corrected.
-- When the user explicitly asks to archive a completed change, archive it, sync specs, commit the archive result, switch to the main branch, merge the completed feature branch, and leave the main branch as the current branch for the next change.
-- New OpenSpec changes should start from the current main branch, not from a previous feature branch.
-- After archive and merge, the user may push or create a pull request.
-
-## Git Safety
-
-Never merge, rebase, delete branches, reset history, or discard changes unless the user explicitly asks.
-
-Before creating or switching branches:
-
-- Tell the user what branch you intend to use.
-- Do not switch branches if there are uncommitted changes that could be affected; ask the user how to proceed.
-
-Do not revert user changes unless the user explicitly asks.
-
-## Documentation Discipline
-
-Keep documentation close to actual behavior.
-
-Write OpenSpec artifacts in Russian by default, because the project owner reads them continuously.
-Keep technical identifiers, filenames, paths, branch names, capability names, model names, commands, and code symbols in English where appropriate.
-
-When implementation differs from the active OpenSpec change:
-
-- Update the OpenSpec change artifacts to match the real decision.
-- Do not leave stale requirements, tasks, or design notes.
-
-When a change modifies product behavior:
-
-- Make sure the relevant OpenSpec specs describe the final behavior before proposing archive.
-
-Prefer concise, concrete documentation over broad abstract statements.
-
-## Coherence
-
-A long series of changes accumulates dead artifacts, contradictory statements, duplicated documentation, and code that has drifted from its specification. These rules keep that state observable.
-
-### Truth Hierarchy
-
-Artifacts do not carry equal authority: code and passing checks describe what the system does; `openspec/specs/` describes what it should do; `docs/CONCEPTS.md` describes why it exists; `docs/QUALITY.md`, README files, and other documentation describe how it is verified and explained.
-
-- Descriptive documentation that contradicts code or an active spec follows the behavior. Repair the documentation.
-- A spec that contradicts the code is not resolved on your own. Either the spec is stale or the code drifted; choosing is a product decision.
-- Anything that contradicts `docs/CONCEPTS.md` goes to the user.
-
-### The Archive Is History
-
-`openspec/changes/archive/` records what was true when it was written. It is not a set of standing statements.
-
-Never edit archived artifacts. A disagreement between an archived note and a current spec is not a finding.
-
-### Finding Classes
-
-Classify before repairing anything:
-
-- `mechanical`: broken paths and links, placeholders, references to removed entities, stale commands, verbatim duplication. Repair immediately.
-- `semantic`: a contradiction between statements, or between a spec and the code. Record in `docs/DEBT.md`; do not repair.
-- `structural`: refactoring is required — an overgrown file, blurred boundaries, duplicated logic. Record in `docs/DEBT.md`; do not repair.
-
-The test: can this be resolved without deciding what the product should be? If not, record it and stop.
-
-An artifact with no inbound references is `semantic`. Missing references do not prove it is unused, and deletion is irreversible.
-
-Do not record a suspected contradiction you cannot support by quoting both sides verbatim with their locations. Differing levels of abstraction are not disagreement.
-
-### Reconcile Before Archive
-
-Before proposing archive, check the artifacts this change touched:
-
-- specs describe the final behavior;
-- completed tasks map to production ownership paths and recorded verification results that prove the exact expected outcome;
-- applicable protective boundaries have negative/adversarial evidence and persisted certification artifacts are independently re-verifiable;
-- final release evidence covers the current tracked revision;
-- no placeholders remain in artifacts this change created or modified, including specs it synced;
-- entities this change removed are gone from all references;
-- unfinished `## Фаза 2. Углубление` items have moved to `docs/DEBT.md`.
-
-Repair `mechanical` findings before proposing archive. Record the rest.
-
-### Audit
-
-A full-repository audit covers referential integrity, placeholders, declared-against-actual, specs against code, duplication, dead artifacts, and structure — in that order, because the reliable slices must not be the ones abandoned when attention runs out. The first three are always required; the rest apply in proportion to the project.
-
-Follow `docs/checklists/coherence-audit.md`. File an audit that changed documented behavior as an ordinary change. File one that changed no requirements and repaired only `mechanical` findings as a direct change — it is purely internal cleanup. Either way keep it on its own branch as its own commit. Propose an audit when you see accumulated drift; do not start one on your own.
-
-### The Register
-
-`docs/DEBT.md` holds `semantic` and `structural` findings plus deferred work that outlived its change. Fill it during reconcile and audits, check it when planning a change, mark overtaken entries `stale`, and close entries only with a change id or an explicit user decision.
-
-## Design Discipline
-
-The design workflow is available by default, even when no design tool is connected.
-
-When a task affects visual product experience:
-
-- Identify the source of truth: existing UI, design artifact, screenshot, brand material, or explicit user direction.
-- Respect the existing project stack and design conventions before adding libraries.
-- Consider responsive behavior, loading states, empty states, error states, focus states, and text overflow.
-- Verify visually when possible.
-
-Follow `docs/checklists/design-change.md` for these changes. When `docs/checklists/frontend-quality.md` is installed, use it to verify frontend work before handing it back.
-
-Pencil MCP is optional and disabled by default. If a task requires editing `.pen` files and Pencil MCP is unavailable, ask the user to enable it or work from exported artifacts instead. Do not pretend a design artifact was updated when it was not.
-
-## Workframe Payload
-
-This project's agent rules, workflow document, checklists, and workflow skills were copied from Workframe. `.project-workframe-version` records the version applied, the modules installed, and anything an upgrade deliberately skipped.
-
-Upgrading to a newer Workframe version is an ordinary OpenSpec change in this project, never an automatic overwrite:
-
-- Copy a canonical file whole. Do not restate one in your own words, however well you understand it — a paraphrase reads like an upgrade and is not one.
-- Put a rule this project decided for itself in `docs/PROJECT_RULES.md`. Never add one by editing a canonical file: an edited canonical file is indistinguishable from a paraphrased one.
-- Keep `docs/CONCEPTS.md`, `docs/QUALITY.md`, and `docs/DEBT.md`. They belong to this project and are never replaced by the template.
-- Finish with the project's canonical files byte-identical to the target version's template, and name any deliberately skipped part in the marker's `notes`.
-- Update `.project-workframe-version` only after that verification.
+- Never edit `openspec/changes/archive/`; it is history, not current policy.
+- Repair objective `mechanical` findings. Record supported `semantic` and `structural` findings in `docs/DEBT.md` without silently choosing the desired behavior.
+- `.project-workframe-version` records the applied Workframe version, installed modules, and deliberately skipped upgrade parts. Workframe never auto-upgrades this project.
+- Upgrade Workframe through a project-local OpenSpec change following the shipped guidance. Copy canonical files whole, keep project-owned documents and rules, and update the version marker only after verification.
+- Do not edit canonical files to add project-specific rules or restate them from memory. Put such rules in `docs/PROJECT_RULES.md`; a completed upgrade leaves canonical files byte-identical to the selected Workframe template.
+- A new payload file is valid only when a shipped rule names its path and exact trigger without duplicating its contents.

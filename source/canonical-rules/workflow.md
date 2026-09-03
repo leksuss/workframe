@@ -2,6 +2,12 @@
 
 This is the neutral source for Workframe's project workflow. AI-client adapters should preserve these rules even when their syntax differs.
 
+## Instruction Loading
+
+Keep scope, safety invariants, and exact workflow triggers in the automatically loaded project entry point. Keep detailed procedures in canonical workflow documents or skills that ship with the project, and require the agent to read them in full when their trigger occurs. Do not load every procedure for a simple request or copy a shortened procedure beside its canonical source.
+
+Trigger uncertainty fails closed: if the agent is unsure whether a trigger applies, it treats the trigger as applicable and loads the referenced instructions before acting.
+
 ## Project Constitution
 
 `docs/CONCEPTS.md` defines product purpose, audience, values, anti-goals, journeys, and feature fit criteria.

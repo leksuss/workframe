@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 0.7.0 - 2026-09-03
+
+- Reduced the always-loaded root `AGENTS.md` from 15,681 to about 6.3 KB and the generated-project `AGENTS.md` from 17,859 to about 5.8 KB while preserving detailed procedures in mandatory trigger-based canonical sources; uncertain triggers fail closed and load the referenced procedure.
+- Added `scripts/verify-instruction-budget.sh` with byte ceilings, canonical-address checks, footprint reporting, and hostile fixtures for over-budget and missing-address failures.
+- Updated contract verification to test routing in entry points and exact obligations in canonical workflow sources instead of requiring full verification text in every `AGENTS.md`.
+- Clarified Codex, Claude Code, Cursor, and generic adapter documentation so `AGENTS.md` is always loaded while workflow documents, checklists, and skills load on demand.
+- Completed a seven-slice coherence audit, repaired the root-compatible `docs/QUALITY.md` condition in the shared audit checklist, found no new semantic or structural debt, and resolved D-005 under the owner's revised instruction-budget decision.
+
 ## 0.6.1 - 2026-08-31
 
 - Added an adversarial-case generator: when a decision reads data the code does not control, every field that decision reads is listed and each field gets one hostile case. Coverage is judged against that list, not against the author's sense of completeness.

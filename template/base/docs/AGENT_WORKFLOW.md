@@ -1,6 +1,6 @@
 # Agent Workflow
 
-This document describes the neutral project workflow. Tool-specific files such as `AGENTS.md`, `CLAUDE.md`, or editor rules should adapt this workflow without changing its intent.
+This document describes the neutral project workflow. `AGENTS.md` loads it before non-trivial change work; tool-specific entry points should route here without copying it or loading it for unrelated requests.
 
 ## Operating Model
 
@@ -18,7 +18,7 @@ The owner starts by describing the product idea in ordinary language. The agent 
 
 ## Switching AI Clients
 
-The owner may continue the same project sequentially in different AI clients or ask one client to review another's work. Do not assume access to a previous chat. At the start of each session, read `AGENTS.md`, this document, `docs/CONCEPTS.md` when present, and inspect `git status`, the current branch, and active OpenSpec changes.
+The owner may continue the same project sequentially in different AI clients or ask one client to review another's work. Do not assume access to a previous chat. Before changing files, follow always-loaded `AGENTS.md` and inspect `git status`, the current branch, and active OpenSpec changes. Read this document when `AGENTS.md` routes non-trivial planning, implementation, review, or resumption here.
 
 Use the repository state as the handoff. Do not work concurrently on the same worktree from multiple agents.
 

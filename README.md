@@ -19,11 +19,11 @@ You speak to the agent in ordinary language. The agent explores, records confirm
 
 ## Supported AI Clients
 
-Base Workframe rules are available to any agent that can read project files. Tested automatic adapters are available for Codex, Cursor, Claude Code, Qwen Code, and Kimi Code.
+Base Workframe rules are available to any agent that can read project files. The compact `AGENTS.md` is the always-loaded entry point; detailed workflows and checklists load only when their named trigger occurs. Tested automatic adapters are available for Codex, Cursor, Claude Code, Qwen Code, and Kimi Code.
 
 Codex, Claude Code, Qwen Code, and Kimi Code also receive shared OpenSpec workflows. Cursor automatically reads `AGENTS.md` and follows common rules; it can read the same workflows from `.agents/skills/` when needed.
 
-A model and an AI client are different things. DeepSeek, GLM, or another model follows the same workflow when it runs through a supported client. For an unlisted client, configure its project instructions to read `AGENTS.md` and `docs/AGENT_WORKFLOW.md`; if it supports skills, point it to `.agents/skills/`.
+A model and an AI client are different things. DeepSeek, GLM, or another model follows the same workflow when it runs through a supported client. For an unlisted client, configure its project instructions to load `AGENTS.md`; it routes non-trivial work to `docs/AGENT_WORKFLOW.md`. If the client supports skills, point it to `.agents/skills/`.
 
 Several agents can be used on the same project, but handoffs must be sequential: wait for one agent to finish its work before letting another change the same worktree. This makes it safe to alternate providers when limits run out or obtain a cross-client review without conflicting edits.
 
@@ -69,10 +69,10 @@ An example first message:
 
 | Area | Purpose |
 | --- | --- |
-| `AGENTS.md` | Common mandatory AI-agent rules and safe session handoff. |
+| `AGENTS.md` | Compact mandatory rules, safety invariants, and triggers for detailed guidance. |
 | `CLAUDE.md` | Claude Code entry point to the same common rules. |
 | `docs/CONCEPTS.md` | Product constitution: value, audience, principles, and boundaries. |
-| `docs/AGENT_WORKFLOW.md` | Neutral process from idea to verification. |
+| `docs/AGENT_WORKFLOW.md` | On-demand neutral process from idea to verification. |
 | `docs/QUALITY.md` and `docs/checklists/` | Contract for project verification. |
 | `docs/DEBT.md` | Durable register of divergences and deferred work that outlives an archived change. |
 | `docs/PROJECT_RULES.md` | Rules the project decided for itself, kept out of the canonical files. |

@@ -9,7 +9,7 @@ This checklist is self-contained: it does not require any skill or tool.
 - Confirm the owner asked for the audit.
 - Create the branch, for example `coherence-audit-<YYYY-MM>`.
 - Decide how it will be filed once you know what it changed: an audit that alters documented behavior is an ordinary OpenSpec change; one that changed no requirements and repaired only `mechanical` findings is purely internal cleanup and is filed directly.
-- Read `docs/CONCEPTS.md`, `docs/QUALITY.md`, and `docs/DEBT.md`.
+- Read `docs/CONCEPTS.md`, `docs/DEBT.md`, and `docs/QUALITY.md` when it exists.
 - Note the scope: the whole repository, excluding `openspec/changes/archive/`, which is history and is never edited.
 
 ## Ground Rules

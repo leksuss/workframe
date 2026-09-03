@@ -15,6 +15,7 @@ If the target project uses OpenSpec, create an OpenSpec change inside that proje
 Upgrade when a newer Workframe version contains something the project actually benefits from:
 
 - better agent safety rules;
+- a smaller always-loaded instruction footprint with detailed procedures routed by trigger;
 - clearer OpenSpec workflow;
 - a stack-neutral verification lifecycle that can make the project's existing quality pipeline explicit;
 - a coherence lifecycle for a project that has accumulated drift across many changes;

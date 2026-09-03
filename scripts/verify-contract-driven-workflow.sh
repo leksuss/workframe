@@ -12,8 +12,15 @@ require_phrase() {
   fi
 }
 
-probe_file() {
-  require_phrase "$1" "Contract-Driven Verification"
+probe_root_address() {
+  require_phrase "$1" "source/canonical-rules/verification.md"
+  require_phrase "$1" "Before designing non-atomic tasks"
+}
+
+probe_payload_address() {
+  require_phrase "$1" "docs/AGENT_WORKFLOW.md"
+  require_phrase "$1" "docs/QUALITY.md"
+  require_phrase "$1" "docs/checklists/feature-change.md"
 }
 
 # The executable-evidence methods, probed by the clause that carries their
@@ -30,8 +37,13 @@ probe_execution_methods_file() {
   require_phrase "$1" "failing with its guard removed"
 }
 
-if [[ "${1:-}" == "--probe-file" ]]; then
-  probe_file "${2:-}"
+if [[ "${1:-}" == "--probe-root-address" ]]; then
+  probe_root_address "${2:-}"
+  exit
+fi
+
+if [[ "${1:-}" == "--probe-payload-address" ]]; then
+  probe_payload_address "${2:-}"
   exit
 fi
 
@@ -52,20 +64,27 @@ cleanup() {
 trap cleanup EXIT
 
 if [[ "${1:-}" == "--self-test" ]]; then
-  mutated="$TEMP_ROOT/AGENTS.md"
-  sed '/^## Contract-Driven Verification$/d' "$WORKFRAME_ROOT/template/base/AGENTS.md" > "$mutated"
-  if "$0" --probe-file "$mutated" >/dev/null 2>&1; then
-    echo "Negative mutation unexpectedly passed contract probing." >&2
+  mutated="$TEMP_ROOT/root-address.md"
+  sed 's#source/canonical-rules/verification.md#source/canonical-rules/missing.md#g' "$WORKFRAME_ROOT/AGENTS.md" > "$mutated"
+  if "$0" --probe-root-address "$mutated" >/dev/null 2>&1; then
+    echo "Missing root verification address unexpectedly passed." >&2
     exit 1
   fi
-  echo "Negative contract fixture rejected."
+
+  mutated="$TEMP_ROOT/payload-address.md"
+  sed 's#docs/AGENT_WORKFLOW.md#docs/MISSING_WORKFLOW.md#g' "$WORKFRAME_ROOT/template/base/AGENTS.md" > "$mutated"
+  if "$0" --probe-payload-address "$mutated" >/dev/null 2>&1; then
+    echo "Missing payload verification address unexpectedly passed." >&2
+    exit 1
+  fi
+  echo "Negative address fixtures rejected."
 
   # Each method probe must reject the removal of its own clause. A probe that
   # survives its own mutation certifies nothing.
   method_mutations=(
-    "$WORKFRAME_ROOT/template/base/AGENTS.md|--probe-methods|one hostile case per field|one plausible case"
-    "$WORKFRAME_ROOT/template/base/AGENTS.md|--probe-methods|must cite an executed probe|is accepted from documented behavior"
-    "$WORKFRAME_ROOT/template/base/AGENTS.md|--probe-methods|not an adversarial pass|an adversarial pass"
+    "$WORKFRAME_ROOT/source/canonical-rules/verification.md|--probe-methods|one hostile case per field|one plausible case"
+    "$WORKFRAME_ROOT/source/canonical-rules/verification.md|--probe-methods|must cite an executed probe|is accepted from documented behavior"
+    "$WORKFRAME_ROOT/source/canonical-rules/verification.md|--probe-methods|not an adversarial pass|an adversarial pass"
     "$WORKFRAME_ROOT/template/base/docs/AGENT_WORKFLOW.md|--probe-execution-methods|not reasoning about control flow|accepted from control-flow reasoning"
     "$WORKFRAME_ROOT/template/base/docs/AGENT_WORKFLOW.md|--probe-execution-methods|failing with its guard removed|passing with its guard removed"
   )
@@ -89,8 +108,8 @@ fi
 
 # Contract presence and acceptance-scenario vocabulary. These checks prove that
 # the shipped surfaces carry the agreed gates; they do not replace semantic review.
-require_phrase "$WORKFRAME_ROOT/AGENTS.md" "## Contract-Driven Verification"
-require_phrase "$WORKFRAME_ROOT/template/base/AGENTS.md" "## Contract-Driven Verification"
+probe_root_address "$WORKFRAME_ROOT/AGENTS.md"
+probe_payload_address "$WORKFRAME_ROOT/template/base/AGENTS.md"
 require_phrase "$WORKFRAME_ROOT/template/base/AGENTS.md" "docs/checklists/feature-change.md"
 require_phrase "$WORKFRAME_ROOT/template/base/AGENTS.md" "docs/checklists/release-readiness.md"
 require_phrase "$WORKFRAME_ROOT/template/base/AGENTS.md" "docs/checklists/coherence-audit.md"
@@ -116,8 +135,6 @@ require_phrase "$WORKFRAME_ROOT/template/modules/agent-skills/.agents/skills/ope
 # Executable-evidence methods, per surface. Each phrase turns a judgment about
 # completeness into something a reviewer can count without knowing the system.
 for surface in \
-  "$WORKFRAME_ROOT/AGENTS.md" \
-  "$WORKFRAME_ROOT/template/base/AGENTS.md" \
   "$WORKFRAME_ROOT/template/base/docs/AGENT_WORKFLOW.md" \
   "$WORKFRAME_ROOT/source/canonical-rules/verification.md"; do
   probe_methods_file "$surface"
@@ -142,16 +159,16 @@ require_phrase "$WORKFRAME_ROOT/template/modules/agent-skills/.agents/skills/ope
 require_phrase "$WORKFRAME_ROOT/template/modules/agent-skills/.agents/skills/openspec-archive-change/SKILL.md" "instead of executing hostile inputs and naming what was run"
 
 "$WORKFRAME_ROOT/scripts/verify-agent-adapters.sh" >/dev/null
+"$WORKFRAME_ROOT/scripts/verify-instruction-budget.sh" >/dev/null
 
 # Fresh installation must deliver the universal skill plus thin client adapters
 # and every addressed checklist used by the contract.
 fresh_target="$TEMP_ROOT/fresh"
 mkdir -p "$fresh_target"
 "$WORKFRAME_ROOT/scripts/init-project.sh" --target "$fresh_target" >/dev/null
-require_phrase "$fresh_target/AGENTS.md" "## Contract-Driven Verification"
+probe_payload_address "$fresh_target/AGENTS.md"
 require_phrase "$fresh_target/docs/AGENT_WORKFLOW.md" "requirement → production ownership path"
 require_phrase "$fresh_target/.agents/skills/openspec-apply-change/SKILL.md" "Verify contract traceability"
-probe_methods_file "$fresh_target/AGENTS.md"
 probe_methods_file "$fresh_target/docs/AGENT_WORKFLOW.md"
 for client in .codex .claude .qwen; do
   require_phrase "$fresh_target/$client/skills/openspec-apply-change/SKILL.md" ".agents/skills/openspec-apply-change/SKILL.md"
