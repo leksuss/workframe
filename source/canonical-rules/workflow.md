@@ -32,6 +32,8 @@ Agents follow the plan first: when choosing the next work, they take the next un
 
 When an agent notices a flaw in a finished block, it appends the improvement to the change's depth-phase backlog instead of fixing it inline. The exception is a true blocker — a defect that prevents building the next block — which is fixed immediately as part of the current item.
 
+This sequencing does not waive the current-change regression gate in `coherence.md`: fix and verify regressions before acceptance or archive, or obtain an explicit owner decision permitting deferral with documented consequences.
+
 That backlog belongs to one change and is archived with it. Improvements still unfinished when the change is archived move to the durable register described in `coherence.md`, so deferred work keeps an address after the change is gone.
 
 ## Language

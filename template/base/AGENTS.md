@@ -49,6 +49,7 @@ If unsure whether a trigger applies, treat it as applicable and load the referen
 
 - Never edit `openspec/changes/archive/`; it is history, not current policy.
 - Repair objective `mechanical` findings. Record supported `semantic` and `structural` findings in `docs/DEBT.md` without silently choosing the desired behavior.
+- Current-change regressions must be fixed and verified before acceptance or archive, unless the owner explicitly permits deferral with documented consequences. Recording in `docs/DEBT.md` alone does not establish readiness; request the owner decision when required.
 - `.project-workframe-version` records the applied Workframe version, installed modules, and deliberately skipped upgrade parts. Workframe never auto-upgrades this project.
 - Upgrade Workframe through a project-local OpenSpec change following the shipped guidance. Copy canonical files whole, keep project-owned documents and rules, and update the version marker only after verification.
 - Do not edit canonical files to add project-specific rules or restate them from memory. Put such rules in `docs/PROJECT_RULES.md`; a completed upgrade leaves canonical files byte-identical to the selected Workframe template.

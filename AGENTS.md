@@ -56,6 +56,7 @@ Archive directory dates are UTC. When the owner explicitly asks to archive, arch
 - Update `template/` only for behavior that new generated projects should receive. A root-rule change alone does not imply a payload-rule change.
 - During a root audit, findings inside `template/` concern payload consistency, not an already generated project. Never modify generated projects from a Workframe audit; they upgrade through their own OpenSpec change under `docs/UPGRADING.md`.
 - Never edit `openspec/changes/archive/`; it is historical evidence. Repair objective `mechanical` findings. Record supported `semantic` and `structural` findings in `docs/DEBT.md` without deciding them silently.
+- Current-change regressions must be fixed and verified before acceptance or archive, unless the owner explicitly permits deferral with documented consequences. Recording in `docs/DEBT.md` alone does not establish readiness; request the owner decision when required.
 
 ## Bootstrap
 

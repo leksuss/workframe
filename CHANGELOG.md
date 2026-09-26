@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 0.7.1 - 2026-09-26
+
+- Separated recording debt from permission to defer regressions introduced by the current change: acceptance and archive require a verified fix or explicit owner permission with documented consequences.
+- Applied the gate to root and generated-project rules, reconcile, advisory triage, depth backlog, and debt guidance while preserving owner authority over product decisions.
+- Documented explicit adoption by existing projects without replacing their debt records.
+
 ## 0.7.0 - 2026-09-03
 
 - Reduced the always-loaded root `AGENTS.md` from 15,681 to about 6.3 KB and the generated-project `AGENTS.md` from 17,859 to about 5.8 KB while preserving detailed procedures in mandatory trigger-based canonical sources; uncertain triggers fail closed and load the referenced procedure.

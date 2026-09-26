@@ -130,6 +130,12 @@ In the project-local upgrade change:
 
 A project with a long history may reasonably keep dozens of `open` entries after its first audit. The register earns its place by being spent during later planning, not by being emptied on the day it is created.
 
+### Adopting The Regression Deferral Gate
+
+Version 0.7.1 separates recording debt from permission to defer a current-change regression. Adopt the gate through the project-local upgrade: copy canonical `AGENTS.md`, `docs/AGENT_WORKFLOW.md`, and checklists whole. Preserve the existing project-owned `docs/DEBT.md` and its entries; do not replace it with the empty template. The canonical workflow supplies the gate even when the register retains its older introduction. If that introduction conflicts with the gate, explicitly reconcile only that guidance in the upgrade scope while preserving all entries.
+
+Verify that current-change regressions require a recorded successful fix or an explicit owner decision permitting deferral with documented consequences. DEBT status, advisory classification, and depth-backlog placement do not grant that permission. Record an allowed deferral and its consequences in the debt entry with the current change id, and link the decision from change evidence. Existing debt outside the upgrade scope remains separate.
+
 ## Suggested Process
 
 1. Create or switch to a feature branch for the upgrade.

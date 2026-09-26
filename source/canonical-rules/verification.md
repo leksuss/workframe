@@ -119,7 +119,9 @@ Projects may combine levels when they are small. Larger or polyglot repositories
 
 Review advisory findings as `confirmed`, `false positive`, or `deferred`.
 
-A confirmed finding is fixed in the current change only when it blocks the change's stated goal or safe completion. Otherwise record it as explicit future work. Heuristic architecture analysis starts as advisory unless the project adopts a narrower proven rule as blocking.
+Current-change regressions follow the fix-or-owner-deferral gate in `coherence.md` regardless of advisory classification; recording or triaging them does not establish readiness.
+
+An existing confirmed finding is fixed in the current change only when it blocks the change's stated goal or safe completion. Otherwise record it as explicit future work. Heuristic architecture analysis starts as advisory unless the project adopts a narrower proven rule as blocking.
 
 When a project selects Archscope, the normal starting policy is to review its Markdown architecture and quality report after each OpenSpec implementation before completion, plus run a full-repository audit weekly. Its SARIF output may be retained as an additional security artifact, but it does not replace the broader report or agent triage. A project may adjust the cadence explicitly when its size or workflow justifies it.
 

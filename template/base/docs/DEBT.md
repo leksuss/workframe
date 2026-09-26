@@ -8,6 +8,8 @@ An empty register is the normal state of a healthy project. Do not fill it to lo
 
 ## What Belongs Here
 
+Use this register for existing problems outside the current scope and deliberately deferred improvements with understood consequences. A current-change regression may be recorded while awaiting an owner decision, but the entry does not authorize deferral or establish readiness for acceptance or archive. Regressions must be fixed and verified, or explicitly deferred by the owner with documented consequences.
+
 - `semantic` findings: a contradiction between two statements, or between a spec and the code.
 - `structural` findings: work that needs refactoring — an overgrown file, blurred boundaries, duplicated logic.
 - Unfinished `## Фаза 2. Углубление` items, moved here before their change is archived.
@@ -19,6 +21,8 @@ An empty register is the normal state of a healthy project. Do not fill it to lo
 - Suspicions that cannot be supported by quoting both sides of the divergence with their locations.
 
 ## Entry Format
+
+For a current-change regression explicitly deferred by the owner, also record `Решение владельца`, `Последствия`, and the current change id, and link the decision from the change evidence. A status such as `accepted` or assignment to a future change is not itself permission to defer.
 
 Write entries in Russian by default, keeping paths, commands, identifiers, and code symbols in English — the same rule the project applies to OpenSpec artifacts.
 

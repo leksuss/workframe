@@ -47,9 +47,19 @@ One test separates the first class from the other two: **can the finding be reso
 
 An artifact with no inbound references is `semantic`, not `mechanical`. Absence of references is not proof of uselessness, and deletion is irreversible.
 
+## Current-Change Regressions
+
+A regression is a deterioration of existing required behavior introduced by the current change. Its origin is separate from its finding class. Regressions must be fixed and the restored behavior verified with a recorded result before the change is accepted or proposed for archive, unless the owner explicitly permits deferral with the consequences documented.
+
+If fixing a regression requires a product decision, record the problem and ask the owner; do not silently choose between spec and code. If it is unclear whether a mismatch is a regression or an intentional change, ask for a decision and do not claim readiness while it is unresolved.
+
+Recording a finding in `docs/DEBT.md`, assigning `accepted` status or a future change, marking it advisory, or moving it to the depth backlog does not authorize deferral. For an owner-permitted deferral, record the explicit owner decision, consequences, and current change id in the debt entry; link that decision from the change evidence. All other readiness conditions still apply.
+
 ## Two Levels
 
 **Reconcile.** Runs before an agent proposes to archive a change. Its scope is limited to the artifacts that change touched. It confirms that specifications describe the final behavior, every completed task maps to its production ownership path and recorded result, evidence proves the exact required outcome, applicable protective boundaries have adversarial coverage, release evidence covers the final tracked revision, created or modified artifacts contain no placeholders, removed entities are gone from all references, and unfinished deferred improvements have been moved into the durable register.
+
+Reconcile also checks that current-change regressions meet the fix-or-owner-deferral condition above; registering a finding alone does not establish readiness.
 
 As part of reconcile, re-read proposal, design, specs, tasks, final diff, and results without trusting checkboxes. A public/default or alternate ownership path missing from traceability is a finding, not an implicit assumption. Persisted certification evidence must be re-openable by an independent verifier; runner inline assertions are not enough. High-risk work uses another agent/model or an equivalent separate review context and records which path was used.
 
@@ -80,6 +90,8 @@ A suspected contradiction that cannot be supported by quoting both sides verbati
 ## The Durable Register
 
 Findings of class `semantic` and `structural`, together with deferred improvements that outlive their change, live in a permanent project file rather than inside change artifacts.
+
+The register is appropriate for existing problems outside the current scope and deliberately deferred improvements with understood consequences. It may record a current-change regression awaiting an owner decision, but does not grant permission to leave it unfixed.
 
 Deferred work kept only in a change's task list disappears into the archive with it. The register is the address that survives.
 

@@ -89,6 +89,8 @@ A normal change that does not alter the technology surface follows the existing 
 
 Keep policy modes separate from run results. A run is `passed`, `failed`, `skipped`, or `unavailable`; skipped or unavailable blocking checks require a reason and are not passing by default. Review advisory findings as `confirmed`, `false positive`, or `deferred` before proposing archive.
 
+Advisory classification does not waive the current-change regression gate in the Coherence section below.
+
 Use verification levels in proportion to the project:
 
 - fast local checks during implementation;
@@ -170,6 +172,8 @@ For a system or a large task, `tasks.md` uses two explicit sections:
 
 The depth section doubles as the backlog for deferred improvements and may start empty. A small change that does not build a system may keep `tasks.md` as a flat list.
 
+This sequencing does not waive the current-change regression gate below: backlog placement alone never permits acceptance or archive with an unfixed regression.
+
 That backlog belongs to one change and is archived with it. Items still unfinished when the change is archived move to `docs/DEBT.md` first, so deferred work keeps an address after the change is gone.
 
 ## Coherence
@@ -178,13 +182,21 @@ Everything above governs one change. Nothing above observes what a long series o
 
 Two levels address that, at very different cost.
 
+### Current-Change Regressions
+
+A regression is a deterioration of existing required behavior introduced by the current change. Its origin is separate from its finding class. Regressions must be fixed and the restored behavior verified with a recorded result before the change is accepted or proposed for archive, unless the owner explicitly permits deferral with the consequences documented.
+
+If fixing a regression requires a product decision, record the problem and ask the owner; do not silently choose between spec and code. If it is unclear whether a mismatch is a regression or an intentional change, ask for a decision and do not claim readiness while it is unresolved.
+
+Recording a finding in `docs/DEBT.md`, assigning `accepted` status or a future change, marking it advisory, or moving it to the depth backlog does not authorize deferral. For an owner-permitted deferral, record the explicit owner decision, consequences, and current change id in the debt entry; link that decision from the change evidence. All other readiness conditions still apply.
+
 ### Level One: Reconcile
 
 Runs before every proposed archive. Scope is limited to what the change touched, so it costs minutes.
 
 Confirm that specs describe the final behavior; every completed task maps to its production path and recorded result; protective boundaries have applicable negative evidence; persisted certification evidence can be independently re-verified; final evidence covers the current tracked revision; no placeholder survives in artifacts the change created or modified, including specs it synced during archive; entities the change removed are gone from every reference; and unfinished `## Фаза 2. Углубление` items have moved to `docs/DEBT.md`.
 
-The last one matters most. Without it, deferred work is archived along with the change and stops existing for every future session.
+Moving deferred work preserves its address after archive. Also verify the current-change regression gate above: registration alone does not establish readiness.
 
 Project rules and `docs/checklists/release-readiness.md` remain the complete reconcile source. Canonical Workframe workflow skills enforce its entry and exit gates and point back to the project files instead of duplicating the full checklist. Do not hand-edit third-party cache or generated skill copies; update through a Workframe payload upgrade.
 
@@ -207,6 +219,8 @@ Descriptive documentation that contradicts behavior is repaired to match. A spec
 ### The Register
 
 `docs/DEBT.md` is the durable record for findings the agent must not resolve and for deferred work that outlived its change.
+
+Use the register for existing problems outside the current scope and deliberately deferred improvements with understood consequences. Recording a current-change regression awaiting an owner decision does not authorize leaving it unfixed.
 
 It is filled by reconcile and audits, and spent during planning: before starting a change, check for open entries in the area that change will touch anyway. Repairing debt while already inside the relevant code is the only way it gets repaid.
 

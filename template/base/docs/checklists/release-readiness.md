@@ -24,6 +24,7 @@ Use this before publishing, deploying, merging, or archiving meaningful work.
 - Entities this change removed are gone from every reference across the repository.
 - Unfinished `## Фаза 2. Углубление` items were moved to `docs/DEBT.md` before archive.
 - `semantic` and `structural` findings noticed during the change were recorded in `docs/DEBT.md` rather than silently repaired.
+- Current-change regressions must be fixed and verified before acceptance or archive, unless the owner explicitly permits deferral with documented consequences. Recording in `docs/DEBT.md` alone does not establish readiness; request the owner decision when required.
 - No unrelated user changes were reverted or mixed in.
 - Known risks, accepted exceptions, deferred findings, and follow-up work are documented.
 - Residual risks, unstable results, and non-passing exceptions are visible in the final report.

@@ -102,4 +102,5 @@ Slices 1 to 3 are always required: they are cheap and objectively verifiable. Ap
 - Record new `semantic` and `structural` findings with both sides quoted.
 - Re-open every location the new entries cite and confirm it exists and says what the entry claims; repairs made earlier in the same run shift line numbers.
 - Summarize for the owner: what was repaired, what was recorded, what needs a decision.
+- Any regression introduced by the audit itself is fixed and verified or explicitly deferred by the owner with documented consequences; recording it alone does not establish readiness.
 - Propose archive; do not archive automatically.

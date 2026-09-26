@@ -2,13 +2,15 @@
 
 Durable record of Workframe's own `semantic` and `structural` findings, plus deferred work that outlived the change that discovered it.
 
-The rules for filling and spending this register are in root `AGENTS.md`, section `Coherence`. The neutral source is `source/canonical-rules/coherence.md`. This file is the register itself.
+The rules for filling and spending this register are in root `AGENTS.md`, section `Documentation And Payload Boundary`. The neutral source is `source/canonical-rules/coherence.md`. This file is the register itself.
 
 This register covers the Workframe repository. Projects generated from Workframe keep their own `docs/DEBT.md`, shipped from `template/base/docs/DEBT.md`.
 
 An empty register is the normal state. Do not fill it to look thorough.
 
 ## What Belongs Here
+
+Use this register for existing problems outside the current scope and deliberately deferred improvements with understood consequences. A current-change regression may be recorded while awaiting an owner decision, but the entry does not authorize deferral or establish readiness for acceptance or archive. Regressions must be fixed and verified, or explicitly deferred by the owner with documented consequences.
 
 - `semantic` findings: a contradiction between two statements, or between a spec and the payload.
 - `structural` findings: work that needs refactoring.
@@ -17,6 +19,8 @@ An empty register is the normal state. Do not fill it to look thorough.
 `mechanical` findings — broken links, placeholders, references to removed entities, stale commands — are repaired immediately and never recorded here.
 
 ## Entry Format
+
+For a current-change regression explicitly deferred by the owner, also record `Решение владельца`, `Последствия`, and the current change id, and link the decision from the change evidence. A status such as `accepted` or assignment to a future change is not itself permission to defer.
 
 Write entries in Russian by default, keeping paths, commands, identifiers, and code symbols in English.
 

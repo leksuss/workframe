@@ -100,6 +100,8 @@ Verification is contract-driven and proportional. Atomic low-risk edits keep an 
 
 A long series of changes drifts even when every single change was correct. Before proposing archive, the agent reconciles the artifacts that change touched: no leftover placeholders, no references to removed entities, and unfinished deferred work moved into `docs/DEBT.md` rather than archived away with the change. A full-repository coherence audit runs only when you ask for it. If it changes the rules it is filed as an ordinary change; if it only repaired broken references and leftovers, it is filed directly as cleanup. Either way it stays on its own branch as its own commit. The agent repairs objectively broken things itself and records contradictions for your decision instead of resolving them.
 
+Recording a current-change regression in DEBT does not make the change ready: fix and verify it before acceptance, or obtain an explicit owner decision permitting deferral with documented consequences. Existing projects adopt this gate through their own Workframe upgrade change.
+
 Workframe never auto-updates older projects. An upgrade is a separate, reviewable change inside the project. See [docs/UPGRADING.md](docs/UPGRADING.md).
 
 ## Versions And Project Upgrades

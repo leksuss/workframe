@@ -55,4 +55,5 @@ Use this checklist before and during non-trivial product or behavior changes.
 - Perform manual verification where automation does not cover the risk.
 - Perform a fresh adversarial review of proposal, design, specs, tasks, final diff, and results without trusting checkboxes. For high-risk changes, use another agent/model or an equivalent isolated review context and record which. A re-reading of the diff is not an adversarial pass. For `release/certification` work the independent context executes code — builds hostile inputs, runs them, records their output — and the record names what was run.
 - Reconcile artifacts touched by the change; repair `mechanical` findings and record `semantic` or `structural` findings in `docs/DEBT.md`.
+- Current-change regressions must be fixed and verified before acceptance or archive, unless the owner explicitly permits deferral with documented consequences. Recording in `docs/DEBT.md` alone does not establish readiness; request the owner decision when required.
 - Propose archive when complete.
