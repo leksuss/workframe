@@ -1,35 +1,163 @@
 # Workframe
 
-Русская версия: [README.ru.md](README.ru.md).
+[English](README.en.md)
 
-Workframe is reusable operating scaffolding for software projects built with AI agents. It is not an application framework or a commitment to one model provider. It keeps product decisions, change process, and verification rules in the repository so work can continue across AI clients.
+Бывало, что ИИ-агент начал писать код, не разобравшись в задаче? В новом чате забыл прошлые договорённости? Сказал «готово», хотя нужный сценарий никто не проверил? Или записал ошибку в «исправить потом» — и больше к ней не вернулся?
 
-## Who It Is For And What It Solves
+**Workframe помогает навести порядок в разработке с ИИ.** Это пакет правил, инструкций и шаблонов, который добавляется в ваш проект. Он задаёт агенту порядок работы: разобраться в задаче, согласовать решение, реализовать, проверить и сохранить результат.
 
-Workframe is for a technical owner starting or maintaining a project with AI agents.
+| Было | С Workframe |
+| --- | --- |
+| Агент сразу пишет код | Сначала уточняет задачу и предлагает план |
+| Решения остаются в переписке | Договорённости хранятся рядом с кодом |
+| Новый чат начинается почти с нуля | Агент читает цели проекта, план и принятые решения |
+| «Готово» означает «код написан» | Завершение требует результатов проверок |
+| Ошибки и улучшения теряются | Для них есть бэклог и постоянный реестр |
+| Код и документация постепенно расходятся | Есть сверка после изменений и аудит проекта |
 
-It helps them:
+Workframe подходит для новых и существующих проектов. Вы объясняете задачу обычными словами, принимаете продуктовые решения и разрешаете важные действия. Агент следует правилам, хранящимся в репозитории. Их соблюдение зависит от модели и инструмента: Workframe делает работу проверяемой, но не гарантирует безошибочность ИИ.
 
-- start from deliberate product decisions instead of a first random prompt;
-- hand one task between agents and use another agent for review;
-- preserve values, boundaries, and agreed decisions when changing chats or providers;
-- discuss non-trivial changes before implementation and verify their result afterward.
+## 1. Проектирование: от смысла к коду
 
-You speak to the agent in ordinary language. The agent explores, records confirmed decisions, proposes the next step, and follows repository rules. You make product decisions and approve implementation.
+### Идея
 
-## Supported AI Clients
+При разработке приходится отвечать на три разных вопроса: зачем нужен продукт, как он будет устроен и что сделать прямо сейчас. Конкретная реализация должна опираться на технические решения, а те — на цели продукта.
 
-Base Workframe rules are available to any agent that can read project files. The compact `AGENTS.md` is the always-loaded entry point; detailed workflows and checklists load only when their named trigger occurs. Tested automatic adapters are available for Codex, Cursor, Claude Code, Qwen Code, and Kimi Code.
+![Уровни решений: реализация опирается на архитектуру, архитектура — на концепцию](docs/images/readme/layers.ru.svg)
 
-Codex, Claude Code, Qwen Code, and Kimi Code also receive shared OpenSpec workflows. Cursor automatically reads `AGENTS.md` and follows common rules; it can read the same workflows from `.agents/skills/` when needed.
+Например, приложение для заметок должно работать без интернета. Это часть концепции. Из неё следует техническое решение: хранить заметки на устройстве. Уже затем появляется конкретный код сохранения. Если агент решит сохранять заметки только через сервер, он нарушит базовую идею, даже если код будет работать без ошибок.
 
-A model and an AI client are different things. DeepSeek, GLM, or another model follows the same workflow when it runs through a supported client. For an unlisted client, configure its project instructions to load `AGENTS.md`; it routes non-trivial work to `docs/AGENT_WORKFLOW.md`. If the client supports skills, point it to `.agents/skills/`.
+### В Workframe
 
-Several agents can be used on the same project, but handoffs must be sequential: wait for one agent to finish its work before letting another change the same worktree. This makes it safe to alternate providers when limits run out or obtain a cross-client review without conflicting edits.
+- `docs/CONCEPTS.md` хранит назначение продукта, пользователей, ценность, принципы и границы. Агент помогает сформулировать их, записывает после подтверждения и читает перед существенными изменениями. Менять цели самостоятельно нельзя.
+- Технические решения записываются в `design.md` изменения OpenSpec: устройство решения, выбранные технологии и компромиссы.
+- Требования и задачи определяют конкретный результат реализации. Дополнительные правила проекта живут в `docs/PROJECT_RULES.md`, команды проверок — в `docs/QUALITY.md`.
 
-## Start A New Project
+Это уровни принятия решений, а не правило «код всегда важнее документов». Если код расходится с требованиями и нужно выбрать желаемое поведение, агент обращается к владельцу.
 
-Create an empty project directory and Git repository, then apply Workframe:
+## 2. Изменения: сначала договориться, затем сделать
+
+### Идея
+
+Большую задачу проще контролировать, когда замысел, работа и результат видны отдельно. План позволяет заметить неверное направление до того, как агент перепишет половину проекта.
+
+![Цикл изменения: предложение, согласование, реализация, проверка, архив](docs/images/readme/cycle.ru.svg)
+
+### В Workframe
+
+Цикл организован через **OpenSpec**:
+
+1. **Proposal — предложение.** Агент описывает, что и зачем меняется, готовит требования, технический подход и задачи.
+2. **Apply — реализация.** После вашего согласия выполняет план и поддерживает документы в соответствии с принятыми решениями.
+3. **Проверка.** Запускает нужные проверки, записывает результаты и сверяет итог с требованиями.
+4. **Archive — архив.** По вашему разрешению завершённое изменение уходит в историю, а его требования попадают в основные спецификации.
+
+Каждое существенное изменение получает отдельную ветку Git. Мелкие опечатки не требуют полного цикла. Документы OpenSpec по умолчанию пишутся на русском, технические имена сохраняются на английском.
+
+Для больших задач предусмотрены две фазы: сначала минимальная рабочая система целиком, затем углубление отдельных частей. Агент берёт следующий пункт плана по порядку; дополнительные улучшения складывает в бэклог. Ошибки, мешающие следующему шагу, исправляет сразу.
+
+## 3. Проверки: что означает «готово»
+
+### Идея
+
+Написанный код ещё не доказывает, что задача решена. Для каждого важного требования нужен способ проверить именно обещанное поведение. Например, проверка отказа при неправильном пароле не доказывает, что с правильным паролем можно войти.
+
+![От требования к проверенному результату](docs/images/readme/checks.ru.svg)
+
+### В Workframe
+
+Агент подбирает проверки под технологии и риски проекта: тесты, линтеры, проверку типов, сборку, ручные сценарии. Конкретные команды, условия запуска и ограничения записываются в `docs/QUALITY.md`. При появлении новой технологии этот набор пересматривается в том же изменении.
+
+- **Обязательные проверки** должны пройти до завершения, если владелец явно не принял описанное исключение.
+- **Рекомендательные проверки** требуют разбора: агент подтверждает проблему, объясняет ложное срабатывание или фиксирует отсрочку.
+- **Результаты запуска** различаются: прошло, упало, пропущено, недоступно. Пропущенная проверка не считается успешной.
+
+Галочка у задачи означает, что заявленный способ проверки выполнен и результат записан. Если тест сначала упал, а потом прошёл, агент сохраняет первое падение, разбирается в причине и повторяет весь обязательный набор.
+
+Глубина проверки зависит от риска. Для маленькой правки достаточно простой проверки результата. Для прав доступа, секретов, внешних запросов, хранения данных и других чувствительных мест нужны сценарии ошибок и обхода ограничений. Каждое используемое поле недоверенных данных получает соответствующий негативный сценарий; тест защиты проверяется с отключённой защитой, чтобы убедиться, что он замечает её отсутствие.
+
+Перед завершением агент заново сверяет требования, код и результаты. Для высокого риска используется независимое ревью другим агентом, моделью или в отдельном контексте. При подтверждении готовности релиза сохранённые доказательства проверяются независимо и привязываются к точной версии кода; одного перечитывания изменений недостаточно.
+
+## 4. Контекст: продолжить в другом чате
+
+### Идея
+
+Переписка удобна для обсуждения, но плохо подходит на роль единственного хранилища решений. Следующему агенту нужны доступные записи о целях, текущей работе и проверках.
+
+![Передача работы между агентами через файлы проекта](docs/images/readme/context.ru.svg)
+
+### В Workframe
+
+Новый агент читает правила, состояние Git и активное изменение OpenSpec перед работой. Цели находятся в `docs/CONCEPTS.md`, задачи и решения — в материалах изменения, проверки — в его результатах и `docs/QUALITY.md`.
+
+Можно продолжить работу в другом клиенте или передать результат другому агенту для ревью. Передача должна быть последовательной: несколько агентов не должны одновременно менять одну рабочую папку.
+
+Правила также требуют сохранять ваши незакоммиченные изменения. Удаление работы, переписывание истории, merge, публикация и другие значимые действия требуют соответствующего разрешения.
+
+## 5. Бэклог: отложенное не должно исчезать
+
+### Идея
+
+Не каждое улучшение нужно делать прямо сейчас. Но «потом» должно иметь адрес, а новая поломка не должна превращаться в готовую задачу только потому, что её записали в список.
+
+![Отложенное улучшение попадает в бэклог, затем в постоянный реестр и новый план](docs/images/readme/debt.ru.svg)
+
+### В Workframe
+
+Улучшения текущего изменения хранятся в фазе углубления его `tasks.md`. Незавершённая работа перед архивацией переносится в `docs/DEBT.md` — постоянный реестр расхождений и технического долга. У записи есть место проблемы, варианты решения и статус. Перед новым предложением агент проверяет подходящие открытые записи и предлагает включить их в работу.
+
+Для регрессий текущего изменения действует отдельное условие: исправить и проверить до принятия либо получить явное решение владельца об отсрочке с описанием последствий. Запись в DEBT, статус `accepted`, будущая задача и пометка «рекомендательное» сами по себе такого разрешения не дают.
+
+## 6. Аудит: проверить проект целиком
+
+### Идея
+
+Даже после аккуратных изменений в проекте накапливаются расхождения: инструкция устарела, ссылка сломалась, одна мысль записана по-разному в двух местах. Проверки одной функции не замечают всю эту картину.
+
+![Сверка изменения и аудит всего проекта приводят к исправлению или решению владельца](docs/images/readme/audit.ru.svg)
+
+### В Workframe
+
+Перед предложением архива агент сверяет затронутые артефакты: требования, код, результаты проверок, незаполненные места, ссылки на удалённые части и отложенную работу.
+
+По вашему запросу запускается отдельный **аудит согласованности** по семи направлениям:
+
+1. Ссылки и пути.
+2. Незавершённые заготовки.
+3. Соответствие обещанного фактическому содержимому.
+4. Соответствие кода требованиям.
+5. Дублирование и противоречия.
+6. Потенциально неиспользуемые артефакты.
+7. Структура и необходимость рефакторинга.
+
+Объективные механические ошибки агент исправляет. Смысловые противоречия и структурные проблемы фиксирует для решения владельца. Отсутствие ссылок на файл не даёт права его удалить. История в `openspec/changes/archive/` не переписывается. Для небольшого проекта аудит сокращается до полезного объёма; первые три направления обязательны.
+
+## 7. Подключение правил и обновления
+
+### Идея
+
+Общие рабочие привычки удобно переносить между проектами. При этом у каждого проекта остаются свои цели, команды и ограничения. Подробные инструкции нужны агенту в тот момент, когда он выполняет соответствующую работу.
+
+![Основные правила направляют к нужным инструкциям; обновление проходит проверку владельца](docs/images/readme/rules.ru.svg)
+
+### В Workframe
+
+Короткий `AGENTS.md` загружается как основная инструкция. Он указывает, когда читать подробный workflow, чек-лист или skill. Это уменьшает объём постоянно загруженного текста. Каждый поставляемый файл инструкций имеет путь к нему из других правил.
+
+Общие правила доступны агентам, умеющим читать файлы проекта. Предусмотрены подключения для **Codex, Claude Code, Cursor, Qwen Code и Kimi Code**. Модель и клиент — разные вещи: модель следует тем же правилам, когда работает через поддерживаемый клиент. Для другого клиента нужно настроить чтение `AGENTS.md` и, при поддержке skills, доступ к `.agents/skills/`.
+
+Дополнительные модули:
+
+- `design-pencil` — работа с дизайн-материалами и Pencil. Для редактирования `.pen` нужен доступный Pencil MCP; иначе агент использует экспорт и описания.
+- `frontend-quality` — дополнительные проверки качества интерфейса.
+
+Версия и установленные модули записываются в `.project-workframe-version`. Проверка обновления сравнивает сами файлы с шаблонами: что совпадает, изменено или отсутствует и какой версии соответствует содержимое. Обновление проходит отдельным согласованным изменением. Общие файлы копируются целиком, документы и правила проекта сохраняются.
+
+## Начать новый проект
+
+Нужны Git, Bash и среда агента с OpenSpec CLI для цикла изменений. Скрипт установки копирует файлы Workframe; CLI и инструменты проверок устанавливаются отдельно в вашей среде.
+
+Из локальной копии Workframe выполните:
 
 ```bash
 mkdir /path/to/my-project
@@ -39,7 +167,7 @@ git init /path/to/my-project
   --target /path/to/my-project
 ```
 
-Add optional modules only when useful:
+При необходимости добавьте модули:
 
 ```bash
 /path/to/workframe/scripts/init-project.sh \
@@ -48,87 +176,36 @@ Add optional modules only when useful:
   --with frontend-quality
 ```
 
-The script copies the scaffold into an existing directory and can overwrite same-named files. Review the result and make the initial commit.
+Скрипт копирует файлы в существующий каталог и может перезаписать одноимённые. Проверьте результат и сделайте начальный коммит. Для существующего проекта сначала прочитайте [руководство по внедрению и обновлению](docs/UPGRADING.md).
 
-## Typical Development Flow
+Откройте проект в клиенте агента и напишите:
 
-1. Open the project folder in your preferred AI client.
-2. Describe the idea: “I want to build …”. Ask the agent not to implement yet and to explore users, their problems, value, boundaries, and anti-goals.
-3. The agent leads the conversation and, after your confirmation, records product decisions in the project constitution.
-4. The agent proactively offers to prepare the first OpenSpec change: what changes, why, how it works, and its work plan.
-5. Review the plan. The agent implements only after your explicit approval.
-6. When switching clients, the incoming agent reads the rules, Git status, and OpenSpec state before continuing. Another agent can use the same state for review.
+> Хочу сделать приложение для … Пока не пиши код. Помоги определить пользователей, проблему, ценность и границы проекта.
 
-An example first message:
+После обсуждения агент сохранит подтверждённые решения и предложит подготовить первое изменение OpenSpec. Проверьте план и разрешите реализацию.
 
-> I want to build a service for … Do not implement yet. Help me understand who it is for, the problem it solves, its value, and what it should not do.
+## Обновить существующий проект
 
-## What Stays In The Project
-
-`init-project.sh` already copies every required item. You do not need to copy anything below manually after running it.
-
-| Area | Purpose |
-| --- | --- |
-| `AGENTS.md` | Compact mandatory rules, safety invariants, and triggers for detailed guidance. |
-| `CLAUDE.md` | Claude Code entry point to the same common rules. |
-| `docs/CONCEPTS.md` | Product constitution: value, audience, principles, and boundaries. |
-| `docs/AGENT_WORKFLOW.md` | On-demand neutral process from idea to verification. |
-| `docs/QUALITY.md` and `docs/checklists/` | Contract for project verification. |
-| `docs/DEBT.md` | Durable register of divergences and deferred work that outlives an archived change. |
-| `docs/PROJECT_RULES.md` | Rules the project decided for itself, kept out of the canonical files. |
-| `openspec/` | OpenSpec configuration for intentional non-trivial changes. |
-| `.agents/skills/` | Canonical project workflows: OpenSpec and the coherence audit. |
-| `.codex/skills/`, `.claude/skills/`, `.qwen/skills/` | Client entry points to those same workflows. |
-| `.project-workframe-version` | Which Workframe version the project was built from, and what an upgrade applied. |
-
-`template/` contains this payload. `source/` explains neutral rules and client adapters; `examples/` shows adaptation patterns. Neither is normally copied into a new project.
-
-## Optional Modules
-
-- `design-pencil` — for projects using Pencil, design artifacts, or taste references.
-- `frontend-quality` — for a frontend-heavy project.
-
-Design discipline is always available. If Pencil MCP is unavailable, the agent does not edit `.pen` files and instead works from exports, documented decisions, or asks for the required environment.
-
-## Change Rules
-
-Tiny edits can be made directly. Features, behavior changes, integrations, material refactors, contract changes, and redesigns use OpenSpec.
-
-One OpenSpec change maps to one Git branch. OpenSpec artifacts are Russian by default, while technical identifiers stay English where clearer. When a technology surface appears or changes materially, that same change derives the smallest useful quality pipeline and updates `docs/QUALITY.md`.
-
-Verification is contract-driven and proportional. Atomic low-risk edits keep an obvious change/result/check link. Behavior changes trace requirements to real production ownership paths and evidence. High-risk boundaries add applicable adversarial and bypass scenarios plus an independent final review context. Adversarial coverage is generated rather than judged: every field of uncontrolled data a decision reads gets one hostile case. Release or certification work also re-verifies persisted evidence independently, binds final results to the exact tracked revision, and makes its independent context execute code instead of re-reading the diff. A checkbox means its declared verification method ran; a general green suite does not prove a scenario it never executed, and a claim that something never happens needs an observation rather than an argument.
-
-A long series of changes drifts even when every single change was correct. Before proposing archive, the agent reconciles the artifacts that change touched: no leftover placeholders, no references to removed entities, and unfinished deferred work moved into `docs/DEBT.md` rather than archived away with the change. A full-repository coherence audit runs only when you ask for it. If it changes the rules it is filed as an ordinary change; if it only repaired broken references and leftovers, it is filed directly as cleanup. Either way it stays on its own branch as its own commit. The agent repairs objectively broken things itself and records contradictions for your decision instead of resolving them.
-
-Recording a current-change regression in DEBT does not make the change ready: fix and verify it before acceptance, or obtain an explicit owner decision permitting deferral with documented consequences. Existing projects adopt this gate through their own Workframe upgrade change.
-
-Workframe never auto-updates older projects. An upgrade is a separate, reviewable change inside the project. See [docs/UPGRADING.md](docs/UPGRADING.md).
-
-## Versions And Project Upgrades
-
-The current Workframe version is in root [`VERSION`](VERSION) and follows Semantic Versioning: `PATCH` fixes compatible behavior, `MINOR` adds compatible capabilities, and `MAJOR` marks incompatible required workflow or payload changes. Every completed non-trivial Workframe change releases one version, records it in `CHANGELOG.md`, and receives an annotated Git tag such as `v0.3.0`.
-
-`init-project.sh` writes that version and installed modules into `.project-workframe-version`. To prepare an upgrade of an existing project without changing it, run:
+Сначала получите отчёт без изменения файлов:
 
 ```bash
 /path/to/workframe/scripts/check-workframe-update.sh --target /path/to/project
 ```
 
-The report compares every payload file with the template — `equal`, `differs`, or `missing` — and computes the version the installed content actually matches, rather than trusting the marker. A file restated from memory instead of copied shows up as matching no released template at all.
+Затем попросите агента подготовить изменение `upgrade-workframe-guidance`, изучить отчёт и применить нужные обновления. Его задача — сохранить `docs/CONCEPTS.md`, `docs/QUALITY.md`, `docs/DEBT.md` и `docs/PROJECT_RULES.md`, проверить результат и обновить отметку версии. Подробности: [docs/UPGRADING.md](docs/UPGRADING.md).
 
-Then ask the agent to create `upgrade-workframe-guidance`, review the report, apply canonical files whole, and preserve the project-owned `docs/CONCEPTS.md`, `docs/QUALITY.md`, `docs/DEBT.md`, and `docs/PROJECT_RULES.md`. The project keeps its own commands and adopts the new risk level, traceability, adversarial, and final-review gates through that local change. Workframe does not auto-overwrite the project. Details: [docs/UPGRADING.md](docs/UPGRADING.md).
+## Что лежит в репозитории
 
-## Workframe Repository Layout
+| Путь | Назначение |
+| --- | --- |
+| `template/base/` | Обязательные файлы, которые получает проект |
+| `template/modules/` | Общие skills и дополнительные модули |
+| `source/` | Исходные общие правила и заметки о клиентах |
+| `examples/` | Примеры адаптации; автоматически не копируются |
+| `scripts/` | Установка, сравнение версий и проверки Workframe |
+| `docs/` | Документация самого Workframe |
+| `openspec/` | Требования и история разработки Workframe |
 
-```text
-workframe/
-├─ template/base/            # required new-project payload
-├─ template/modules/         # optional payload modules
-├─ source/canonical-rules/   # neutral source rules
-├─ source/adapters/          # client-specific notes
-├─ examples/                 # examples, not payload
-├─ docs/                     # Workframe documentation
-└─ openspec/                 # Workframe's own changes
-```
+В созданном проекте основными точками входа будут `AGENTS.md`, `docs/AGENT_WORKFLOW.md`, документы проекта и `docs/checklists/`. Общие skills находятся в `.agents/skills/`, клиентские адаптеры — в `.codex/skills/`, `.claude/skills/` и `.qwen/skills/`; `CLAUDE.md` направляет Claude Code к общим правилам.
 
-Workframe itself evolves through its root `AGENTS.md`, `docs/CONCEPTS.md`, and `openspec/`; do not confuse those with generated-project files under `template/`.
+Текущая версия указана в [VERSION](VERSION), история — в [CHANGELOG.md](CHANGELOG.md). Workframe использует SemVer: PATCH для совместимых исправлений, MINOR для новых совместимых возможностей, MAJOR для несовместимых изменений. Выпуски отмечаются аннотированными Git-тегами.

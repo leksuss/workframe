@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="436" viewBox="0 0 820 436" role="img" aria-labelledby="title"><title id="title">Requirement — Implementation — Verification — Result</title>
+<rect width="820" height="436" rx="18" fill="#f4f7fb"/>
+<rect x="60.0" y="18" width="700" height="78" rx="12" fill="#dbeafe" stroke="#94a3b8"/>
+<text x="410" y="48" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#142337">Requirement</text>
+<text x="410" y="75" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#334155">What should work</text>
+<path d="M410 99v14m-5-5 5 5 5-5" fill="none" stroke="#475569" stroke-width="2"/>
+<rect x="60.0" y="118" width="700" height="78" rx="12" fill="#e0e7ff" stroke="#94a3b8"/>
+<text x="410" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#142337">Implementation</text>
+<text x="410" y="175" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#334155">Where it works</text>
+<path d="M410 199v14m-5-5 5 5 5-5" fill="none" stroke="#475569" stroke-width="2"/>
+<rect x="60.0" y="218" width="700" height="78" rx="12" fill="#ccfbf1" stroke="#94a3b8"/>
+<text x="410" y="248" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#142337">Verification</text>
+<text x="410" y="275" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#334155">How to prove it</text>
+<path d="M410 299v14m-5-5 5 5 5-5" fill="none" stroke="#475569" stroke-width="2"/>
+<rect x="60.0" y="318" width="700" height="78" rx="12" fill="#fef3c7" stroke="#94a3b8"/>
+<text x="410" y="348" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#142337">Result</text>
+<text x="410" y="375" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#334155">What was observed</text>
+</svg>

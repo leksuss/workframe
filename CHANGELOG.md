@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 0.7.2 - 2026-10-06
+
+- Rewrote the README around common AI-agent problems and the Workframe practices that address them.
+- Made Russian the default README and added README.en.md; kept README.ru.md as a compatibility link.
+- Added seven illustrated explanations in both languages covering design, OpenSpec changes, verification, context handoffs, debt, audits, and rule adoption.
+- Retained setup and upgrade instructions; generated-project behavior is unchanged.
+
 ## 0.7.1 - 2026-09-26
 
 - Separated recording debt from permission to defer regressions introduced by the current change: acceptance and archive require a verified fix or explicit owner permission with documented consequences.
