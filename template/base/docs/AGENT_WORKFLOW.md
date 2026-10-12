@@ -138,7 +138,7 @@ Scale it to the highest risk:
 - `high-risk boundary`: make traceability explicit, cover applicable bypass and alternative ownership paths, and use an independent final review context;
 - `release/certification`: also re-verify persisted evidence independently and bind final evidence to the exact tracked revision or equivalent identity.
 
-For behavior and higher levels, record `requirement/scenario | production implementation/ownership path | test/check/evidence | passed/failed/skipped/unavailable` in the change artifacts. Missing implementation, missing evidence, evidence for a different outcome, or coverage limited to a UI/facade when a direct public/server/default path exists means the contract is incomplete. A claim that something never happens requires an observation — a counter, a probe, a recorded absence in an artifact — not reasoning about control flow.
+For behavior and higher levels, record `requirement/scenario | production implementation/ownership path | test/check/evidence | passed/failed/skipped/unavailable` in the change artifacts, in the form described in `Evidence Form` below. Missing implementation, missing evidence, evidence for a different outcome, or coverage limited to a UI/facade when a direct public/server/default path exists means the contract is incomplete. A claim that something never happens requires an observation — a counter, a probe, a recorded absence in an artifact — not reasoning about control flow.
 
 Protective boundaries include credentials/secrets/redaction; authentication/authorization/permissions/allow-lists; network/external adapters; timeouts/cancellation/budgets/resource limits; streaming/bounded payloads; persistence/atomic writes/rollback; idempotency/CAS/leases/restart; public API/server/embedding defaults; certified evidence/manifests/digests/revision binding; and irreversible or externally visible side effects. Choose negative scenarios from the actual risk rather than running every possible check. When a decision reads data the code does not control, list every field of that data the decision reads and produce one hostile case per field. That list belongs in the change artifacts; adversarial coverage is judged against it, not against the author's sense of completeness. For a protective boundary, show each adversarial test failing with its guard removed, and record that it did.
 
@@ -147,6 +147,41 @@ When certification artifacts exist, the verifier must re-open saved evidence and
 Before archive, re-read proposal, design, specs, tasks, final diff, and results without trusting checkboxes. Look for wrong-outcome tests, unreachable doubles, optimistic defaults, bypasses, unbounded operations, runner/verifier conflation, and stale evidence. A design claim that a library, runtime, or platform guarantees X, when a safety decision rests on it, must cite an executed probe; reasoning about documented behavior is not evidence. High-risk work uses another agent/model or an equivalent isolated review context and records the method. A re-reading of the diff is not an adversarial pass. For `release/certification` work the independent context executes code — builds hostile inputs, runs them, records their output — and the record names what was run.
 
 A tracked commit after final evidence makes that evidence stale. If a blocking check fails and one rerun passes, retain the first failure, diagnose it in isolation, then repeat the full blocking gate. Fix or explicitly classify confirmed flakiness under `docs/QUALITY.md`.
+
+### Evidence Form
+
+Evidence is valuable for its conclusion and its binding to a revision, not for the verbatim output behind it. A result is recorded when it appears in the change's evidence summary; committing raw output is not what makes it recorded.
+
+Choose where evidence lives by the kind of data, not by file size:
+
+| Data | Location |
+| --- | --- |
+| Check outcome: command, revision, per-stage counts, exit code, duration | version control, always |
+| Failures, including the first failure: an excerpt sufficient for diagnosis | version control, every failure |
+| Metrics a decision rests on, such as timings or the slowest tests | version control, in the summary |
+| Verbatim output of passing checks, profiles, reruns, probe dumps | outside version control |
+| Release/certification evidence an independent verifier re-opens | version control, at the minimum the verifier needs |
+| Product and test data: fixtures, media, recorded external responses | not evidence logs; this rule does not apply |
+
+Record success positively. A summary without an error line is not an observation of success, and a check without a positive outcome is not recorded as `passed`.
+
+Raw outputs live in a local directory ignored by version control and are addressed by content hash. When a conclusion relies on a raw file, the summary cites its hash, so a reviewer can open the file and confirm it is unchanged while the change is open. Raw outputs are kept until archive: removing the raw outputs the change produced is a reconcile step, after the summary carries every conclusion they supported. Release/certification evidence is not raw output and is not removed.
+
+Prefer a summary generated by the project's verification tooling over one written by hand, so every agent produces the same format. `docs/QUALITY.md` names the generator, the summary format, and the raw-output directory.
+
+Example summaries:
+
+```text
+full gate | rev 3f2a91c | lint 0 issues; unit 412 passed, 0 failed, 3 skipped (reasons listed);
+integration 38 passed, 0 failed | exit 0 | 4m12s | raw sha256:9c1e…
+
+full gate | rev 3f2a91c | unit 411 passed, 1 failed | exit 1 | 3m58s | raw sha256:b4d0…
+first failure: tests/test_export.py::test_bounded_stream
+  AssertionError: read 1048577 bytes, limit 1048576 (export/stream.py:88)
+diagnosis: limit checked after the final chunk; fixed in 5e7b2d0; the full-gate rerun on 5e7b2d0 is recorded as its own summary
+```
+
+The form does not relax any rule above: the first failure stays in version control as an excerpt with its full log cited by hash, the outcome of a guard-removal probe is recorded in the summary, and certification evidence remains independently re-verifiable. Depth still follows the evidence level: for tooling and internal changes at `behavior` level, a before/after summary of the deciding metrics plus a green full gate is enough; independent review, guard-removal probes, and revision binding belong to protective boundaries and certification.
 
 ## Work Sequencing
 
@@ -196,7 +231,7 @@ Runs before every proposed archive. Scope is limited to what the change touched,
 
 Confirm that specs describe the final behavior; every completed task maps to its production path and recorded result; protective boundaries have applicable negative evidence; persisted certification evidence can be independently re-verified; final evidence covers the current tracked revision; no placeholder survives in artifacts the change created or modified, including specs it synced during archive; entities the change removed are gone from every reference; and unfinished `## Фаза 2. Углубление` items have moved to `docs/DEBT.md`.
 
-Moving deferred work preserves its address after archive. Also verify the current-change regression gate above: registration alone does not establish readiness.
+Remove the raw verification outputs the change produced once its evidence summary carries their conclusions (`Evidence Form`). Moving deferred work preserves its address after archive. Also verify the current-change regression gate above: registration alone does not establish readiness.
 
 Project rules and `docs/checklists/release-readiness.md` remain the complete reconcile source. Canonical Workframe workflow skills enforce its entry and exit gates and point back to the project files instead of duplicating the full checklist. Do not hand-edit third-party cache or generated skill copies; update through a Workframe payload upgrade.
 

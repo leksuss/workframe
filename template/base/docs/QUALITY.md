@@ -65,6 +65,14 @@ When a command produces release or certification evidence, document how the resu
 
 Small projects may use one command for multiple levels. Polyglot or monorepo projects should document per-surface commands and an aggregate entry point when practical.
 
+## Evidence Form
+
+Evidence follows `docs/AGENT_WORKFLOW.md`, `Evidence Form`: summaries in version control, raw output outside it. Record how this project produces them once the stack is selected:
+
+- Summary generator: pending — the command that turns a verification run into a summary, or `manual` until one exists.
+- Summary format and location: pending — for example a block per run in the change's evidence file.
+- Raw-output directory: pending — a local path ignored by version control; raw files are addressed by content hash and the change's files are removed during reconcile.
+
 ## Rollout And Exceptions
 
 - Start with the smallest reliable pipeline that addresses current risks.

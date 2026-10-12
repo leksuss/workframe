@@ -16,6 +16,7 @@ Use this before publishing, deploying, merging, or archiving meaningful work.
 - Bounded operations enforce limits before full materialization; readiness/default paths fail closed; permissions do not bypass required allow-lists.
 - Persisted certification evidence can be re-opened by an independent verifier; runner inline assertions alone do not certify it.
 - Final release/certification evidence names the exact current tracked revision and applicable digests; no tracked commit followed that evidence.
+- Evidence follows `docs/AGENT_WORKFLOW.md`, `Evidence Form`: version control holds summaries with positive outcomes, first-failure excerpts, deciding metrics, and the minimum certification evidence a verifier needs; the change's raw outputs were removed from the raw-output directory during reconcile and none of them is tracked by version control.
 - Important manual verification was performed where automated checks are insufficient.
 - A fresh final review re-read proposal, design, specs, tasks, final diff, and results without trusting checkboxes; high-risk work records its independent review context. A re-reading of the diff is not an adversarial pass. For `release/certification` work the independent context executes code — builds hostile inputs, runs them, records their output — and the record names what was run.
 - Documentation close to the changed behavior was updated.

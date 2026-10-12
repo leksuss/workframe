@@ -19,6 +19,7 @@ Upgrade when a newer Workframe version contains something the project actually b
 - clearer OpenSpec workflow;
 - a stack-neutral verification lifecycle that can make the project's existing quality pipeline explicit;
 - a coherence lifecycle for a project that has accumulated drift across many changes;
+- a defined evidence form that keeps raw verification output out of version control;
 - improved design or frontend checklists;
 - new AI-client adapter files;
 - useful adaptation examples for a project type;
@@ -135,6 +136,17 @@ A project with a long history may reasonably keep dozens of `open` entries after
 Version 0.7.1 separates recording debt from permission to defer a current-change regression. Adopt the gate through the project-local upgrade: copy canonical `AGENTS.md`, `docs/AGENT_WORKFLOW.md`, and checklists whole. Preserve the existing project-owned `docs/DEBT.md` and its entries; do not replace it with the empty template. The canonical workflow supplies the gate even when the register retains its older introduction. If that introduction conflicts with the gate, explicitly reconcile only that guidance in the upgrade scope while preserving all entries.
 
 Verify that current-change regressions require a recorded successful fix or an explicit owner decision permitting deferral with documented consequences. DEBT status, advisory classification, and depth-backlog placement do not grant that permission. Record an allowed deferral and its consequences in the debt entry with the current change id, and link the decision from change evidence. Existing debt outside the upgrade scope remains separate.
+
+### Adopting The Evidence Form
+
+Version 0.8.0 defines the form in which verification evidence is stored. Adopt it through the project-local upgrade change:
+
+1. Copy canonical `docs/AGENT_WORKFLOW.md` and checklists whole; they carry the rule, its table, and example summaries.
+2. `docs/QUALITY.md` is project-owned and is not replaced. Add an `Evidence Form` section by hand, as in the template, naming the project's summary generator (or `manual` until one exists), the summary format and location, and a raw-output directory that version control ignores. Add that directory to the project's ignore file.
+3. If the project already adapted the rule in `docs/PROJECT_RULES.md` as a temporary measure, remove that adaptation and keep only what is genuinely project-specific — typically the concrete paths and tools, which belong in `docs/QUALITY.md`.
+4. Do not rewrite history or delete raw evidence already committed by earlier changes. The rule applies to changes made after the upgrade; archived evidence is history.
+
+Verify that the canonical files report `equal`, that `docs/QUALITY.md` names a generator, format, and directory, and that the directory is ignored by version control.
 
 ## Suggested Process
 

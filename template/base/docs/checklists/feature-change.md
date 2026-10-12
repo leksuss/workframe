@@ -45,6 +45,7 @@ Use this checklist before and during non-trivial product or behavior changes.
 
 - Run blocking checks declared for the affected surfaces.
 - Record each result as `passed`, `failed`, `skipped`, or `unavailable`; explain skipped or unavailable blocking checks.
+- Record evidence in the form described in `docs/AGENT_WORKFLOW.md`, `Evidence Form`: the summary — command, revision, per-stage counts, exit code, duration, deciding metrics, and failure excerpts — goes into the change; verbatim output of passing checks, profiles, reruns, and probe dumps stays in the raw-output directory named in `docs/QUALITY.md`, outside version control, cited by content hash when a conclusion relies on it. Success is recorded positively; a missing error line is not a pass.
 - Preserve the first failed result when a rerun passes; diagnose it in isolation, then rerun the complete blocking gate and classify confirmed flakiness under `docs/QUALITY.md`.
 - Review applicable advisory checks and triage findings as `confirmed`, `false positive`, or `deferred`.
 - Verify the implemented behavior matches the OpenSpec change.

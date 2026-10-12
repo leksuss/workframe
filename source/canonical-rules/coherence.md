@@ -59,6 +59,8 @@ Recording a finding in `docs/DEBT.md`, assigning `accepted` status or a future c
 
 **Reconcile.** Runs before an agent proposes to archive a change. Its scope is limited to the artifacts that change touched. It confirms that specifications describe the final behavior, every completed task maps to its production ownership path and recorded result, evidence proves the exact required outcome, applicable protective boundaries have adversarial coverage, release evidence covers the final tracked revision, created or modified artifacts contain no placeholders, removed entities are gone from all references, and unfinished deferred improvements have been moved into the durable register.
 
+Reconcile removes the raw verification outputs the change produced once its evidence summary carries their conclusions, as described in `verification.md`, `Evidence Form`.
+
 Reconcile also checks that current-change regressions meet the fix-or-owner-deferral condition above; registering a finding alone does not establish readiness.
 
 As part of reconcile, re-read proposal, design, specs, tasks, final diff, and results without trusting checkboxes. A public/default or alternate ownership path missing from traceability is a finding, not an implicit assumption. Persisted certification evidence must be re-openable by an independent verifier; runner inline assertions are not enough. High-risk work uses another agent/model or an equivalent separate review context and records which path was used.

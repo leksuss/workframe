@@ -78,6 +78,8 @@ Verification depth follows risk. A small edit needs a simple outcome check. Perm
 
 Before completion, the agent reviews the requirements, code, and results afresh. High-risk changes use another agent, model, or separate context for independent review. Release or certification work also independently verifies saved evidence and binds it to the exact code revision; merely rereading the diff is insufficient.
 
+The repository receives a summary of each check, not its raw output: command, code revision, counts, exit code, failure excerpts, and the metrics a decision rests on. Success is recorded explicitly. Full logs and profiles stay in a local directory outside version control until the change is archived.
+
 ## 4. Context: continue in another chat
 
 ### The idea

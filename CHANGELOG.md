@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+## 0.8.0 - 2026-10-12
+
+- Added an evidence form rule: version control keeps a summary chosen by the kind of data — check outcome with command, revision, per-stage counts, exit code, and duration; failure excerpts including the first failure; metrics a decision rests on; and the minimum release/certification evidence an independent verifier needs. Verbatim output of passing checks, profiles, reruns, and probe dumps stays outside version control. File size is not the criterion.
+- Success must be recorded positively; a summary without an error line is not an observation of success.
+- Raw outputs live in a local directory ignored by version control, are addressed by content hash, and are removed during reconcile once the summary carries their conclusions. Projects name the summary generator, format, and directory in `docs/QUALITY.md`; Workframe prescribes none of them.
+- Clarified proportionality: tooling and internal `behavior` changes need a before/after summary plus a green full gate; independent review, guard-removal probes, and revision binding remain for protective boundaries and certification.
+- No existing guarantee was relaxed: the first failure, guard-removal outcomes, and re-verifiable certification evidence are all still recorded, now in summary form.
+- Updated the canonical verification and coherence sources, `docs/AGENT_WORKFLOW.md`, the feature and release-readiness checklists, the `docs/QUALITY.md` template, and `scripts/verify-contract-driven-workflow.sh` with probes and negative fixtures for the rule.
+
 ## 0.7.2 - 2026-10-06
 
 - Rewrote the README around common AI-agent problems and the Workframe practices that address them.

@@ -1,0 +1,11 @@
+## 1. Правило формы свидетельств
+
+- [x] 1.1 Добавить раздел `Evidence Form` в `source/canonical-rules/verification.md` по Decisions 1–6 design: таблица по типу данных, положительный успех, каталог вне VCS с адресацией по хэшу, удаление при reconcile, генератор сводки из `docs/QUALITY.md`, пропорциональность. Проверка: каждый абзац requirement delta сопоставлен с текстом раздела; нет противоречий с разделами Contract-Driven Verification, Protective Boundaries, Execution And Certification, Flaky Results. Результат записать в `evidence.md`.
+- [x] 1.2 Перенести правило в payload: `template/base/docs/AGENT_WORKFLOW.md` (Contract-Driven Verification, с примерами сводок успеха и провала), `docs/checklists/feature-change.md` (Verification), `docs/checklists/release-readiness.md` (reconcile), шаблон `docs/QUALITY.md` (секция генератора, формата и каталога). `AGENTS.md` и skills не менять. Проверка: матрица сценариев delta → shipped адрес → результат в `evidence.md`; `verify-instruction-budget.sh` проходит.
+- [x] 1.3 Добавить в `scripts/verify-contract-driven-workflow.sh` проверку ключевых фраз правила на каждой поверхности и негативную мутацию в `--self-test`. Проверка: основной прогон и `--self-test` проходят; мутация ключевой фразы отвергается.
+
+## 2. Выпуск и проверка
+
+- [x] 2.1 Обновить `docs/UPGRADING.md` (принятие правила, секция в project-owned `docs/QUALITY.md`, замена временной адаптации в `docs/PROJECT_RULES.md`), README при необходимости, `VERSION` = 0.8.0 и датированный раздел `CHANGELOG.md`. Проверка: версия и тексты согласованы; архивы и `docs/CONCEPTS.md` не изменены.
+- [x] 2.2 Запустить `openspec validate evidence-storage-form --strict`, `scripts/verify-agent-adapters.sh`, `scripts/verify-contract-driven-workflow.sh`, `scripts/verify-contract-driven-workflow.sh --self-test`, `scripts/verify-instruction-budget.sh`, `git diff --check`; записать положительные итоги в `evidence.md` в форме нового правила.
+- [x] 2.3 Выполнить независимое перечитывание proposal/design/specs/tasks, итогового diff и evidence, затем reconcile. Ожидаемый результат: сценарии подтверждены, противоречий с правилами observation, первого провала, снятия защит и certification нет. Только после этого предложить archive.

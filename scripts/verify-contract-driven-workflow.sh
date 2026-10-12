@@ -37,6 +37,19 @@ probe_execution_methods_file() {
   require_phrase "$1" "failing with its guard removed"
 }
 
+# Evidence form: the kind of data, not its size, decides where evidence lives;
+# success is an observation, and raw output is addressed rather than committed.
+probe_evidence_form_file() {
+  require_phrase "$1" "by the kind of data, not by file size"
+  require_phrase "$1" "is not an observation of success"
+  require_phrase "$1" "addressed by content hash"
+}
+
+if [[ "${1:-}" == "--probe-evidence-form" ]]; then
+  probe_evidence_form_file "${2:-}"
+  exit
+fi
+
 if [[ "${1:-}" == "--probe-root-address" ]]; then
   probe_root_address "${2:-}"
   exit
@@ -87,6 +100,9 @@ if [[ "${1:-}" == "--self-test" ]]; then
     "$WORKFRAME_ROOT/source/canonical-rules/verification.md|--probe-methods|not an adversarial pass|an adversarial pass"
     "$WORKFRAME_ROOT/template/base/docs/AGENT_WORKFLOW.md|--probe-execution-methods|not reasoning about control flow|accepted from control-flow reasoning"
     "$WORKFRAME_ROOT/template/base/docs/AGENT_WORKFLOW.md|--probe-execution-methods|failing with its guard removed|passing with its guard removed"
+    "$WORKFRAME_ROOT/source/canonical-rules/verification.md|--probe-evidence-form|by the kind of data, not by file size|by file size"
+    "$WORKFRAME_ROOT/template/base/docs/AGENT_WORKFLOW.md|--probe-evidence-form|is not an observation of success|is enough to report success"
+    "$WORKFRAME_ROOT/template/base/docs/AGENT_WORKFLOW.md|--probe-evidence-form|addressed by content hash|committed alongside the summary"
   )
   for mutation in "${method_mutations[@]}"; do
     IFS='|' read -r source probe phrase replacement <<< "$mutation"
@@ -146,6 +162,14 @@ for surface in \
   "$WORKFRAME_ROOT/source/canonical-rules/verification.md"; do
   probe_execution_methods_file "$surface"
 done
+for surface in \
+  "$WORKFRAME_ROOT/template/base/docs/AGENT_WORKFLOW.md" \
+  "$WORKFRAME_ROOT/source/canonical-rules/verification.md"; do
+  probe_evidence_form_file "$surface"
+done
+require_phrase "$WORKFRAME_ROOT/template/base/docs/checklists/feature-change.md" "Evidence Form"
+require_phrase "$WORKFRAME_ROOT/template/base/docs/checklists/release-readiness.md" "Evidence Form"
+require_phrase "$WORKFRAME_ROOT/template/base/docs/QUALITY.md" "Raw-output directory"
 require_phrase "$WORKFRAME_ROOT/template/base/docs/checklists/feature-change.md" "one hostile case per field"
 require_phrase "$WORKFRAME_ROOT/template/base/docs/checklists/feature-change.md" "not an adversarial pass"
 require_phrase "$WORKFRAME_ROOT/template/base/docs/checklists/release-readiness.md" "one hostile case per field"
@@ -170,6 +194,7 @@ probe_payload_address "$fresh_target/AGENTS.md"
 require_phrase "$fresh_target/docs/AGENT_WORKFLOW.md" "requirement → production ownership path"
 require_phrase "$fresh_target/.agents/skills/openspec-apply-change/SKILL.md" "Verify contract traceability"
 probe_methods_file "$fresh_target/docs/AGENT_WORKFLOW.md"
+probe_evidence_form_file "$fresh_target/docs/AGENT_WORKFLOW.md"
 for client in .codex .claude .qwen; do
   require_phrase "$fresh_target/$client/skills/openspec-apply-change/SKILL.md" ".agents/skills/openspec-apply-change/SKILL.md"
 done
